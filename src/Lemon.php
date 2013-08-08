@@ -4,6 +4,7 @@ use \Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Dumper\PhpDumper;
 use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
 use Symfony\Component\Config\ConfigCache;
+use Lemon\Exception\NotFoundException;
 
 /**
  * Class Lemon
@@ -58,7 +59,7 @@ class Lemon
         if(self::$container->has($key)) {
             return self::$container->get($key);
         }
-        throw new Lemon\Exception\NotFoundException(sprintf('Key %s not found',$key));
+        throw new NotFoundException(sprintf('Key %s not found', $key));
     }
 
     static public function has($key) 
