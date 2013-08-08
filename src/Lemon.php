@@ -60,6 +60,12 @@ class Lemon
         }
         throw new Lemon\Exception\NotFoundException(sprintf('Key %s not found',$key));
     }
+
+    static public function has($key) 
+    {
+        self::$container->has($key); 
+    }
+
     public function getContainer()
     {
         return self::$container;
