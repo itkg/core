@@ -38,7 +38,7 @@ class Config
 
 	public function validateParams()
 	{
-		foreach($requiredParams as $key) {
+		foreach($this->requiredParams as $key) {
 			if(!isset($this->params[$key])) {
 				throw new \Lemon\Exception\ConfigException(
 					sprintf('Parameter %s is required for class %s', $key, get_class())
