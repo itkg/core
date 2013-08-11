@@ -64,7 +64,14 @@ class Lemon
 
     static public function has($key) 
     {
-        self::$container->has($key); 
+        return self::$container->has($key); 
+    }
+    
+    static public function debug()
+    {
+        echo '<pre>';
+        print_r(self::$container);
+        echo '<pre>';
     }
 
     public function getContainer()
