@@ -41,7 +41,7 @@ class Config
 		foreach($this->requiredParams as $key) {
 			if(!isset($this->params[$key])) {
 				throw new \Lemon\Exception\ConfigException(
-					sprintf('Parameter %s is required for class %s', $key, get_class())
+					sprintf('Parameter %s is required for class %s', $key, get_class($this))
 				);
 			}
 		}
