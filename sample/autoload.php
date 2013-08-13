@@ -16,7 +16,7 @@ $lemon = new Lemon('/var/cache/lemon_cache.php', true);
 $lemon->registerExtension(new \Lemon\Package\LemonPackageExtension());
 
 // Load config
-$lemon->loadContainer();
+$lemon->load();
 
 // Accès à une donnée
 echo Lemon::get('toto');

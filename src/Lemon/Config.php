@@ -23,7 +23,6 @@ class Config
 	public function setParams(array $params = array())
 	{
 		$this->params = $params;
-		$this->validateParams();
 
 		return $this;
 	}
