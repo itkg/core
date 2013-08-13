@@ -24,16 +24,22 @@ class Config
 	{
 		$this->params = $params;
 		$this->validateParams();
+
+		return $this;
 	}
 
 	public function addParam($key, $value)
 	{
 		$this->params[$key] = $value;
+
+		return $this;
 	}
 
 	public function mergeParams(array $params = array())
 	{
 		$this->setParams(array_merge($this->getParams(), $params));
+
+		return $this;
 	}
 
 	public function validateParams()
