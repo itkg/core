@@ -13,11 +13,12 @@ use Lemon\Exception\NotFoundException;
  */
 class Lemon
 {
-    protected static $container;
+    public static $config;
     protected $isDebug;
     protected $extensions;
     protected $cacheFile;
-    
+    protected static $container;
+
     public function __construct($cacheFile, $isDebug = false)
     {
         $this->isDebug = $isDebug;
@@ -71,9 +72,15 @@ class Lemon
     {
         echo '<pre>';
         print_r(self::$container);
-        echo '<pre>';
+        echo '</pre>';
     }
 
+    static public function debugConfig()
+    {
+        echo '<pre>';
+        print_r(self::$config);
+        echo '</pre>';
+    }
     public function getContainer()
     {
         return self::$container;
@@ -97,7 +104,6 @@ class Lemon
             }
 
             self::$container->compile();
-
 
             $dumper = new PhpDumper(self::$container);
             $containerConfigCache->write(
