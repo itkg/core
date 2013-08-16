@@ -7,48 +7,85 @@ namespace Lemon;
  *
  * @author Pascal DENIS <pascal.denis.75@gmail.com>
  */
-class Config
+class Config implements ConfigInterface
 {
-	protected $params;
-	protected $requiredParams = array();
+    /**
+     * List of parameters
+     * 
+     * @var array
+     */
+    protected $params;
 
-	public function getParams()
-	{
-		if(!is_array($this->params)) {
-			$this->params = array();
-		}
-		return $this->params;
-	}
+    /**
+     * List of required parameters (for validation)
+     * 
+     * @var array
+     */
+    protected $requiredParams = array();
 
-	public function setParams(array $params = array())
-	{
-		$this->params = $params;
+    /**
+     * Get params
+     * 
+     * @return array List of parameters
+     */
+    public function getParams()
+    {
+        if(!is_array($this->params)) {
+            $this->params = array();
+        }
+        return $this->params;
+    }
 
-		return $this;
-	}
+    /**
+     * Set params
+     * 
+     * @param array $params List of parameters
+     */
+    public function setParams(array $params = array())
+    {
+        $this->params = $params;
 
-	public function addParam($key, $value)
-	{
-		$this->params[$key] = $value;
+        return $this;
+    }
 
-		return $this;
-	}
+    /**
+     * Add parameter to the list
+     * 
+     * @param string $key   Key parameter
+     * @param mixed $value  Value parameter
+     */
+    public function addParam($key, $value)
+    {
+        $this->params[$key] = $value;
 
-	public function mergeParams(array $params = array())
-	{
-		$this->setParams(array_merge($this->getParams(), $params));
+        return $this;
+    }
 
-		return $this;
-	}
+    /**
+     * Override current list of parameters with new ones
+     * 
+     * @param  array  $params List of parameters
+     */
+    public function mergeParams(array $params = array())
+    {
+        $this->setParams(array_merge($this->getParams(), $params));
 
-	public function validateParams()
-	{
-		foreach($this->requiredParams as $key) {
-			if(!isset($this->params[$key])) {
-				throw new \Lemon\Exception\ConfigException(
-					sprintf('Parameter %s is required for class %s', $key, get_class($this))
-				);
-			}
-		}
-	}
+        return $this;
+    }
+
+    /**
+     * Validate parameters
+     * 
+     * @throws \Lemon\Exception\ConfigException
+     */
+    public function validateParams()
+    {
+        foreach($this->requiredParams as $key) {
+            if(!isset($this->params[$key])) {
+                throw new \Lemon\Exception\ConfigException(
+                    sprintf('Parameter %s is required for class %s', $key, get_class($this))
+                );
+            }
+        }
+    }
 }

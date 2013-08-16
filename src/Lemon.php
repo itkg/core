@@ -13,18 +13,57 @@ use Lemon\Exception\NotFoundException;
  */
 class Lemon
 {
+    /**
+     * Runtime config for service 
+     * 
+     * @static
+     * @var array
+     */
     public static $config;
+
+    /**
+     * Debug mode 
+     * 
+     * @var boolean
+     */
     protected $isDebug;
+  
+    /**
+     * Extension's list
+     * 
+     * @var array
+     */
     protected $extensions;
+
+    /**
+     * Cache file path
+     * 
+     * @var string
+     */
     protected $cacheFile;
+
+    /**
+     * DIC
+     * 
+     * @var ContainerBuilder
+     */
     protected static $container;
 
+    /**
+     * Constructor
+     * 
+     * @param string  $cacheFile Path to cache file
+     * @param boolean $isDebug   Debug mode
+     */
     public function __construct($cacheFile, $isDebug = false)
     {
         $this->isDebug = $isDebug;
         $this->cacheFile = $cacheFile;
     }
     
+    /**
+     * Load container if it is not loaded
+     */
     public function load()
     {
         if(!self::$container) {
@@ -32,6 +71,11 @@ class Lemon
         }
     }
     
+    /**
+     * Register an extension
+     * 
+     * @param  ExtensionInterface $extension Extension to register
+     */
     public function registerExtension(ExtensionInterface $extension)
     {
         if(!$this->extensions) {
@@ -41,6 +85,11 @@ class Lemon
         $this->extensions[] = $extension;
     }
    
+    /**
+     * Get extension's list
+     * 
+     * @return array Extension's list
+     */
     public function getExtensions()
     {
         if(!$this->extensions) {
@@ -50,24 +99,54 @@ class Lemon
         return $this->extensions;
     }
     
+    /**
+     * Set extension's list
+     * 
+     * @param array $extensions Extension's list
+     */
     public function setExtensions(array $extensions = array())
     {
         $this->extensions = $extensions;
     }
     
+    /**
+     * Get service from container By Key
+     * Load config if service implements \Lemon\ConfigInterface
+     *
+     * @throws \Lemon\Exception\NotFoundException
+     * 
+     * @param  string $key Service ID
+     * 
+     * @return mixed  Service
+     */
     static public function get($key)
     {
         if(self::$container->has($key)) {
-            return self::$container->get($key);
+            $service = self::$container->get($key);
+            // If service implements ConfigInterface && config exists for this service, merge params
+            if($service instanceof \Lemon\ConfigInterface && isset(self::$config[$key])) {
+                $service->mergeParams(self::$config[$key]);
+            }
+            return $service;
         }
         throw new NotFoundException(sprintf('Key %s not found', $key));
     }
 
+    /**
+     * Check if service exists for param key
+     * 
+     * @param  string  $key Service ID
+     * 
+     * @return boolean      Service exists or not
+     */
     static public function has($key) 
     {
         return self::$container->has($key); 
     }
     
+    /**
+     * Display container with print_r
+     */
     static public function debug()
     {
         echo '<pre>';
@@ -75,22 +154,40 @@ class Lemon
         echo '</pre>';
     }
 
+    /**
+     * Display config with print_r
+     */
     static public function debugConfig()
     {
         echo '<pre>';
         print_r(self::$config);
         echo '</pre>';
     }
+
+    /**
+     * Get container
+     * 
+     * @return ContainerBuilder Container
+     */
     public function getContainer()
     {
         return self::$container;
     }
     
+    /**
+     * Set container
+     * 
+     * @param ContainerBuilder $container [description]
+     */
     public function setContainer(ContainerBuilder $container)
     {
         self::$container = $container;
     }
     
+    /**
+     * Load container (store in cache if it is possible)
+     * Reload the cache if isn't fresh
+     */
     protected function loadContainer()
     {
         $containerConfigCache = new ConfigCache($this->cacheFile, $this->isDebug);

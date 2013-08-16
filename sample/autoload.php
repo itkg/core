@@ -1,7 +1,7 @@
 <?php
 
 /*
-	Simple code to initialize DIC 
+    Simple code to initialize DIC 
 
  */
 ini_set('display_errors', 1);
