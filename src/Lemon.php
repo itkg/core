@@ -67,7 +67,27 @@ class Lemon
     public function load()
     {
         if(!self::$container) {
-            $this->loadContainer($this->cacheFile);
+            $containerConfigCache = new ConfigCache($this->cacheFile, $this->isDebug);
+        
+            if (!$containerConfigCache->isFresh()) {
+                self::$container = new ContainerBuilder();
+
+                foreach($this->getExtensions() as $extension) {
+                    self::$container->registerExtension($extension);
+                    self::$container->loadFromExtension($extension->getAlias());  
+                }
+
+                self::$container->compile();
+
+                $dumper = new PhpDumper(self::$container);
+                $containerConfigCache->write(
+                    $dumper->dump(array('class' => 'LemonContainer')),
+                    self::$container->getResources()
+                );
+            }else {
+                require_once $this->cacheFile;
+                self::$container = new LemonContainer();
+            }
         }
     }
     
@@ -145,6 +165,26 @@ class Lemon
     }
     
     /**
+     * Get container
+     * 
+     * @return ContainerBuilder Container
+     */
+    public function getContainer()
+    {
+        return self::$container;
+    }
+    
+    /**
+     * Set container
+     * 
+     * @param ContainerBuilder $container [description]
+     */
+    public function setContainer(ContainerBuilder $container = null)
+    {
+        self::$container = $container;
+    }
+
+    /**
      * Display container with print_r
      */
     static public function debug()
@@ -162,54 +202,5 @@ class Lemon
         echo '<pre>';
         print_r(self::$config);
         echo '</pre>';
-    }
-
-    /**
-     * Get container
-     * 
-     * @return ContainerBuilder Container
-     */
-    public function getContainer()
-    {
-        return self::$container;
-    }
-    
-    /**
-     * Set container
-     * 
-     * @param ContainerBuilder $container [description]
-     */
-    public function setContainer(ContainerBuilder $container)
-    {
-        self::$container = $container;
-    }
-    
-    /**
-     * Load container (store in cache if it is possible)
-     * Reload the cache if isn't fresh
-     */
-    protected function loadContainer()
-    {
-        $containerConfigCache = new ConfigCache($this->cacheFile, $this->isDebug);
-        
-        if (!$containerConfigCache->isFresh()) {
-            self::$container = new ContainerBuilder();
-
-            foreach($this->getExtensions() as $extension) {
-                self::$container->registerExtension($extension);
-                self::$container->loadFromExtension($extension->getAlias());  
-            }
-
-            self::$container->compile();
-
-            $dumper = new PhpDumper(self::$container);
-            $containerConfigCache->write(
-                $dumper->dump(array('class' => 'LemonContainer')),
-                self::$container->getResources()
-            );
-        }else {
-            require_once $this->cacheFile;
-            self::$container = new LemonContainer();
-        }
     }
 }

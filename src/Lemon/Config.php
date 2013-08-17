@@ -21,7 +21,24 @@ class Config implements ConfigInterface
      * 
      * @var array
      */
-    protected $requiredParams = array();
+    protected $requiredParams;
+
+    /**
+     * Get parameter from list
+     * 
+     * @param  string $key   Parameter key
+     * @return mixed        Parameter value
+     */
+    public function getParam($key)
+    {
+        if(isset($this->params[$key])) {
+            return $this->params[$key];
+        }
+
+        throw new \Lemon\Exception\NotFoundException(
+            sprintf('Parameter %s is does not exist for class %s', $key, get_class($this))
+        );
+    }
 
     /**
      * Get params
@@ -34,6 +51,30 @@ class Config implements ConfigInterface
             $this->params = array();
         }
         return $this->params;
+    }
+
+    /**
+     * Get requiredParams
+     * 
+     * @return array List of required parameters
+     */
+    public function getRequiredParams()
+    {
+        if(!is_array($this->requiredParams)) {
+            $this->requiredParams = array();
+        }
+        return $this->requiredParams;
+    }
+
+    /**
+     * Set existing parameter
+     * 
+     * @param string $key   Key parameter
+     * @param mixed $value  Value parameter
+     */
+    public function setParam($key, $value)
+    {
+        $this->params[$key] = $value;
     }
 
     /**
@@ -74,13 +115,23 @@ class Config implements ConfigInterface
     }
 
     /**
+     * Set Config required params
+     * 
+     * @param array $requiredParams List of required parameters
+     */
+    public function setRequiredParams(array $requiredParams = array())
+    {
+        $this->requiredParams = $requiredParams;
+    }
+
+    /**
      * Validate parameters
      * 
      * @throws \Lemon\Exception\ConfigException
      */
     public function validateParams()
     {
-        foreach($this->requiredParams as $key) {
+        foreach($this->getRequiredParams() as $key) {
             if(!isset($this->params[$key])) {
                 throw new \Lemon\Exception\ConfigException(
                     sprintf('Parameter %s is required for class %s', $key, get_class($this))
