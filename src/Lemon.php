@@ -66,13 +66,13 @@ class Lemon
      */
     public function load()
     {
-        if(!self::$container) {
+        if (!self::$container) {
             $containerConfigCache = new ConfigCache($this->cacheFile, $this->isDebug);
         
             if (!$containerConfigCache->isFresh()) {
                 self::$container = new ContainerBuilder();
 
-                foreach($this->getExtensions() as $extension) {
+                foreach ($this->getExtensions() as $extension) {
                     self::$container->registerExtension($extension);
                     self::$container->loadFromExtension($extension->getAlias());  
                 }
@@ -98,7 +98,7 @@ class Lemon
      */
     public function registerExtension(ExtensionInterface $extension)
     {
-        if(!$this->extensions) {
+        if (!$this->extensions) {
             $this->extensions = array();
         }
         
@@ -112,7 +112,7 @@ class Lemon
      */
     public function getExtensions()
     {
-        if(!$this->extensions) {
+        if (!$this->extensions) {
             $this->extensions = array();
         }
         
@@ -128,42 +128,7 @@ class Lemon
     {
         $this->extensions = $extensions;
     }
-    
-    /**
-     * Get service from container By Key
-     * Load config if service implements \Lemon\ConfigInterface
-     *
-     * @throws \Lemon\Exception\NotFoundException
-     * 
-     * @param  string $key Service ID
-     * 
-     * @return mixed  Service
-     */
-    static public function get($key)
-    {
-        if(self::$container->has($key)) {
-            $service = self::$container->get($key);
-            // If service implements ConfigInterface && config exists for this service, merge params
-            if($service instanceof \Lemon\ConfigInterface && isset(self::$config[$key])) {
-                $service->mergeParams(self::$config[$key]);
-            }
-            return $service;
-        }
-        throw new NotFoundException(sprintf('Key %s not found', $key));
-    }
 
-    /**
-     * Check if service exists for param key
-     * 
-     * @param  string  $key Service ID
-     * 
-     * @return boolean      Service exists or not
-     */
-    static public function has($key) 
-    {
-        return self::$container->has($key); 
-    }
-    
     /**
      * Get container
      * 
@@ -185,9 +150,44 @@ class Lemon
     }
 
     /**
+     * Get service from container By Key
+     * Load config if service implements \Lemon\ConfigInterface
+     *
+     * @throws \Lemon\Exception\NotFoundException
+     * 
+     * @param  string $key Service ID
+     * 
+     * @return mixed  Service
+     */
+    public static function get($key)
+    {
+        if (self::$container->has($key)) {
+            $service = self::$container->get($key);
+            // If service implements ConfigInterface && config exists for this service, merge params
+            if ($service instanceof \Lemon\ConfigInterface && isset(self::$config[$key])) {
+                $service->mergeParams(self::$config[$key]);
+            }
+            return $service;
+        }
+        throw new NotFoundException(sprintf('Key %s not found', $key));
+    }
+
+    /**
+     * Check if service exists for param key
+     * 
+     * @param  string  $key Service ID
+     * 
+     * @return boolean      Service exists or not
+     */
+    public static function has($key) 
+    {
+        return self::$container->has($key); 
+    }
+
+    /**
      * Display container with print_r
      */
-    static public function debug()
+    public static function debug()
     {
         echo '<pre>';
         print_r(self::$container);
@@ -197,7 +197,7 @@ class Lemon
     /**
      * Display config with print_r
      */
-    static public function debugConfig()
+    public static function debugConfig()
     {
         echo '<pre>';
         print_r(self::$config);

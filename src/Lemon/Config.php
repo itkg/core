@@ -31,7 +31,7 @@ class Config implements ConfigInterface
      */
     public function getParam($key)
     {
-        if(isset($this->params[$key])) {
+        if (isset($this->params[$key])) {
             return $this->params[$key];
         }
 
@@ -47,7 +47,7 @@ class Config implements ConfigInterface
      */
     public function getParams()
     {
-        if(!is_array($this->params)) {
+        if (!is_array($this->params)) {
             $this->params = array();
         }
         return $this->params;
@@ -60,7 +60,7 @@ class Config implements ConfigInterface
      */
     public function getRequiredParams()
     {
-        if(!is_array($this->requiredParams)) {
+        if (!is_array($this->requiredParams)) {
             $this->requiredParams = array();
         }
         return $this->requiredParams;
@@ -131,8 +131,8 @@ class Config implements ConfigInterface
      */
     public function validateParams()
     {
-        foreach($this->getRequiredParams() as $key) {
-            if(!isset($this->params[$key])) {
+        foreach ($this->getRequiredParams() as $key) {
+            if (!isset($this->params[$key])) {
                 throw new \Lemon\Exception\ConfigException(
                     sprintf('Parameter %s is required for class %s', $key, get_class($this))
                 );
