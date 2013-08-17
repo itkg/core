@@ -13,14 +13,15 @@ interface ConfigInterface
      * Add parameter to the list
      * 
      * @param string $key   Key parameter
-     * @param mixed $value  Value parameter
+     * @param mixed  $value  Value parameter
      */
     public function addParam($key, $value);
 
     /**
      * Get parameter from list
      * 
-     * @param  string $key   Parameter key
+     * @param string $key   Parameter key
+     * 
      * @return mixed        Parameter value
      */
     public function getParam($key);
@@ -35,7 +36,7 @@ interface ConfigInterface
     /**
      * Override current list of parameters with new ones
      * 
-     * @param  array  $params List of parameters
+     * @param array  $params List of parameters
      */
     public function mergeParams(array $params = array());
 

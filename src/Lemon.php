@@ -67,7 +67,10 @@ class Lemon
     public function load()
     {
         if (!self::$container) {
-            $containerConfigCache = new ConfigCache($this->cacheFile, $this->isDebug);
+            $containerConfigCache = new ConfigCache(
+                $this->cacheFile, 
+                $this->isDebug
+            );
         
             if (!$containerConfigCache->isFresh()) {
                 self::$container = new ContainerBuilder();
@@ -84,17 +87,17 @@ class Lemon
                     $dumper->dump(array('class' => 'LemonContainer')),
                     self::$container->getResources()
                 );
-            }else {
-                require_once $this->cacheFile;
-                self::$container = new LemonContainer();
+                return;
             }
+            include_once $this->cacheFile;
+            self::$container = new LemonContainer();
         }
     }
     
     /**
      * Register an extension
      * 
-     * @param  ExtensionInterface $extension Extension to register
+     * @param ExtensionInterface $extension Extension to register
      */
     public function registerExtension(ExtensionInterface $extension)
     {
@@ -163,8 +166,11 @@ class Lemon
     {
         if (self::$container->has($key)) {
             $service = self::$container->get($key);
-            // If service implements ConfigInterface && config exists for this service, merge params
-            if ($service instanceof \Lemon\ConfigInterface && isset(self::$config[$key])) {
+            // If service implements ConfigInterface 
+            // && config exists for this service, merge params
+            if ($service instanceof \Lemon\ConfigInterface 
+                && isset(self::$config[$key])) {
+                
                 $service->mergeParams(self::$config[$key]);
             }
             return $service;

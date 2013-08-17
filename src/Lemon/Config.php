@@ -26,7 +26,8 @@ class Config implements ConfigInterface
     /**
      * Get parameter from list
      * 
-     * @param  string $key   Parameter key
+     * @param string $key   Parameter key
+     * 
      * @return mixed        Parameter value
      */
     public function getParam($key)
@@ -36,7 +37,11 @@ class Config implements ConfigInterface
         }
 
         throw new \Lemon\Exception\NotFoundException(
-            sprintf('Parameter %s is does not exist for class %s', $key, get_class($this))
+            sprintf(
+                'Parameter %s is does not exist for class %s', 
+                $key, 
+                get_class($this)
+            )
         );
     }
 
@@ -70,7 +75,7 @@ class Config implements ConfigInterface
      * Set existing parameter
      * 
      * @param string $key   Key parameter
-     * @param mixed $value  Value parameter
+     * @param mixed  $value  Value parameter
      */
     public function setParam($key, $value)
     {
@@ -93,7 +98,9 @@ class Config implements ConfigInterface
      * Add parameter to the list
      * 
      * @param string $key   Key parameter
-     * @param mixed $value  Value parameter
+     * @param mixed  $value  Value parameter
+     *
+     * @return \Lemon\Config 
      */
     public function addParam($key, $value)
     {
@@ -105,7 +112,9 @@ class Config implements ConfigInterface
     /**
      * Override current list of parameters with new ones
      * 
-     * @param  array  $params List of parameters
+     * @param array $params List of parameters
+     *
+     * @return \Lemon\Config 
      */
     public function mergeParams(array $params = array())
     {
