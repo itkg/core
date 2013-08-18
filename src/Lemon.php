@@ -158,7 +158,7 @@ class Lemon
      *
      * @throws \Lemon\Exception\NotFoundException
      * 
-     * @param  string $key Service ID
+     * @param string $key Service ID
      * 
      * @return mixed  Service
      */
@@ -181,7 +181,7 @@ class Lemon
     /**
      * Check if service exists for param key
      * 
-     * @param  string  $key Service ID
+     * @param string  $key Service ID
      * 
      * @return boolean      Service exists or not
      */
