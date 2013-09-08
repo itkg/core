@@ -2,6 +2,8 @@
 
 namespace Lemon;
 
+use Lemon\Exception\ConfigException;
+
 /**
  * Classe NotFoundException
  *
@@ -25,9 +27,10 @@ class Config implements ConfigInterface
 
     /**
      * Get parameter from list
-     * 
+     *
      * @param string $key   Parameter key
-     * 
+     *
+     * @throws Exception\NotFoundException
      * @return mixed        Parameter value
      */
     public function getParam($key)
@@ -72,6 +75,17 @@ class Config implements ConfigInterface
     }
 
     /**
+     * Check if param exist
+     *
+     * @param $key
+     * @return bool
+     */
+    public function hasParam($key)
+    {
+        return isset($this->params[$key]);
+    }
+
+    /**
      * Set existing parameter
      * 
      * @param string $key   Key parameter
@@ -86,6 +100,7 @@ class Config implements ConfigInterface
      * Set params
      * 
      * @param array $params List of parameters
+     * @return $this
      */
     public function setParams(array $params = array())
     {
@@ -136,13 +151,13 @@ class Config implements ConfigInterface
     /**
      * Validate parameters
      * 
-     * @throws \Lemon\Exception\ConfigException
+     * @throws ConfigException
      */
     public function validateParams()
     {
         foreach ($this->getRequiredParams() as $key) {
             if (!isset($this->params[$key])) {
-                throw new \Lemon\Exception\ConfigException(
+                throw new ConfigException(
                     sprintf('Parameter %s is required for class %s', $key, get_class($this))
                 );
             }

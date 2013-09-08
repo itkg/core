@@ -1,10 +1,9 @@
 <?php
-
-use \Symfony\Component\DependencyInjection\ContainerBuilder;
+use Lemon\Exception\NotFoundException;
+use Symfony\Component\Config\ConfigCache;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Dumper\PhpDumper;
 use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
-use Symfony\Component\Config\ConfigCache;
-use Lemon\Exception\NotFoundException;
 
 /**
  * Class Lemon
