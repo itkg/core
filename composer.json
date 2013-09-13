@@ -1,14 +1,14 @@
 {
-    "name":         "pdenis/lemon-core",
+    "name":         "itkg/itkg-core",
     "type":         "library",
-    "description":  "Lemon core library",
-    "keywords":     ["library", "dic"],
-    "homepage":     "http://github.com/pdenis/lemon-core",
+    "description":  "Itkg core library",
+    "keywords":     ["library", "config", "interkating"],
+    "homepage":     "http://github.com/itkg/itkg-core",
     "license":      "MIT",
     "authors":      [
         {
-            "name":     "Pascal Denis",
-            "email":    "pascal.denis.75@gmail.com"
+            "name":     "Interakting",
+            "email":    "itkg@interakting.com"
         }
     ],
     "require-dev": {
@@ -22,7 +22,7 @@
     },
     "autoload": {
         "psr-0": {
-            "Lemon": "src"
+            "Itkg": "src"
         }
     }
 }
