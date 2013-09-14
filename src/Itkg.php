@@ -1,5 +1,5 @@
 <?php
-use Lemon\Exception\NotFoundException;
+use itkg\Exception\NotFoundException;
 use Symfony\Component\Config\ConfigCache;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Dumper\PhpDumper;
