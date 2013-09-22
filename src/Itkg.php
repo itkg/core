@@ -6,11 +6,11 @@ use Symfony\Component\DependencyInjection\Dumper\PhpDumper;
 use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
 
 /**
- * Class Lemon
+ * Class Itkg
  *
  * @author Pascal DENIS <pascal.denis.75@gmail.com>
  */
-class Lemon
+class Itkg
 {
     /**
      * Runtime config for service 
@@ -83,13 +83,13 @@ class Lemon
 
                 $dumper = new PhpDumper(self::$container);
                 $containerConfigCache->write(
-                    $dumper->dump(array('class' => 'LemonContainer')),
+                    $dumper->dump(array('class' => 'ItkgContainer')),
                     self::$container->getResources()
                 );
                 return;
             }
             include_once $this->cacheFile;
-            self::$container = new LemonContainer();
+            self::$container = new ItkgContainer();
         }
     }
     
@@ -153,9 +153,9 @@ class Lemon
 
     /**
      * Get service from container By Key
-     * Load config if service implements \Lemon\ConfigInterface
+     * Load config if service implements \Itkg\ConfigInterface
      *
-     * @throws \Lemon\Exception\NotFoundException
+     * @throws \Itkg\Exception\NotFoundException
      * 
      * @param string $key Service ID
      * 
@@ -167,7 +167,7 @@ class Lemon
             $service = self::$container->get($key);
             // If service implements ConfigInterface 
             // && config exists for this service, merge params
-            if ($service instanceof \Lemon\ConfigInterface 
+            if ($service instanceof \Itkg\ConfigInterface
                 && isset(self::$config[$key])) {
                 
                 $service->mergeParams(self::$config[$key]);

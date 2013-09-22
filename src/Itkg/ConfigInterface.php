@@ -1,6 +1,6 @@
 <?php
 
-namespace Lemon;
+namespace Itkg;
 
 /**
  * Interface ConfigInterface

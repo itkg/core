@@ -1,8 +1,8 @@
 <?php
 
-namespace Lemon;
+namespace Itkg;
 
-use Lemon\Exception\ConfigException;
+use Itkg\Exception\ConfigException;
 
 /**
  * Classe NotFoundException
@@ -39,7 +39,7 @@ class Config implements ConfigInterface
             return $this->params[$key];
         }
 
-        throw new \Lemon\Exception\NotFoundException(
+        throw new \Itkg\Exception\NotFoundException(
             sprintf(
                 'Parameter %s is does not exist for class %s', 
                 $key, 
@@ -115,7 +115,7 @@ class Config implements ConfigInterface
      * @param string $key   Key parameter
      * @param mixed  $value  Value parameter
      *
-     * @return \Lemon\Config 
+     * @return \Itkg\Config
      */
     public function addParam($key, $value)
     {
@@ -129,7 +129,7 @@ class Config implements ConfigInterface
      * 
      * @param array $params List of parameters
      *
-     * @return \Lemon\Config 
+     * @return \Itkg\Config
      */
     public function mergeParams(array $params = array())
     {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Lemon\Exception;
+namespace Itkg\Exception;
 
 /**
  * Classe ConfigException
