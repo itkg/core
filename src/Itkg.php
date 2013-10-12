@@ -1,5 +1,5 @@
 <?php
-use itkg\Exception\NotFoundException;
+use Itkg\Exception\NotFoundException;
 use Symfony\Component\Config\ConfigCache;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Dumper\PhpDumper;
