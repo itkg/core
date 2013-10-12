@@ -1,9 +1,9 @@
 {
-    "name":         "itkg/itkg-core",
+    "name":         "itkg/core",
     "type":         "library",
     "description":  "Itkg core library",
     "keywords":     ["library", "config", "interkating"],
-    "homepage":     "http://github.com/itkg/itkg-core",
+    "homepage":     "http://github.com/itkg/core",
     "license":      "MIT",
     "authors":      [
         {

@@ -1,2 +1,2 @@
-lemon-core
-==========
+Itkg core library
+=================
