@@ -61,7 +61,7 @@ class Itkg
     }
     
     /**
-     * Load container if it is not loaded
+     * Load container if it is not yet loaded
      */
     public function load()
     {
@@ -101,7 +101,7 @@ class Itkg
     public function registerExtension(ExtensionInterface $extension)
     {
         if (!$this->extensions) {
-            $this->extensions = array();
+            $this->extensions = array(new Itkg\DependencyInjection\ItkgExtension());
         }
         
         $this->extensions[] = $extension;
