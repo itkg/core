@@ -75,6 +75,7 @@ class Itkg
         
             if (!$containerConfigCache->isFresh()) {
                 self::$container = new ContainerBuilder();
+                self::$container->addCompilerPass(new \Itkg\DependencyInjection\Compiler\SubscriberCompilerPass());
 
                 foreach ($this->getExtensions() as $extension) {
                     self::$container->registerExtension($extension);
