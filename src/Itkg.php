@@ -41,6 +41,8 @@ class Itkg
      */
     protected $cacheFile;
 
+    protected static $eventDispatcher;
+
     /**
      * DIC
      * 
@@ -90,7 +92,11 @@ class Itkg
             }
             include_once $this->cacheFile;
             self::$container = new ItkgContainer();
+
+            // Register all event subscriber (tag subscriber)
+            $this->registerEventSubscriber();
         }
+
     }
     
     /**
@@ -129,6 +135,20 @@ class Itkg
     public function setExtensions(array $extensions = array())
     {
         $this->extensions = $extensions;
+    }
+
+    public function getEventDispatcher()
+    {
+        if(!self::$eventDispatcher) {
+            self::$eventDispatcher = $this->getContainer()->get('core.event_dispatcher');
+        }
+    }
+
+    public function registerEventSubscriber()
+    {
+        foreach ($this->getContainer()->findTaggedServiceIds('subscriber') as $id => $attributes) {
+            $this->getEventDispatcher()->addSubscriber($this->getContainer()->get($id));
+        }
     }
 
     /**

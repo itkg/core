@@ -11,5 +11,6 @@
     <services>
         <service id="core.config" class="%core.config.class%" public="true" />
         <service id="core.container" class="%core.container.class%" public="true" />
+        <service id="core.event_dispatcher" class="Symfony\Component\EventDispatcher\EventDispatcher" />
     </services>
 </container>
