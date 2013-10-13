@@ -7,7 +7,7 @@ use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\Config\FileLocator;
 
-class ItkgExtension
+class ItkgExtension extends Extension
 {
     /**
      * {@inheritdoc}
