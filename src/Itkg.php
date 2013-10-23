@@ -12,13 +12,7 @@ use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
  */
 class Itkg
 {
-    /**
-     * Runtime config for service
-     *
-     * @static
-     * @var array
-     */
-    public static $config;
+
 
     /**
      * Debug mode
@@ -41,14 +35,20 @@ class Itkg
      */
     protected $cacheFile;
 
-    protected static $eventDispatcher;
-
     /**
      * DIC
      *
      * @var ContainerBuilder
      */
     protected static $container;
+
+    /**
+     * Runtime config for service
+     *
+     * @static
+     * @var array
+     */
+    public static $config;
 
     /**
      * Constructor
@@ -64,8 +64,10 @@ class Itkg
 
     /**
      * Load container if it is not yet loaded
+     *
+     * @param array $config Override extension config
      */
-    public function load()
+    public function load($config = array())
     {
         if (!self::$container) {
             $containerConfigCache = new ConfigCache(
@@ -80,7 +82,7 @@ class Itkg
 
                 foreach ($this->getExtensions() as $extension) {
                     self::$container->registerExtension($extension);
-                    self::$container->loadFromExtension($extension->getAlias());
+                    self::$container->loadFromExtension($extension->getAlias(), $config);
                 }
 
                 self::$container->compile();
@@ -137,20 +139,6 @@ class Itkg
         $this->extensions = $extensions;
     }
 
-    public function getEventDispatcher()
-    {
-        if(!self::$eventDispatcher) {
-            self::$eventDispatcher = $this->getContainer()->get('core.event_dispatcher');
-        }
-    }
-
-    public function registerEventSubscriber()
-    {
-        foreach ($this->getContainer()->findTaggedServiceIds('subscriber') as $id => $attributes) {
-            $this->getEventDispatcher()->addSubscriber($this->getContainer()->get($id));
-        }
-    }
-
     /**
      * Get container
      *
@@ -169,44 +157,6 @@ class Itkg
     public function setContainer(ContainerBuilder $container = null)
     {
         self::$container = $container;
-    }
-
-    /**
-     * Get service from container By Key
-     * Load config if service implements \Itkg\ConfigInterface
-     *
-     * @throws \Itkg\Exception\NotFoundException
-     *
-     * @param string $key Service ID
-     *
-     * @return mixed  Service
-     */
-    public static function get($key)
-    {
-        if (self::$container->has($key)) {
-            $service = self::$container->get($key);
-            // If service implements ConfigInterface 
-            // && config exists for this service, merge params
-            if ($service instanceof \Itkg\ConfigInterface
-                && isset(self::$config[$key])) {
-
-                $service->mergeParams(self::$config[$key]);
-            }
-            return $service;
-        }
-        throw new NotFoundException(sprintf('Key %s not found', $key));
-    }
-
-    /**
-     * Check if service exists for param key
-     *
-     * @param string  $key Service ID
-     *
-     * @return boolean      Service exists or not
-     */
-    public static function has($key)
-    {
-        return self::$container->has($key);
     }
 
     /**
