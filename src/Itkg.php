@@ -98,7 +98,6 @@ class Itkg
             self::$container = new ItkgContainer();
 
         }
-
     }
 
     /**
@@ -147,6 +146,21 @@ class Itkg
     public function getContainer()
     {
         return self::$container;
+    }
+
+    public function get($key)
+    {
+        return self::$container->get($key);
+    }
+
+    public function has($key)
+    {
+        return self::$container->has($key);
+    }
+
+    public function set($key, $service)
+    {
+        self::$container->set($key, $service);
     }
 
     /**
