@@ -111,7 +111,7 @@ class Core
     public function registerExtension(ExtensionInterface $extension)
     {
         if (!$this->extensions) {
-            $this->extensions = array(new Itkg\Core\DependencyInjection\ItkgCoreExtension());
+            $this->extensions = array(new \Itkg\Core\DependencyInjection\ItkgCoreExtension());
         }
 
         $this->extensions[] = $extension;
