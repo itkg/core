@@ -1,6 +1,6 @@
 <?php
 
-namespace Itkg\DependencyInjection\Compiler;
+namespace Itkg\Core\DependencyInjection\Compiler;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
@@ -10,12 +10,12 @@ class SubscriberCompilerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition('core.event_dispatcher')) {
+        if (!$container->hasDefinition('event_dispatcher')) {
             return;
         }
 
         $definition = $container->getDefinition(
-            'core.event_dispatcher'
+            'event_dispatcher'
         );
 
         $taggedServices = $container->findTaggedServiceIds(

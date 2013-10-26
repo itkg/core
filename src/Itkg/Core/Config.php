@@ -1,8 +1,9 @@
 <?php
 
-namespace Itkg;
+namespace Itkg\core;
 
-use Itkg\Exception\ConfigException;
+use Itkg\Core\Exception\ConfigException;
+use Itkg\Core\Exception\NotFoundException;
 
 /**
  * Classe NotFoundException
@@ -39,7 +40,7 @@ class Config implements ConfigInterface
             return $this->params[$key];
         }
 
-        throw new \Itkg\Exception\NotFoundException(
+        throw new NotFoundException(
             sprintf(
                 'Parameter %s is does not exist for class %s', 
                 $key, 

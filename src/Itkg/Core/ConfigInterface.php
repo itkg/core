@@ -1,6 +1,6 @@
 <?php
 
-namespace Itkg;
+namespace Itkg\core;
 
 /**
  * Interface ConfigInterface

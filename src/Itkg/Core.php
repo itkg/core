@@ -1,4 +1,7 @@
 <?php
+
+namespace Itkg;
+
 use Itkg\Exception\NotFoundException;
 use Symfony\Component\Config\ConfigCache;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -6,11 +9,11 @@ use Symfony\Component\DependencyInjection\Dumper\PhpDumper;
 use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
 
 /**
- * Class Itkg
+ * Class Core
  *
  * @author Pascal DENIS <pascal.denis.75@gmail.com>
  */
-class Itkg
+class Core
 {
 
 
@@ -78,7 +81,7 @@ class Itkg
             if (!$containerConfigCache->isFresh()) {
                 self::$container = new ContainerBuilder();
                 // Defaults compiler pass
-                self::$container->addCompilerPass(new \Itkg\DependencyInjection\Compiler\SubscriberCompilerPass());
+                self::$container->addCompilerPass(new \Itkg\Core\DependencyInjection\Compiler\SubscriberCompilerPass());
 
                 foreach ($this->getExtensions() as $extension) {
                     self::$container->registerExtension($extension);
@@ -95,7 +98,7 @@ class Itkg
                 return;
             }
             include_once $this->cacheFile;
-            self::$container = new ItkgContainer();
+            self::$container = new \ItkgContainer();
 
         }
     }
@@ -108,7 +111,7 @@ class Itkg
     public function registerExtension(ExtensionInterface $extension)
     {
         if (!$this->extensions) {
-            $this->extensions = array(new Itkg\DependencyInjection\ItkgExtension());
+            $this->extensions = array(new Itkg\Core\DependencyInjection\ItkgCoreExtension());
         }
 
         $this->extensions[] = $extension;
