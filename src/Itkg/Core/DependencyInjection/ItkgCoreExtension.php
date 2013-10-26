@@ -19,7 +19,7 @@ class ItkgCoreExtension extends Extension
 
         $loader = new XmlFileLoader(
             $container,
-            new FileLocator(__DIR__.'/../../../Resources/config')
+            new FileLocator(__DIR__.'/../../../../Resources/config')
         );
         $loader->load('core.xml');
     }
