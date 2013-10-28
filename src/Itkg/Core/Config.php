@@ -1,6 +1,6 @@
 <?php
 
-namespace Itkg\core;
+namespace Itkg\Core;
 
 use Itkg\Core\Exception\ConfigException;
 use Itkg\Core\Exception\NotFoundException;

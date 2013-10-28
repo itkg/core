@@ -9,7 +9,7 @@
     </parameters>
     <services>
         <service id="itkg_core.config" class="%itkg_core.config.class%" public="true" />
-        <service id="itkg_core.event_dispatcher" alias="event_dispatcher" class="Symfony\Component\EventDispatcher\EventDispatcher" />
+        <service id="itkg_core.event_dispatcher" class="Symfony\Component\EventDispatcher\EventDispatcher" />
 
         <service id="event_dispatcher" alias="itkg_core.event_dispatcher" />
     </services>
