@@ -6,7 +6,7 @@ use Itkg\Core\Exception\ConfigException;
 use Itkg\Core\Exception\NotFoundException;
 
 /**
- * Classe NotFoundException
+ * Class NotFoundException
  *
  * @author Pascal DENIS <pascal.denis.75@gmail.com>
  */

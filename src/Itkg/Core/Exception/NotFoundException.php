@@ -3,7 +3,7 @@
 namespace Itkg\Core\Exception;
 
 /**
- * Classe NotFoundException
+ * Class NotFoundException
  *
  * @author Pascal DENIS <pascal.denis.75@gmail.com>
  */

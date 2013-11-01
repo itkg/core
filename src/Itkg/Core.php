@@ -11,12 +11,12 @@ use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
 /**
  * Class Core
  *
+ * DIC & extension manager
+ *
  * @author Pascal DENIS <pascal.denis.75@gmail.com>
  */
 class Core
 {
-
-
     /**
      * Debug mode
      *

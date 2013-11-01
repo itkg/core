@@ -3,7 +3,7 @@
 namespace Itkg\Core\Exception;
 
 /**
- * Classe ConfigException
+ * Class ConfigException
  *
  * @author Pascal DENIS <pascal.denis.75@gmail.com>
  */
