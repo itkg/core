@@ -2,6 +2,8 @@
 
 namespace Itkg;
 
+use Itkg\Core\DependencyInjection\Compiler\SubscriberCompilerPass;
+use Itkg\Core\DependencyInjection\ItkgCoreExtension;
 use Itkg\Exception\NotFoundException;
 use Symfony\Component\Config\ConfigCache;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -18,40 +20,36 @@ use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
 class Core
 {
     /**
-     * Debug mode
-     *
-     * @var boolean
-     */
-    protected $isDebug;
-
-    /**
-     * Extension's list
-     *
-     * @var array
-     */
-    protected $extensions;
-
-    /**
-     * Cache file path
-     *
-     * @var string
-     */
-    protected $cacheFile;
-
-    /**
-     * DIC
-     *
-     * @var ContainerBuilder
-     */
-    protected static $container;
-
-    /**
      * Runtime config for service
      *
      * @static
      * @var array
      */
     public static $config;
+    /**
+     * DIC
+     *
+     * @var ContainerBuilder
+     */
+    protected static $container;
+    /**
+     * Debug mode
+     *
+     * @var boolean
+     */
+    protected $isDebug;
+    /**
+     * Extension's list
+     *
+     * @var array
+     */
+    protected $extensions;
+    /**
+     * Cache file path
+     *
+     * @var string
+     */
+    protected $cacheFile;
 
     /**
      * Constructor
@@ -63,6 +61,26 @@ class Core
     {
         $this->isDebug = $isDebug;
         $this->cacheFile = $cacheFile;
+    }
+
+    /**
+     * Display container with print_r
+     */
+    public static function debug()
+    {
+        echo '<pre>';
+        print_r(self::$container);
+        echo '</pre>';
+    }
+
+    /**
+     * Display config with print_r
+     */
+    public static function debugConfig()
+    {
+        echo '<pre>';
+        print_r(self::$config);
+        echo '</pre>';
     }
 
     /**
@@ -81,7 +99,7 @@ class Core
             if (!$containerConfigCache->isFresh()) {
                 self::$container = new ContainerBuilder();
                 // Defaults compiler pass
-                self::$container->addCompilerPass(new \Itkg\Core\DependencyInjection\Compiler\SubscriberCompilerPass());
+                self::$container->addCompilerPass(new SubscriberCompilerPass());
 
                 foreach ($this->getExtensions() as $extension) {
                     self::$container->registerExtension($extension);
@@ -111,7 +129,7 @@ class Core
     public function registerExtension(ExtensionInterface $extension)
     {
         if (!$this->extensions) {
-            $this->extensions = array(new \Itkg\Core\DependencyInjection\ItkgCoreExtension());
+            $this->extensions = array(new ItkgCoreExtension());
         }
 
         $this->extensions[] = $extension;
@@ -151,6 +169,16 @@ class Core
         return self::$container;
     }
 
+    /**
+     * Set container
+     *
+     * @param ContainerBuilder $container [description]
+     */
+    public function setContainer(ContainerBuilder $container = null)
+    {
+        self::$container = $container;
+    }
+
     public function get($key)
     {
         return self::$container->get($key);
@@ -164,35 +192,5 @@ class Core
     public function set($key, $service)
     {
         self::$container->set($key, $service);
-    }
-
-    /**
-     * Set container
-     *
-     * @param ContainerBuilder $container [description]
-     */
-    public function setContainer(ContainerBuilder $container = null)
-    {
-        self::$container = $container;
-    }
-
-    /**
-     * Display container with print_r
-     */
-    public static function debug()
-    {
-        echo '<pre>';
-        print_r(self::$container);
-        echo '</pre>';
-    }
-
-    /**
-     * Display config with print_r
-     */
-    public static function debugConfig()
-    {
-        echo '<pre>';
-        print_r(self::$config);
-        echo '</pre>';
     }
 }

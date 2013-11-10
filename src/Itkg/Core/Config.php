@@ -18,7 +18,6 @@ class Config implements ConfigInterface
      * @var array
      */
     protected $params;
-
     /**
      * List of required parameters (for validation)
      * 
@@ -63,8 +62,21 @@ class Config implements ConfigInterface
     }
 
     /**
+     * Set params
+     *
+     * @param array $params List of parameters
+     * @return $this
+     */
+    public function setParams(array $params = array())
+    {
+        $this->params = $params;
+
+        return $this;
+    }
+
+    /**
      * Get requiredParams
-     * 
+     *
      * @return array List of required parameters
      */
     public function getRequiredParams()
@@ -73,6 +85,16 @@ class Config implements ConfigInterface
             $this->requiredParams = array();
         }
         return $this->requiredParams;
+    }
+
+    /**
+     * Set Config required params
+     *
+     * @param array $requiredParams List of required parameters
+     */
+    public function setRequiredParams(array $requiredParams = array())
+    {
+        $this->requiredParams = $requiredParams;
     }
 
     /**
@@ -88,7 +110,7 @@ class Config implements ConfigInterface
 
     /**
      * Set existing parameter
-     * 
+     *
      * @param string $key   Key parameter
      * @param mixed  $value  Value parameter
      */
@@ -98,21 +120,8 @@ class Config implements ConfigInterface
     }
 
     /**
-     * Set params
-     * 
-     * @param array $params List of parameters
-     * @return $this
-     */
-    public function setParams(array $params = array())
-    {
-        $this->params = $params;
-
-        return $this;
-    }
-
-    /**
      * Add parameter to the list
-     * 
+     *
      * @param string $key   Key parameter
      * @param mixed  $value  Value parameter
      *
@@ -127,7 +136,7 @@ class Config implements ConfigInterface
 
     /**
      * Override current list of parameters with new ones
-     * 
+     *
      * @param array $params List of parameters
      *
      * @return \Itkg\Config
@@ -137,16 +146,6 @@ class Config implements ConfigInterface
         $this->setParams(array_merge($this->getParams(), $params));
 
         return $this;
-    }
-
-    /**
-     * Set Config required params
-     * 
-     * @param array $requiredParams List of required parameters
-     */
-    public function setRequiredParams(array $requiredParams = array())
-    {
-        $this->requiredParams = $requiredParams;
     }
 
     /**
