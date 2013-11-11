@@ -9,7 +9,7 @@ DIC & Extension manager library
 
 ### Installation by Composer
 
-If you use composer, add ExtraFormBundle bundle as a dependency to the composer.json of your application
+If you use composer, add library as a dependency to the composer.json of your application
 
 ```php
     "require": {
