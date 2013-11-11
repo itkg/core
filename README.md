@@ -29,7 +29,7 @@ If you use itkg/core DIC, you can do :
     $core = new Itkg\Core('../../var/cache/itkg_cache.php', true);
 
     // Add some extensions
-    $core->registerExtension(new \Itkg\Consumer\DependencyInjection\ItkgCacheExtension());
+    $core->registerExtension(new \Itkg\Cache\DependencyInjection\ItkgCacheExtension());
     / ..
     // Load DIC
     $core->load();
