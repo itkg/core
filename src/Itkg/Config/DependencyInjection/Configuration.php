@@ -1,6 +1,6 @@
 <?php
 
-namespace Itkg\Core\DependencyInjection;
+namespace Itkg\Config\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
@@ -16,7 +16,7 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('itkg_core');
+        $rootNode = $treeBuilder->root('itkg_config');
 
         return $treeBuilder;
     }

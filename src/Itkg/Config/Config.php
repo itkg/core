@@ -1,9 +1,9 @@
 <?php
 
-namespace Itkg\Core;
+namespace Itkg\Config;
 
-use Itkg\Core\Exception\ConfigException;
-use Itkg\Core\Exception\NotFoundException;
+use Itkg\Config\Exception\ConfigException;
+use Itkg\Config\Exception\NotFoundException;
 
 /**
  * Class NotFoundException

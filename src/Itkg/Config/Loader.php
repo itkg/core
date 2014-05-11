@@ -1,9 +1,9 @@
 <?php
 
-namespace Itkg;
+namespace Itkg\Config;
 
-use Itkg\Core\DependencyInjection\Compiler\SubscriberCompilerPass;
-use Itkg\Core\DependencyInjection\ItkgCoreExtension;
+use Itkg\Config\DependencyInjection\Compiler\SubscriberCompilerPass;
+use Itkg\Config\DependencyInjection\ItkgConfigExtension;
 use Itkg\Exception\NotFoundException;
 use Symfony\Component\Config\ConfigCache;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -11,13 +11,11 @@ use Symfony\Component\DependencyInjection\Dumper\PhpDumper;
 use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
 
 /**
- * Class Core
+ * Class Loader
  *
- * DIC & extension manager
- *
- * @author Pascal DENIS <pascal.denis.75@gmail.com>
+ * @author Pascal DENIS <pascal.denis@businessdecision.com>
  */
-class Core
+class Loader
 {
     /**
      * Runtime config for service
@@ -129,7 +127,7 @@ class Core
     public function registerExtension(ExtensionInterface $extension)
     {
         if (!$this->extensions) {
-            $this->extensions = array(new ItkgCoreExtension());
+            $this->extensions = array(new ItkgConfigExtension());
         }
 
         $this->extensions[] = $extension;

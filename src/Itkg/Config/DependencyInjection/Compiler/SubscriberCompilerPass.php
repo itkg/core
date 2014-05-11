@@ -1,6 +1,6 @@
 <?php
 
-namespace Itkg\Core\DependencyInjection\Compiler;
+namespace Itkg\Config\DependencyInjection\Compiler;
 
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;

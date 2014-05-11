@@ -1,6 +1,6 @@
 <?php
 
-namespace Itkg\Core\Exception;
+namespace Itkg\Config\Exception;
 
 /**
  * Class ConfigException

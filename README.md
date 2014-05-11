@@ -1,4 +1,4 @@
-DIC & Extension manager library
+DIC & Extension management library
 ========================
 
 ## features
@@ -14,24 +14,24 @@ If you use composer, add library as a dependency to the composer.json of your ap
 ```php
     "require": {
         ...
-        "itkg/core": "dev-master"
+        "itkg/config": "dev-master"
         ...
     },
 
 ```
 
-If you use itkg/core DIC, you can do :
+If you use itkg/config DIC, you can do :
 
 ```php
 <?php
     // init core
-    $core = new Itkg\Core('../../var/cache/itkg_cache.php', true);
+    $loader = new Itkg\Config\Loader('../../var/cache/itkg_cache.php', true);
 
     // Add some extensions
-    $core->registerExtension(new \Itkg\Cache\DependencyInjection\ItkgCacheExtension());
+    $loader->registerExtension(new \Itkg\Cache\DependencyInjection\ItkgCacheExtension());
     / ..
     // Load DIC
-    $core->load();
+    $loader->load();
 
 ```
 

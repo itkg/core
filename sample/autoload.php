@@ -6,10 +6,10 @@ $loader = require_once '../vendor/autoload.php';
 
 
 // Itkg_cache.php contains config && debug is actived
-$itkg = new Itkg\Core('../var/cache/itkg_cache.php', true);
+$loader = new Itkg\Config\Loader('../var/cache/itkg_cache.php', true);
 
 // Add extensions
 
 // Load config
 
-$itkg->load();
+$loader->load();
