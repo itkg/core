@@ -3,7 +3,7 @@
     "type":         "library",
     "description":  "Itkg config library",
     "keywords":     ["library", "config", "interkating"],
-    "homepage":     "http://github.com/itkg/core",
+    "homepage":     "http://github.com/itkg/config",
     "license":      "MIT",
     "authors":      [
         {
