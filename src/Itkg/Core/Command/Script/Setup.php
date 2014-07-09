@@ -2,8 +2,9 @@
 
 namespace Itkg\Core\Command\Model;
 
-use Doctrine\DBAL\Driver\Connection;
+use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\QueryBuilder;
+use Itkg\Core\Command\Model\Migration\Factory;
 
 /**
  * @author Pascal DENIS <pascal.denis@businessdecision.com>
@@ -11,67 +12,65 @@ use Doctrine\DBAL\Query\QueryBuilder;
 class Setup
 {
     /**
-     * Doctrine Connection
-     *
-     * @var Connection
-     */
-    protected $connection;
-
-    /**
-     * SQL queries
-     *
      * @var array
      */
-    protected $queries = array();
+    protected $migrations = array();
 
     /**
-     * Doctrine connection
+     * Script runner
      *
-     * @return Connection
+     * @var RunnerInterface
      */
-    public function getConnection()
+    protected $runner;
+
+    /**
+     * Script loader
+     *
+     * @var LoaderInterface
+     */
+    protected $loader;
+
+    /**
+     * Migration factory
+     *
+     * @var Factory
+     */
+    protected $migrationFactory;
+
+    /**
+     * Constructor
+     *
+     * @param RunnerInterface $runner
+     * @param LoaderInterface $loader
+     * @param Migration\Factory $migrationFactory
+     */
+    public function __construct(RunnerInterface $runner, LoaderInterface $loader, Factory $migrationFactory)
     {
-        return $this->connection;
+        $this->runner = $runner;
+        $this->loader = $loader;
     }
 
     /**
-     * Doctrine connection
+     * Create a migration from SQL script & rollback script
      *
-     * @param Connection $connection
+     * @param $script
+     * @param $rollbackScript
      */
-    public function setConnection(Connection $connection)
+    public function createMigration($script, $rollbackScript)
     {
-        $this->connection = $connection;
+        $queries = $this->loader->load($script)->getQueries();
+        $rollbackQueries = $this->loader->load($rollbackScript)->getQueries();
+
+        $this->migrations[] = $this->migrationFactory->createMigration($queries, $rollbackQueries);
     }
 
     /**
-     * Load script file
-     * 
-     * @param $file
-     * @return mixed
+     * Run migrations
      */
-    public function loadScript($file)
+    public function run()
     {
-        return include $file;
-    }
-
-    /**
-     * Add a query
-     *
-     * @param string $query
-     */
-    public function addQuery($query)
-    {
-        $this->queries[] = $query;
-    }
-
-    /**
-     * Add a query from a query builder
-     *
-     * @param QueryBuilder $qb
-     */
-    public function addQueryFromBuilder(QueryBuilder $qb)
-    {
-        $this->queries[] = $qb->getSQL();
+        foreach ($this->migrations as $migration) {
+            $this->runner->run($migration);
+        }
     }
 }

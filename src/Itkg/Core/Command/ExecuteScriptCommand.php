@@ -2,6 +2,7 @@
 
 namespace Itkg\Core\Command;
 
+use Itkg\Core\Command\Model\Setup;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -12,8 +13,25 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class ExecuteScriptCommand extends Command
 {
+    /**
+     * @var array
+     */
     private $scripts = array();
+
+    /**
+     * @var array
+     */
     private $rollbacks = array();
+
+    /**
+     * @var Setup
+     */
+    private $setup;
+
+    public function __construct($name = null, Setup $setup)
+    {
+        $this->setup = $setup;
+    }
     protected function configure()
     {
         $this
@@ -40,7 +58,12 @@ class ExecuteScriptCommand extends Command
             throw new \LogicException('Please provide as scripts files as rollbacks files with the same name');
         }
 
-        $this->parse();
+        foreach ($this->scripts as $k => $script) {
+            $this->setup->createMigration($script, $this->rollbacks[$k]);
+        }
+
+        $this->setup->run();
+
         $output->writeln($source);
     }
 
@@ -60,13 +83,6 @@ class ExecuteScriptCommand extends Command
         sort($files);
 
         return $files;
-    }
-
-    public function parse()
-    {
-        foreach($this->scripts as $k => $script) {
-
-        }
     }
 
 }
