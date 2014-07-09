@@ -1,9 +1,9 @@
 {
-    "name":         "itkg/config",
+    "name":         "itkg/core",
     "type":         "library",
     "description":  "Itkg config library",
     "keywords":     ["library", "config", "interkating"],
-    "homepage":     "http://github.com/itkg/config",
+    "homepage":     "http://github.com/itkg/core",
     "license":      "MIT",
     "authors":      [
         {
@@ -20,9 +20,8 @@
     },
     "require": {
         "php": ">=5.3.3",
-        "symfony/dependency-injection": "v2.3.3",
-        "symfony/config": "v2.3.3",
-        "symfony/yaml": "v2.3.3"
+        "symfony/console": "v2.4.6",
+        "doctrine/dbal": "v2.4.1"
     },
     "autoload": {
         "psr-0": {
