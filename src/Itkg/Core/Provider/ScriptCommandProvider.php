@@ -2,6 +2,7 @@
 
 namespace Itkg\Core\Provider;
 
+use Itkg\Core\Command\Script\Loader;
 use Itkg\Core\Command\Script\Migration\Factory;
 use Itkg\Core\Command\Script\Runner;
 use Itkg\Core\Command\Script\Setup;
