@@ -14,4 +14,10 @@ interface RunnerInterface
      * @return mixed
      */
     public function run(Migration $migration, $forcedRollback = false);
+
+    /**
+     * Get played queries
+     * @return array
+     */
+    public function getPlayedQueries();
 }

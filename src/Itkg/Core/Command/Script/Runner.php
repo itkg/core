@@ -23,6 +23,11 @@ class Runner implements RunnerInterface
     private $migration;
 
     /**
+     * @var array
+     */
+    private $playedQueries = array();
+
+    /**
      * Constructor
      *
      * @param Connection $connection
@@ -36,21 +41,23 @@ class Runner implements RunnerInterface
      * Run a migration
      *
      * @param Migration $migration
-     * @return void
+     * @param bool $executeQueries
+     * @param bool $forcedRollback
      * @throws \Exception
      * @throws Migration\Exception
+     * @return void
      */
-    public function run(Migration $migration, $forcedRollback = false)
+    public function run(Migration $migration, $executeQueries = false, $forcedRollback = false)
     {
         $this->migration = $migration;
 
         try {
-            $this->playQueries();
+            $this->playQueries($executeQueries);
             if($forcedRollback) {
-                $this->playRollbackQueries();
+                $this->playRollbackQueries($executeQueries);
             }
         } catch(Exception $e) {
-            $this->playRollbackQueries();
+            $this->playRollbackQueries($executeQueries);
 
             throw $e;
         }
@@ -59,14 +66,16 @@ class Runner implements RunnerInterface
     /**
      * Play Script queries
      *
+     * @param bool $executeQueries
+     * @throws Migration\Exception
      * @throws \Exception
      * @return void
      */
-    private function playQueries()
+    private function playQueries($executeQueries = false)
     {
         foreach ($this->migration->getQueries() as $idx => $query) {
             try {
-                $this->connection->executeQuery($query);
+               $this->runQuery($query, $executeQueries);
             } catch(\Exception $e) {
                 // Only throw if more than one query is played
                 if ($idx >= 1) {
@@ -81,13 +90,38 @@ class Runner implements RunnerInterface
     /**
      * Play rollback queries
      *
+     * @param bool $executeQueries
      * @return void
      */
-    private function playRollbackQueries()
+    private function playRollbackQueries($executeQueries = false)
     {
         foreach ($this->migration->getRollbackQueries() as $query) {
+            $this->runQuery($query, $executeQueries);
+        }
+    }
+
+    /**
+     * Run a query if execute query is true
+     * else simply add query to played queries stack
+     *
+     * @param $query
+     * @param bool $executeQueries
+     */
+    private function runQuery($query, $executeQueries = false)
+    {
+        $this->playedQueries[] = $query;
+        if($executeQueries) {
             $this->connection->executeQuery($query);
         }
     }
 
-} 
+    /**
+     * Get played queries
+     *
+     * @return array
+     */
+    public function getPlayedQueries()
+    {
+        return $this->playedQueries;
+    }
+}

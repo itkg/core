@@ -102,8 +102,13 @@ class Setup
      */
     public function run()
     {
-        foreach ($this->migrations as $migration) {
-            $this->runner->run($migration, $this->forcedRollback);
+        try {
+            foreach ($this->migrations as $migration) {
+                $this->runner->run($migration, $this->forcedRollback);
+            }
+            $this->displayQueries($this->runner->getPlayedQueries());
+        } catch(\Exception $e) {
+            $this->displayQueries($this->runner->getPlayedQueries());
         }
     }
 
@@ -145,4 +150,15 @@ class Setup
         return $this->rollbackedFirst;
     }
 
+    /**
+     * Display all queries
+     *
+     * @param array $queries
+     */
+    public function displayQueries(array $queries)
+    {
+        foreach($queries as $query) {
+            echo sprintf('%s;%s', $query, PHP_EOL);
+        }
+    }
 }
