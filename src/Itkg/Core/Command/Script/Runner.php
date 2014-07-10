@@ -110,6 +110,7 @@ class Runner implements RunnerInterface
     private function runQuery($query, $executeQueries = false)
     {
         $this->playedQueries[] = $query;
+
         if($executeQueries) {
             $this->connection->executeQuery($query);
         }

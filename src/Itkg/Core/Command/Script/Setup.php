@@ -54,6 +54,12 @@ class Setup
     private $forcedRollback;
 
     /**
+     * Execute queries or not
+     * @var bool
+     */
+    private $executeQueries;
+
+    /**
      * Constructor
      *
      * @param RunnerInterface $runner
@@ -104,11 +110,13 @@ class Setup
     {
         try {
             foreach ($this->migrations as $migration) {
-                $this->runner->run($migration, $this->forcedRollback);
+                $this->runner->run($migration, $this->executeQueries, $this->forcedRollback);
             }
             $this->displayQueries($this->runner->getPlayedQueries());
         } catch(\Exception $e) {
             $this->displayQueries($this->runner->getPlayedQueries());
+
+            throw $e;
         }
     }
 
@@ -123,6 +131,16 @@ class Setup
         return $this;
     }
 
+    /**
+     * @param $executeQueries
+     * @return $this
+     */
+    public function setExecuteQueries($executeQueries)
+    {
+        $this->executeQueries = $executeQueries;
+
+        return $this;
+    }
     /**
      * @return boolean
      */

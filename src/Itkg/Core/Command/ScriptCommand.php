@@ -99,7 +99,7 @@ class ScriptCommand extends Command
 
         $this->setup
             ->setForcedRollback($input->getOption('force-rollback'))
-            ->setRollbackedFirst($input->getOption('execute'))
+            ->setExecuteQueries($input->getOption('execute'))
             ->setRollbackedFirst($input->getOption('rollback-first'));
 
         foreach ($this->scripts as $k => $script) {
