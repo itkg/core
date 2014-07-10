@@ -1,10 +1,13 @@
 <?php
 
-namespace Itkg\Core\Command\Model;
+namespace Itkg\Core\Command\Script;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\QueryBuilder;
 
+/**
+ * @author Pascal DENIS <pascal.denis@businessdecision.com>
+ */
 class Loader implements LoaderInterface
 {
     /**
@@ -12,14 +15,14 @@ class Loader implements LoaderInterface
      *
      * @var array
      */
-    protected $queries = array();
+    private $queries = array();
 
     /**
      * Doctrine connection
      *
      * @var \Doctrine\DBAL\Connection
      */
-    protected $connection;
+    private $connection;
     /**
      * Constructor
      *
@@ -43,30 +46,38 @@ class Loader implements LoaderInterface
      * Add a query
      *
      * @param string $query
+     * @return $this
      */
     public function addQuery($query)
     {
         $this->queries[] = $query;
+
+        return $this;
     }
 
     /**
      * Add a query from a query builder
      *
      * @param QueryBuilder $qb
+     * @return $this
      */
     public function addQueryFromBuilder(QueryBuilder $qb)
     {
         $this->queries[] = $qb->getSQL();
+
+        return $this;
     }
 
     /**
      * Load script file
      *
      * @param $file
-     * @return mixed
+     * @return $this
      */
     public function load($file)
     {
+        $this->queries = array();
+
         include $file;
 
         return $this;

@@ -1,7 +1,10 @@
 <?php
 
-namespace Itkg\Core\Command\Model;
+namespace Itkg\Core\Command\Script;
 
+/**
+ * @author Pascal DENIS <pascal.denis@businessdecision.com>
+ */
 interface LoaderInterface
 {
     /**

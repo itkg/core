@@ -1,7 +1,10 @@
 <?php
 
-namespace Itkg\Core\Command\Model;
+namespace Itkg\Core\Command\Script;
 
+/**
+ * @author Pascal DENIS <pascal.denis@businessdecision.com>
+ */
 interface RunnerInterface
 {
     /**
@@ -10,5 +13,5 @@ interface RunnerInterface
      * @param Migration $migration
      * @return mixed
      */
-    public function run(Migration $migration);
+    public function run(Migration $migration, $forcedRollback = false);
 }

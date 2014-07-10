@@ -1,18 +1,21 @@
 <?php
 
-namespace Itkg\Core\Command\Model;
+namespace Itkg\Core\Command\Script;
 
+/**
+ * @author Pascal DENIS <pascal.denis@businessdecision.com>
+ */
 class Migration
 {
     /**
      * @var array
      */
-    protected $queries;
+    private $queries;
 
     /**
      * @var array
      */
-    protected $rollbackQueries;
+    private $rollbackQueries;
 
     /**
      * Constructor

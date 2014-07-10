@@ -1,9 +1,12 @@
 <?php
 
-namespace Itkg\Core\Command\Model\Migration;
+namespace Itkg\Core\Command\Script\Migration;
 
-use Itkg\Core\Command\Model\Migration;
+use Itkg\Core\Command\Script\Migration;
 
+/**
+ * @author Pascal DENIS <pascal.denis@businessdecision.com>
+ */
 class Factory
 {
     /**
