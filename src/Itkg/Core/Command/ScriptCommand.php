@@ -51,24 +51,26 @@ class ScriptCommand extends Command
             ->addArgument(
                 'source',
                 InputArgument::REQUIRED,
-                'Please, provide a source folder where we can find script & rollback folder')
+                'Please, provide a source folder where we can find script & rollback folder'
+            )
             ->addOption(
                 'force-rollback',
                 null,
                 InputOption::VALUE_NONE,
-                'Force a rollback')
+                'Force a rollback'
+            )
             ->addOption(
                 'rollback-first',
                 null,
                 InputOption::VALUE_NONE,
-                'Execute a rollback before play script')
+                'Execute a rollback before play script'
+            )
             ->addOption(
                 'execute',
                 null,
                 InputOption::VALUE_NONE,
                 'Execute the script'
-            )
-        ;
+            );
     }
 
     /**
@@ -79,21 +81,21 @@ class ScriptCommand extends Command
      * @return int|null|void
      * @throws \LogicException
      */
-    protected function execute(InputInterface $input, OutputInterface  $output)
+    protected function execute(InputInterface $input, OutputInterface $output)
     {
         /**
          * @TODO : Use release & not source arguments
          */
         $source = $input->getArgument('source');
 
-        $this->scripts = $this->getScripts(sprintf('%s/script', $source));
+        $this->scripts   = $this->getScripts(sprintf('%s/script', $source));
         $this->rollbacks = $this->getScripts(sprintf('%s/rollback', $source));
 
-        if(empty($this->scripts)) {
+        if (empty($this->scripts)) {
             throw new \RuntimeException(sprintf('No scripts were found in %s directory', $source));
         }
 
-        if(sizeof(array_diff_key($this->scripts, $this->rollbacks)) != 0) {
+        if (sizeof(array_diff_key($this->scripts, $this->rollbacks)) != 0) {
             throw new \LogicException('Please provide as scripts files as rollbacks files with the same name');
         }
 
@@ -119,8 +121,10 @@ class ScriptCommand extends Command
     {
         $files = array();
         foreach (new \DirectoryIterator($folder) as $file) {
-            if($file->isDot()) continue;
-            $files[$file->getFilename()] = sprintf('%s/%s', $file->getPath(),$file->getFilename());
+            if ($file->isDot()) {
+                continue;
+            }
+            $files[$file->getFilename()] = sprintf('%s/%s', $file->getPath(), $file->getFilename());
         }
         sort($files);
 

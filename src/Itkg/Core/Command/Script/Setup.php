@@ -68,8 +68,8 @@ class Setup
      */
     public function __construct(RunnerInterface $runner, LoaderInterface $loader, Factory $migrationFactory)
     {
-        $this->runner = $runner;
-        $this->loader = $loader;
+        $this->runner           = $runner;
+        $this->loader           = $loader;
         $this->migrationFactory = $migrationFactory;
     }
 
@@ -82,7 +82,7 @@ class Setup
      */
     public function createMigration($script, $rollbackScript)
     {
-        if(!file_exists($script) || !file_exists($rollbackScript)) {
+        if (!file_exists($script) || !file_exists($rollbackScript)) {
             throw new \InvalidArgumentException(
                 sprintf(
                     "%s or %s does not exist",
@@ -94,10 +94,10 @@ class Setup
 
         if ($this->rollbackedFirst) {
             /* When rollback is needed first we invert script & rollback script */
-            $queries = $this->loader->load($rollbackScript)->getQueries();
+            $queries         = $this->loader->load($rollbackScript)->getQueries();
             $rollbackQueries = $this->loader->load($script)->getQueries();
         } else {
-            $queries = $this->loader->load($script)->getQueries();
+            $queries         = $this->loader->load($script)->getQueries();
             $rollbackQueries = $this->loader->load($rollbackScript)->getQueries();
         }
         $this->migrations[] = $this->migrationFactory->createMigration($queries, $rollbackQueries);
@@ -113,7 +113,7 @@ class Setup
                 $this->runner->run($migration, $this->executeQueries, $this->forcedRollback);
             }
             $this->displayQueries($this->runner->getPlayedQueries());
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             $this->displayQueries($this->runner->getPlayedQueries());
 
             throw $e;
@@ -141,6 +141,7 @@ class Setup
 
         return $this;
     }
+
     /**
      * @return boolean
      */
@@ -175,7 +176,7 @@ class Setup
      */
     public function displayQueries(array $queries)
     {
-        foreach($queries as $query) {
+        foreach ($queries as $query) {
             echo sprintf('%s;%s', $query, PHP_EOL);
         }
     }

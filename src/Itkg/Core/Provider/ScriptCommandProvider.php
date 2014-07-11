@@ -24,35 +24,45 @@ class ScriptCommandProvider implements ServiceProviderInterface
      */
     public function register(\Pimple $container)
     {
-        $container['itkg-core.command.script.runner'] = $container->share(function ($container) {
-            return new Runner(
-                $container['doctrine.connection']
-            );
-        });
+        $container['itkg-core.command.script.runner'] = $container->share(
+            function ($container) {
+                return new Runner(
+                    $container['doctrine.connection']
+                );
+            }
+        );
 
-        $container['itkg-core.command.script.loader'] = $container->share(function ($container) {
-            return new Loader(
-                $container['doctrine.connection']
-            );
-        });
+        $container['itkg-core.command.script.loader'] = $container->share(
+            function ($container) {
+                return new Loader(
+                    $container['doctrine.connection']
+                );
+            }
+        );
 
-        $container['itkg-core.command.script.migration_factory'] = $container->share(function ($container) {
-            return new Factory();
-        });
+        $container['itkg-core.command.script.migration_factory'] = $container->share(
+            function ($container) {
+                return new Factory();
+            }
+        );
 
-        $container['itkg-core.command.script.setup'] = $container->share(function ($container) {
-            return new Setup(
-                $container['itkg-core.command.script.runner'],
-                $container['itkg-core.command.script.loader'],
-                $container['itkg-core.command.script.migration_factory']
-            );
-        });
+        $container['itkg-core.command.script.setup'] = $container->share(
+            function ($container) {
+                return new Setup(
+                    $container['itkg-core.command.script.runner'],
+                    $container['itkg-core.command.script.loader'],
+                    $container['itkg-core.command.script.migration_factory']
+                );
+            }
+        );
 
-        $container['itkg-core.command.script'] = $container->share(function ($container) {
-            return new ScriptCommand(
-                'itkg-core:script',
-                $container['itkg-core.command.script.setup']
-            );
-        });
+        $container['itkg-core.command.script'] = $container->share(
+            function ($container) {
+                return new ScriptCommand(
+                    'itkg-core:script',
+                    $container['itkg-core.command.script.setup']
+                );
+            }
+        );
     }
 }

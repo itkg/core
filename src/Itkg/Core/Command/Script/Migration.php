@@ -25,7 +25,7 @@ class Migration
      */
     public function __construct(array $queries = array(), array $rollbackQueries = array())
     {
-        $this->queries = $queries;
+        $this->queries         = $queries;
         $this->rollbackQueries = $rollbackQueries;
     }
 

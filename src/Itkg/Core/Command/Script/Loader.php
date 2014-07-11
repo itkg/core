@@ -23,6 +23,7 @@ class Loader implements LoaderInterface
      * @var \Doctrine\DBAL\Connection
      */
     private $connection;
+
     /**
      * Constructor
      *

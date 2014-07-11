@@ -53,10 +53,10 @@ class Runner implements RunnerInterface
 
         try {
             $this->playQueries($executeQueries);
-            if($forcedRollback) {
+            if ($forcedRollback) {
                 $this->playRollbackQueries($executeQueries);
             }
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             $this->playRollbackQueries($executeQueries);
 
             throw $e;
@@ -75,8 +75,8 @@ class Runner implements RunnerInterface
     {
         foreach ($this->migration->getQueries() as $idx => $query) {
             try {
-               $this->runQuery($query, $executeQueries);
-            } catch(\Exception $e) {
+                $this->runQuery($query, $executeQueries);
+            } catch (\Exception $e) {
                 // Only throw if more than one query is played
                 if ($idx >= 1) {
                     throw new Exception($e->getMessage());
@@ -111,7 +111,7 @@ class Runner implements RunnerInterface
     {
         $this->playedQueries[] = $query;
 
-        if($executeQueries) {
+        if ($executeQueries) {
             $this->connection->executeQuery($query);
         }
     }
