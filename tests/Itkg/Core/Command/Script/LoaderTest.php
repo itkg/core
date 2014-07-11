@@ -10,11 +10,11 @@ class LoaderTest extends \PHPUnit_Framework_TestCase
     public function testLoad()
     {
         $loader = $this->createLoader();
-        $loader->load(__DIR__.'/../../../../mock/ticket.php');
-        $this->assertEquals(1, count($loader->getQueries()));
+        $loader->load(__DIR__.'/../../../../mock/script/ticket.php');
+        $this->assertEquals(2, count($loader->getQueries()));
 
-        $loader->load(__DIR__.'/../../../../mock/ticket.php');
-        $this->assertEquals(1, count($loader->getQueries())); /* Reset queries before load */
+        $loader->load(__DIR__.'/../../../../mock/script/ticket.php');
+        $this->assertEquals(2, count($loader->getQueries())); /* Reset queries before load */
     }
 
     public function testAddQuery()

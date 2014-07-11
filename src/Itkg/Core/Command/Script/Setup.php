@@ -44,20 +44,20 @@ class Setup
      *
      * @var bool
      */
-    private $rollbackedFirst;
+    private $rollbackedFirst = false;
 
     /**
      * Indicate that rollback is required
      *
      * @var bool
      */
-    private $forcedRollback;
+    private $forcedRollback = false;
 
     /**
      * Execute queries or not
      * @var bool
      */
-    private $executeQueries;
+    private $executeQueries = false;
 
     /**
      * Constructor
@@ -79,6 +79,8 @@ class Setup
      * @param $script
      * @param $rollbackScript
      * @throws \InvalidArgumentException
+     *
+     * @return $this
      */
     public function createMigration($script, $rollbackScript)
     {
@@ -101,6 +103,8 @@ class Setup
             $rollbackQueries = $this->loader->load($rollbackScript)->getQueries();
         }
         $this->migrations[] = $this->migrationFactory->createMigration($queries, $rollbackQueries);
+
+        return $this;
     }
 
     /**
