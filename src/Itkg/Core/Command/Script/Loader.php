@@ -64,6 +64,9 @@ class Loader implements LoaderInterface
      */
     public function addQueryFromBuilder(QueryBuilder $qb)
     {
+        /**
+         * @TODO : How to manage query params ?
+         */
         $this->queries[] = $qb->getSQL();
 
         return $this;
