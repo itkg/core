@@ -56,5 +56,7 @@ class Application implements ApplicationInterface
     public function setContainer(ServiceContainer $container)
     {
         $this->container = $container;
+
+        return $this;
     }
 }
