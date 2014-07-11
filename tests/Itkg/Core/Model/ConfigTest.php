@@ -56,12 +56,47 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test get existed key
+     */
+    public function testOffsetGetExistedKey()
+    {
+        $this->assertEquals($this->params['bar'], $this->object->offsetGet('bar'));
+    }
+
+    /**
+     * Test offset set
+     */
+    public function testOffsetSet()
+    {
+        $this->object->offsetSet('you', 'me');
+        $this->assertEquals('me', $this->object->offsetGet('you'));
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testOffsetUnset()
+    {
+        $this->object->offsetUnset('foo');
+        $this->object->get('foo');
+    }
+
+    /**
      * Test has key
      */
     public function testHasExistedKey()
     {
         $this->assertFalse($this->object->has('you'));
         $this->assertTrue($this->object->has('foo'));
+    }
+
+    /**
+     * Test has key
+     */
+    public function testOffsetExistedKey()
+    {
+        $this->assertFalse($this->object->offsetExists('you'));
+        $this->assertTrue($this->object->offsetExists('foo'));
     }
 
     /**
