@@ -9,9 +9,22 @@ use Itkg\Core\Command\Script\Migration\Factory;
 class SetupTest extends \PHPUnit_Framework_TestCase
 {
 
+    /**
+     * @expectedException \InvalidArgumentException
+     */
     public function testUnexistedScript()
     {
+        $setup = $this->createSetup();
+        $setup->createMigration('unknown/script.php', __DIR__.'/../../../../mock/rollback/ticket.php');
+    }
 
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testUnexistedRollbackScript()
+    {
+        $setup = $this->createSetup();
+        $setup->createMigration(__DIR__.'/../../../../mock/script/ticket.php', 'unknown/script.php');
     }
 
     public function testForcedRollback()
