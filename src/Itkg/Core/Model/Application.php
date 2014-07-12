@@ -5,7 +5,7 @@ namespace Itkg\Core\Model;
 class Application implements ApplicationInterface
 {
     /**
-     * @var Config
+     * @var ConfigInterface
      */
     private $config;
 

@@ -132,5 +132,3 @@ class ScriptCommand extends Command
         return $files;
     }
 }
-
-

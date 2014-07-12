@@ -41,7 +41,7 @@ class ScriptCommandProvider implements ServiceProviderInterface
         );
 
         $container['itkg-core.command.script.migration_factory'] = $container->share(
-            function ($container) {
+            function () {
                 return new Factory();
             }
         );

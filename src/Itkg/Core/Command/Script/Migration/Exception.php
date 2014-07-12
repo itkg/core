@@ -8,4 +8,4 @@ namespace Itkg\Core\Command\Script\Migration;
 class Exception extends \Exception
 {
 
-} 
+}

@@ -21,4 +21,4 @@ interface LoaderInterface
      * @return array
      */
     public function getQueries();
-} 
+}

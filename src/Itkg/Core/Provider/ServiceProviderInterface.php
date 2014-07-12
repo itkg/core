@@ -17,4 +17,4 @@ interface ServiceProviderInterface
      * @param \Pimple $container An Container instance
      */
     public function register(\Pimple $container);
-} 
+}

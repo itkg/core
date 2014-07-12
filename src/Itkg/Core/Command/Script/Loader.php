@@ -96,4 +96,4 @@ class Loader implements LoaderInterface
     {
         return $this->queries;
     }
-} 
+}

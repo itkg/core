@@ -20,4 +20,4 @@ class Factory
     {
         return new Migration($queries, $rollbackQueries);
     }
-} 
+}

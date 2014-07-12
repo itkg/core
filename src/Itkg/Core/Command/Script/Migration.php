@@ -48,4 +48,4 @@ class Migration
     {
         return $this->rollbackQueries;
     }
-} 
+}
