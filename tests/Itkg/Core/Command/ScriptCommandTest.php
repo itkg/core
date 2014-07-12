@@ -52,11 +52,10 @@ class ScriptCommandTest extends \PHPUnit_Framework_TestCase
         $application = new Application();
         $application->add($command);
 
-        if(!file_exists( __DIR__.'/../../../mock/void')) {
-            mkdir( __DIR__.'/../../../mock/void');
-            mkdir( __DIR__.'/../../../mock/void/script');
-            mkdir( __DIR__.'/../../../mock/void/rollback');
+        if(!file_exists( __DIR__.'/../../../mock/uncomplete/rollback')) {
+            mkdir( __DIR__.'/../../../mock/uncomplete/rollback');
         }
+
 
         $command = $application->find('itkg-core:script');
         $commandTester = new CommandTester($command);

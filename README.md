@@ -1,9 +1,11 @@
-DIC & Extension management library
+Itkg Core library
 ========================
 
 ## features
 * DIC
-* Extension manager
+* ServiceProvider
+* Config wrapper
+* Some helpfull command
 
 ## Installation
 
