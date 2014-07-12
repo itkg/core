@@ -1,11 +1,15 @@
 Itkg Core library
-========================
+=================
+
+[![Build Status](https://travis-ci.org/itkg/core.svg?branch=master)](https://travis-ci.org/itkg/core)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/itkg/core/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/itkg/core/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/itkg/core/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/itkg/core/?branch=master)
 
 ## features
 * DIC
 * ServiceProvider
 * Config wrapper
-* Some helpfull command
+* Some helpfull commands
 
 ## Installation
 
@@ -16,27 +20,9 @@ If you use composer, add library as a dependency to the composer.json of your ap
 ```php
     "require": {
         ...
-        "itkg/config": "dev-master"
+        "itkg/core": "dev-master"
         ...
     },
 
 ```
-
-If you use itkg/config DIC, you can do :
-
-```php
-<?php
-    // init core
-    $loader = new Itkg\Config\Loader('../../var/cache/itkg_cache.php', true);
-
-    // Add some extensions
-    $loader->registerExtension(new \Itkg\Cache\DependencyInjection\ItkgCacheExtension());
-    / ..
-    // Load DIC
-    $loader->load();
-
-```
-
 ## Usage
-
-* Extensions
