@@ -60,6 +60,13 @@ class Setup
     private $executeQueries = false;
 
     /**
+     * Loaded queries
+     *
+     * @var array
+     */
+    private $queries = array();
+
+    /**
      * Constructor
      *
      * @param RunnerInterface $runner
@@ -116,9 +123,9 @@ class Setup
             foreach ($this->migrations as $migration) {
                 $this->runner->run($migration, $this->executeQueries, $this->forcedRollback);
             }
-            $this->displayQueries($this->runner->getPlayedQueries());
+            $this->queries = array_merge($this->queries, $this->runner->getPlayedQueries());
         } catch (\Exception $e) {
-            $this->displayQueries($this->runner->getPlayedQueries());
+            $this->queries = array_merge($this->queries, $this->runner->getPlayedQueries());
 
             throw $e;
         }
@@ -173,15 +180,8 @@ class Setup
         return $this->rollbackedFirst;
     }
 
-    /**
-     * Display all queries
-     *
-     * @param array $queries
-     */
-    public function displayQueries(array $queries)
+    public function getQueries()
     {
-        foreach ($queries as $query) {
-            echo sprintf('%s;%s', $query, PHP_EOL);
-        }
+        return $this->queries;
     }
 }

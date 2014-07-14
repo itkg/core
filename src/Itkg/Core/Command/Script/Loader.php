@@ -4,6 +4,7 @@ namespace Itkg\Core\Command\Script;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\QueryBuilder;
+use Doctrine\DBAL\SQLParserUtils;
 
 /**
  * @author Pascal DENIS <pascal.denis@businessdecision.com>
@@ -67,8 +68,8 @@ class Loader implements LoaderInterface
         /**
          * @TODO : How to manage query params ?
          */
-        $this->queries[] = $qb->getSQL();
-
+        $this->queries[] =$qb->getSQL();
+        
         return $this;
     }
 

@@ -62,14 +62,14 @@ class SetupTest extends \PHPUnit_Framework_TestCase
 
         $setup->createMigration($script, $rollbackScript);
 
-        $displayed = 'CREATE TABLE MYC_TEST_SCRIPT (TEST_SCRIPT_ID INT, TEST_NAME varchar(255));
-CREATE TABLE MYC_TEST_SCRIPT2 (TEST_SCRIPT_ID INT, TEST_NAME varchar(255));
-';
-
-        ob_start();
         $setup->run();
-        ob_end_flush();
-        $this->assertEquals($displayed, ob_get_contents());
+
+        $displayed = array(
+            'CREATE TABLE MYC_TEST_SCRIPT (TEST_SCRIPT_ID INT, TEST_NAME varchar(255))',
+            'CREATE TABLE MYC_TEST_SCRIPT2 (TEST_SCRIPT_ID INT, TEST_NAME varchar(255))'
+        );
+
+        $this->assertEquals($displayed, $setup->getQueries());
     }
 
     public function testCreateMigration()

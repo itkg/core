@@ -110,6 +110,10 @@ class ScriptCommand extends Command
         }
 
         $this->setup->run();
+
+        $queries = $this->setup->getQueries();
+
+        print_r($queries);
     }
 
     /**
