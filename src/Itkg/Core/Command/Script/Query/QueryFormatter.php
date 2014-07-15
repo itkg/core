@@ -1,6 +1,6 @@
 <?php
 
-namespace Itkg\Core\Command\Script;
+namespace Itkg\Core\Command\Script\Query;
 
 class QueryFormatter implements QueryFormatterInterface
 {
@@ -13,6 +13,6 @@ class QueryFormatter implements QueryFormatterInterface
      */
     public function format($query)
     {
-        return sprintf('%s;%s', $query, PHP_EOL);
+        return sprintf('%s;%s', str_replace(array("\n", "\r"), '', $query), PHP_EOL);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Itkg\Core\Command;
 
+use Itkg\Core\Command\Script\Query\OutputQueryFactory;
 use Itkg\Core\Command\Script\Setup;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -30,15 +31,21 @@ class ScriptCommand extends Command
     private $setup;
 
     /**
+     * @var OutputQueryFactory
+     */
+    private $queryDisplayFactory;
+
+    /**
      * Constructor
      *
      * @param string $name
      * @param Setup $setup
      */
-    public function __construct($name = null, Setup $setup)
+    public function __construct($name = null, Setup $setup, OutputQueryFactory $queryDisplayFactory)
     {
         parent::__construct($name);
         $this->setup = $setup;
+        $this->queryDisplayFactory = $queryDisplayFactory;
     }
 
     /**
@@ -63,7 +70,12 @@ class ScriptCommand extends Command
                 'rollback-first',
                 null,
                 InputOption::VALUE_NONE,
-                'Execute a rollback before play script'
+                'Execute a rollback before play script')
+            ->addOption(
+                'colors',
+                null,
+                InputOption::VALUE_NONE,
+                'Colorize output'
             )
             ->addOption(
                 'execute',
@@ -111,9 +123,10 @@ class ScriptCommand extends Command
 
         $this->setup->run();
 
-        $queries = $this->setup->getQueries();
-
-        print_r($queries);
+        $this->queryDisplayFactory
+            ->create($input->getOption('colors') ? 'color' : '')
+            ->setOutput($output)
+            ->displayAll($this->setup->getQueries());
     }
 
     /**

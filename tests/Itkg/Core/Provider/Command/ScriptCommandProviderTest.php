@@ -1,6 +1,6 @@
 <?php
 
-namespace Itkg\Core\Provider;
+namespace Itkg\Core\Provider\Command;
 
 use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\DriverManager;
@@ -45,6 +45,26 @@ class ScriptCommandProviderTest extends \PHPUnit_Framework_TestCase
     public function testDoctrineDependency()
     {
         $loader = $this->container['itkg-core.command.script.loader'];
+    }
+
+    public function testOutputQueryFactory()
+    {
+        $this->assertInstanceOf('Itkg\Core\Command\Script\Query\OutputQueryFactory', $this->container['itkg-core.command.script.output_query_factory']);
+    }
+
+    public function testQueryFormatter()
+    {
+        $this->assertInstanceOf('Itkg\Core\Command\Script\Query\QueryFormatterInterface', $this->container['itkg-core.command.script.query_formatter']);
+    }
+
+    public function testOutputQueryDisplay()
+    {
+        $this->assertInstanceOf('Itkg\Core\Command\Script\Query\OutputQueryDisplay', $this->container['itkg-core.command.script.output_query_display']);
+    }
+
+    public function testOutputColorQueryDisplay()
+    {
+        $this->assertInstanceOf('Itkg\Core\Command\Script\Query\OutputColorQueryDisplay', $this->container['itkg-core.command.script.output_color_query_display']);
     }
 
     public function testSetup()

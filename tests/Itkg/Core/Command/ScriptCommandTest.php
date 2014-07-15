@@ -6,6 +6,8 @@ use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\DriverManager;
 use Itkg\Core\Command\Script\Loader;
 use Itkg\Core\Command\Script\Migration\Factory;
+use Itkg\Core\Command\Script\Query\OutputQueryFactory;
+use Itkg\Core\Command\Script\Query\QueryFormatter;
 use Itkg\Core\Command\Script\Runner;
 use Itkg\Core\Command\Script\Setup;
 use Symfony\Component\Console\Application;
@@ -79,7 +81,9 @@ class ScriptCommandTest extends \PHPUnit_Framework_TestCase
         $runner = new Runner($connection);
         $factory = new Factory();
 
-        return new ScriptCommand('itkg-core:script', new Setup($runner, $loader, $factory));
+        $queryFactory = new OutputQueryFactory(new QueryFormatter());
+
+        return new ScriptCommand('itkg-core:script', new Setup($runner, $loader, $factory), $queryFactory);
     }
 
 } 

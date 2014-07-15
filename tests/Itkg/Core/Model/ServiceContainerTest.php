@@ -4,7 +4,7 @@ namespace Itkg\Core\Model;
 
 use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\DriverManager;
-use Itkg\Core\Provider\ScriptCommandProvider;
+use Itkg\Core\Provider\Command\ScriptCommandProvider;
 
 /**
  * @author Pascal DENIS <pascal.denis@businessdecision.com>

@@ -1,12 +1,17 @@
 <?php
 
-namespace Itkg\Core\Provider;
+namespace Itkg\Core\Provider\Command;
 
 use Itkg\Core\Command\Script\Loader;
 use Itkg\Core\Command\Script\Migration\Factory;
+use Itkg\Core\Command\Script\Query\OutputColorQueryDisplay;
+use Itkg\Core\Command\Script\Query\OutputQueryDisplay;
+use Itkg\Core\Command\Script\Query\OutputQueryFactory;
+use Itkg\Core\Command\Script\Query\QueryFormatter;
 use Itkg\Core\Command\Script\Runner;
 use Itkg\Core\Command\Script\Setup;
 use Itkg\Core\Command\ScriptCommand;
+use Itkg\Core\Provider\ServiceProviderInterface;
 
 /**
  * @author Pascal DENIS <pascal.denis@businessdecision.com>
@@ -40,9 +45,39 @@ class ScriptCommandProvider implements ServiceProviderInterface
             }
         );
 
+        $container['itkg-core.command.script.query_formatter'] = $container->share(
+            function () {
+                return new QueryFormatter();
+            }
+        );
+
+        $container['itkg-core.command.script.output_query_display'] = $container->share(
+            function ($container) {
+                return new OutputQueryDisplay(
+                    $container['itkg-core.command.script.query_formatter']
+                );
+            }
+        );
+
+        $container['itkg-core.command.script.output_color_query_display'] = $container->share(
+            function ($container) {
+                return new OutputColorQueryDisplay(
+                    $container['itkg-core.command.script.query_formatter']
+                );
+            }
+        );
+
         $container['itkg-core.command.script.migration_factory'] = $container->share(
             function () {
                 return new Factory();
+            }
+        );
+
+        $container['itkg-core.command.script.output_query_factory'] = $container->share(
+            function ($container) {
+                return new OutputQueryFactory(
+                    $container['itkg-core.command.script.query_formatter']
+                );
             }
         );
 
@@ -60,7 +95,8 @@ class ScriptCommandProvider implements ServiceProviderInterface
             function ($container) {
                 return new ScriptCommand(
                     'itkg-core:script',
-                    $container['itkg-core.command.script.setup']
+                    $container['itkg-core.command.script.setup'],
+                    $container['itkg-core.command.script.output_query_factory']
                 );
             }
         );

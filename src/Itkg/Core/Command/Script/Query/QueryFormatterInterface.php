@@ -1,6 +1,6 @@
 <?php
 
-namespace Itkg\Core\Command\Script;
+namespace Itkg\Core\Command\Script\Query;
 
 interface QueryFormatterInterface
 {
