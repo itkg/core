@@ -2,6 +2,7 @@
 
 namespace Itkg\Core\Command;
 
+use Itkg\Core\Command\Script\FinderInterface;
 use Itkg\Core\Command\Script\Query\OutputQueryFactory;
 use Itkg\Core\Command\Script\Setup;
 use Symfony\Component\Console\Command\Command;
@@ -36,16 +37,25 @@ class ScriptCommand extends Command
     private $queryDisplayFactory;
 
     /**
+     * @var FinderInterface
+     */
+    private $finder;
+
+    /**
      * Constructor
      *
      * @param string $name
      * @param Setup $setup
+     * @param OutputQueryFactory $queryDisplayFactory
+     * @param Script\FinderInterface $finder
      */
-    public function __construct($name = null, Setup $setup, OutputQueryFactory $queryDisplayFactory)
+    public function __construct($name = null, Setup $setup, OutputQueryFactory $queryDisplayFactory, FinderInterface $finder)
     {
         parent::__construct($name);
+
         $this->setup = $setup;
         $this->queryDisplayFactory = $queryDisplayFactory;
+        $this->finder = $finder;
     }
 
     /**
@@ -56,9 +66,21 @@ class ScriptCommand extends Command
         $this
             ->setDescription('Execute release SQL scripts & rollbacks')
             ->addArgument(
-                'source',
+                'release',
                 InputArgument::REQUIRED,
-                'Please, provide a source folder where we can find script & rollback folder'
+                'Please, provide a release where we can find script & rollback folder'
+            )
+            ->addOption(
+                'path',
+                null,
+                InputOption::VALUE_REQUIRED,
+                'Override default script path'
+            )
+            ->addOption(
+                'script',
+                null,
+                InputOption::VALUE_REQUIRED,
+                'Specify a script name (only this script & rollback will be executed)'
             )
             ->addOption(
                 'force-rollback',
@@ -96,16 +118,22 @@ class ScriptCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        /**
-         * @TODO : Use release & not source arguments
-         */
-        $source = $input->getArgument('source');
+        $release = $input->getArgument('release');
 
-        $this->scripts   = $this->getScripts(sprintf('%s/script', $source));
-        $this->rollbacks = $this->getScripts(sprintf('%s/rollback', $source));
+        $this->scripts   = $this->finder->findAll(
+            sprintf('%s/script', $release),
+            $input->getOption('path') ? $input->getOption('path') : null,
+            $input->getOption('script') ? $input->getOption('script') : null
+        );
+
+        $this->rollbacks   = $this->finder->findAll(
+            sprintf('%s/rollback', $release),
+            $input->getOption('path') ? $input->getOption('path') : null,
+            $input->getOption('script') ? $input->getOption('script') : null
+        );
 
         if (empty($this->scripts)) {
-            throw new \RuntimeException(sprintf('No scripts were found in %s directory', $source));
+            throw new \RuntimeException(sprintf('No scripts were found in release %s', $release));
         }
 
         if (sizeof(array_diff_key($this->scripts, $this->rollbacks)) != 0) {
@@ -127,25 +155,5 @@ class ScriptCommand extends Command
             ->create($input->getOption('colors') ? 'color' : '')
             ->setOutput($output)
             ->displayAll($this->setup->getQueries());
-    }
-
-    /**
-     * Get scripts from a specific folder
-     *
-     * @param $folder
-     * @return array
-     */
-    public function getScripts($folder)
-    {
-        $files = array();
-        foreach (new \DirectoryIterator($folder) as $file) {
-            if ($file->isDot()) {
-                continue;
-            }
-            $files[$file->getFilename()] = sprintf('%s/%s', $file->getPath(), $file->getFilename());
-        }
-        sort($files);
-
-        return $files;
     }
 }
