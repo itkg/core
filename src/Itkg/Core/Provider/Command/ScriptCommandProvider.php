@@ -2,8 +2,8 @@
 
 namespace Itkg\Core\Provider\Command;
 
-use Itkg\Core\Command\Script\Finder;
 use Itkg\Core\Command\Script\Loader;
+use Itkg\Core\Command\Script\Locator;
 use Itkg\Core\Command\Script\Migration\Factory;
 use Itkg\Core\Command\Script\Query\OutputColorQueryDisplay;
 use Itkg\Core\Command\Script\Query\OutputQueryDisplay;
@@ -72,20 +72,20 @@ class ScriptCommandProvider implements ServiceProviderInterface
                 return new Setup(
                     $container['itkg-core.command.script.runner'],
                     $container['itkg-core.command.script.loader'],
-                    $container['itkg-core.command.script.migration_factory']
+                    $container['itkg-core.command.script.migration_factory'],
+                    $container['itkg-core.command.script.locator']
                 );
             }
         );
 
-        $container['itkg-core.command.script.finder'] = $container->share(function() {
-                return new Finder();
+        $container['itkg-core.command.script.locator'] = $container->share(function() {
+                return new Locator();
             });
         $container['itkg-core.command.script'] = $container->share(function ($container) {
                 return new ScriptCommand(
                     'itkg-core:script',
                     $container['itkg-core.command.script.setup'],
-                    $container['itkg-core.command.script.output_query_factory'],
-                    $container['itkg-core.command.script.finder']
+                    $container['itkg-core.command.script.output_query_factory']
                 );
             });
     }

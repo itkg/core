@@ -67,17 +67,26 @@ class Setup
     private $queries = array();
 
     /**
+     * Script locator
+     *
+     * @var LocatorInterface
+     */
+    private $locator;
+
+    /**
      * Constructor
      *
      * @param RunnerInterface $runner
      * @param LoaderInterface $loader
      * @param Migration\Factory $migrationFactory
+     * @param LocatorInterface $locator
      */
-    public function __construct(RunnerInterface $runner, LoaderInterface $loader, Factory $migrationFactory)
+    public function __construct(RunnerInterface $runner, LoaderInterface $loader, Factory $migrationFactory, LocatorInterface $locator)
     {
         $this->runner           = $runner;
         $this->loader           = $loader;
         $this->migrationFactory = $migrationFactory;
+        $this->locator          = $locator;
     }
 
     /**
@@ -115,10 +124,33 @@ class Setup
     }
 
     /**
+     * Create migrations from scripts & rollback files
+     */
+    private function createMigrations()
+    {
+        $scripts   = $this->locator->findScripts();
+        $rollbacks = $this->locator->findRollbackScripts();
+
+        if (empty($scripts)) {
+            throw new \RuntimeException(sprintf('No scripts were found in release'));
+        }
+
+        if (sizeof(array_diff_key($scripts, $rollbacks)) != 0) {
+            throw new \LogicException('Please provide as scripts files as rollbacks files with the same name');
+        }
+
+        foreach ($scripts as $k => $script) {
+            $this->createMigration($script, $rollbacks[$k]);
+        }
+    }
+
+    /**
      * Run migrations
      */
     public function run()
     {
+        $this->createMigrations();
+
         try {
             foreach ($this->migrations as $migration) {
                 $this->runner->run($migration, $this->executeQueries, $this->forcedRollback);
@@ -183,5 +215,15 @@ class Setup
     public function getQueries()
     {
         return $this->queries;
+    }
+
+    /**
+     * Get script locator
+     *
+     * @return LocatorInterface
+     */
+    public function getLocator()
+    {
+        return $this->locator;
     }
 }

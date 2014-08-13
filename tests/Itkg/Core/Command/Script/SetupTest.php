@@ -54,13 +54,12 @@ class SetupTest extends \PHPUnit_Framework_TestCase
 
     public function testRun()
     {
-
-        $script = __DIR__.'/../../../../mock/script/ticket.php';
-        $rollbackScript = __DIR__.'/../../../../mock/rollback/ticket.php';
-
         $setup = $this->createSetup();
 
-        $setup->createMigration($script, $rollbackScript);
+        $setup->getLocator()->setParams(array(
+            'path'    => __DIR__.'/../../../../',
+            'release' => 'mock'
+        ));
 
         $setup->run();
 
@@ -98,7 +97,7 @@ class SetupTest extends \PHPUnit_Framework_TestCase
         $loader = new Loader($connection);
         $runner = new Runner($connection);
         $factory = new Factory();
-
-        return new Setup($runner, $loader, $factory);
+        $locator = new Locator();
+        return new Setup($runner, $loader, $factory, $locator);
     }
 } 

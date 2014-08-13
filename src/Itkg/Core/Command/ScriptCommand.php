@@ -37,11 +37,6 @@ class ScriptCommand extends Command
     private $queryDisplayFactory;
 
     /**
-     * @var FinderInterface
-     */
-    private $finder;
-
-    /**
      * Constructor
      *
      * @param string $name
@@ -49,13 +44,12 @@ class ScriptCommand extends Command
      * @param OutputQueryFactory $queryDisplayFactory
      * @param Script\FinderInterface $finder
      */
-    public function __construct($name = null, Setup $setup, OutputQueryFactory $queryDisplayFactory, FinderInterface $finder)
+    public function __construct($name = null, Setup $setup, OutputQueryFactory $queryDisplayFactory)
     {
         parent::__construct($name);
 
         $this->setup = $setup;
         $this->queryDisplayFactory = $queryDisplayFactory;
-        $this->finder = $finder;
     }
 
     /**
@@ -120,34 +114,18 @@ class ScriptCommand extends Command
     {
         $release = $input->getArgument('release');
 
-        $this->scripts   = $this->finder->findAll(
-            sprintf('%s/script', $release),
-            $input->getOption('path') ? $input->getOption('path') : null,
-            $input->getOption('script') ? $input->getOption('script') : null
-        );
-
-        $this->rollbacks   = $this->finder->findAll(
-            sprintf('%s/rollback', $release),
-            $input->getOption('path') ? $input->getOption('path') : null,
-            $input->getOption('script') ? $input->getOption('script') : null
-        );
-
-        if (empty($this->scripts)) {
-            throw new \RuntimeException(sprintf('No scripts were found in release %s', $release));
-        }
-
-        if (sizeof(array_diff_key($this->scripts, $this->rollbacks)) != 0) {
-            throw new \LogicException('Please provide as scripts files as rollbacks files with the same name');
-        }
-
         $this->setup
             ->setForcedRollback($input->getOption('force-rollback'))
             ->setExecuteQueries($input->getOption('execute'))
             ->setRollbackedFirst($input->getOption('rollback-first'));
 
-        foreach ($this->scripts as $k => $script) {
-            $this->setup->createMigration($script, $this->rollbacks[$k]);
-        }
+        $this->setup->getLocator()->setParams(
+            array(
+                'release' => $release,
+                'path' => $input->getOption('path'),
+                'scriptName' => $input->getOption('script')
+            )
+        );
 
         $this->setup->run();
 
