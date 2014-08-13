@@ -48,6 +48,12 @@ EOF;
             'CREATE TABLE MYC_TEST_SCRIPT (TEST_SCRIPT_ID INT,TEST_NAME varchar(255));'.PHP_EOL.'CREATE TABLE MYC_TEST_SCRIPT (TEST_SCRIPT_ID INT,TEST_NAME varchar(255));'.PHP_EOL, $outputQuery->getOutput()->output);
     }
 
+    public function testFormatter()
+    {
+        $outputQuery = $this->createOutputQuery();
+        $this->assertEquals($outputQuery, $outputQuery->setFormatter(new QueryFormatter()));
+    }
+
     private function createOutputQuery()
     {
         $factory = new OutputQueryFactory(new QueryFormatter());
@@ -55,5 +61,6 @@ EOF;
             ->create()
             ->setOutput(new TestOutput(ConsoleOutput::VERBOSITY_NORMAL, true, new OutputFormatter()));
     }
+
 
 }

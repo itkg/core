@@ -71,10 +71,60 @@ class SetupTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($displayed, $setup->getQueries());
     }
 
+    /**
+     * @expectedException \RuntimeException
+     */
+    public function testRunWithNoScript()
+    {
+        if (!file_exists( __DIR__.'/../../../../mock/void')) {
+            mkdir( __DIR__.'/../../../../mock/void');
+            mkdir( __DIR__.'/../../../../mock/void/script');
+            mkdir( __DIR__.'/../../../../mock/void/rollback');
+        }
+
+        $setup = $this->createSetup();
+
+        $setup->getLocator()->setParams(array(
+            'path'    => __DIR__.'/../../../../mock',
+            'release' => 'void'
+        ));
+
+        $setup->run();
+    }
+
+    /**
+     * @expectedException \LogicException
+     */
+    public function testRunWithNoRollback()
+    {
+        if(!file_exists( __DIR__.'/../../../../mock/uncomplete/rollback')) {
+            mkdir( __DIR__.'/../../../../mock/uncomplete/rollback');
+        }
+
+        $setup = $this->createSetup();
+
+        $setup->getLocator()->setParams(array(
+            'path'    => __DIR__.'/../../../../mock',
+            'release' => 'uncomplete'
+        ));
+
+        $setup->run();
+
+    }
+    /**
+     * @expectedException \UnexpectedValueException
+     */
+    public function testRunWithUnvalidPath()
+    {
+        $setup = $this->createSetup();
+
+        $setup->run();
+    }
+
     public function testCreateMigration()
     {
         $script = __DIR__.'/../../../../mock/script/ticket.php';
-        $rollbackScript = $script = __DIR__.'/../../../../mock/rollback/ticket.php';
+        $rollbackScript = __DIR__.'/../../../../mock/rollback/ticket.php';
 
         $setup = $this->createSetup();
 

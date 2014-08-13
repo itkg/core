@@ -14,6 +14,7 @@ class OutputColorQueryDisplay extends OutputQueryDisplay
     const DELETE_COLOR = 'red';
     const CREATE_COLOR = 'cyan';
     const ALTER_COLOR = 'yellow';
+
     /**
      * Display a query (with colors)
      *
@@ -35,7 +36,7 @@ class OutputColorQueryDisplay extends OutputQueryDisplay
         $query = trim(strtoupper($query));
         $word = current(explode(' ', $query));
 
-        switch($word) {
+        switch ($word) {
             case 'ALTER':
                 $color = self::ALTER_COLOR;
                 break;
@@ -45,7 +46,7 @@ class OutputColorQueryDisplay extends OutputQueryDisplay
             case 'DELETE':
                 $color = self::DELETE_COLOR;
                 break;
-            CASE 'UPDATE':
+            case 'UPDATE':
                 $color = self::UPDATE_COLOR;
                 break;
             default:
@@ -58,4 +59,4 @@ class OutputColorQueryDisplay extends OutputQueryDisplay
 
         return sprintf('<%s>%s</%s>', $word, $query, $word);
     }
-} 
+}
