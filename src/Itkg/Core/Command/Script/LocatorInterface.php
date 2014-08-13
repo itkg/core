@@ -26,4 +26,4 @@ interface LocatorInterface
      * @return $this
      */
     public function setParams(array $params = array());
-} 
+}

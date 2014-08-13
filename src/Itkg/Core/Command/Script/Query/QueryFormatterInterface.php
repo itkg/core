@@ -11,4 +11,4 @@ interface QueryFormatterInterface
      * @return string
      */
     public function format($query);
-} 
+}

@@ -27,7 +27,7 @@ class ScriptCommandTest extends \PHPUnit_Framework_TestCase
         $application = new Application();
         $application->add($command);
 
-        if(!file_exists( __DIR__.'/../../../mock/void')) {
+        if (!file_exists( __DIR__.'/../../../mock/void')) {
             mkdir( __DIR__.'/../../../mock/void');
             mkdir( __DIR__.'/../../../mock/void/script');
             mkdir( __DIR__.'/../../../mock/void/rollback');
@@ -48,7 +48,7 @@ class ScriptCommandTest extends \PHPUnit_Framework_TestCase
         $application = new Application();
         $application->add($command);
 
-        if(!file_exists( __DIR__.'/../../../mock/uncomplete/rollback')) {
+        if (!file_exists( __DIR__.'/../../../mock/uncomplete/rollback')) {
             mkdir( __DIR__.'/../../../mock/uncomplete/rollback');
         }
 

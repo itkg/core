@@ -7,6 +7,7 @@ namespace Itkg\Core\Command\Script;
  */
 interface LoaderInterface
 {
+
     /**
      * Load a script file
      *
@@ -22,3 +23,4 @@ interface LoaderInterface
      */
     public function getQueries();
 }
+

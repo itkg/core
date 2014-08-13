@@ -79,4 +79,4 @@ class OutputQueryDisplay
 
         return $this;
     }
-} 
+}

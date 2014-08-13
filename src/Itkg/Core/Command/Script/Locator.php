@@ -47,8 +47,8 @@ class Locator implements LocatorInterface
      */
     public function setParams(array $params = array())
     {
-        foreach($params as $key => $value) {
-            if(null != $value) {
+        foreach ($params as $key => $value) {
+            if (null != $value) {
                 $this->$key = $value;
             }
         }

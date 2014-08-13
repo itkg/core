@@ -97,7 +97,7 @@ class SetupTest extends \PHPUnit_Framework_TestCase
      */
     public function testRunWithNoRollback()
     {
-        if(!file_exists( __DIR__.'/../../../../mock/uncomplete/rollback')) {
+        if (!file_exists( __DIR__.'/../../../../mock/uncomplete/rollback')) {
             mkdir( __DIR__.'/../../../../mock/uncomplete/rollback');
         }
 
