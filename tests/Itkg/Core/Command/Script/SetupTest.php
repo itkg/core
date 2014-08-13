@@ -50,6 +50,21 @@ class SetupTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($setup->getRollbackedFirst());
         $this->assertEquals($setup, $setup->setRollbackedFirst(true));
         $this->assertTrue($setup->getRollbackedFirst());
+
+        $setup->getLocator()->setParams(array(
+            'path'    => __DIR__.'/../../../../',
+            'release' => 'mock'
+        ));
+
+        $setup->run();
+
+        $displayed = array(
+            'DROP TABLE MYC_TEST_SCRIPT',
+            'DROP TABLE MYC_TEST_SCRIPT2'
+        );
+
+        $this->assertEquals($displayed, $setup->getQueries());
+
     }
 
     public function testRun()
