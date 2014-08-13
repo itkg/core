@@ -5,8 +5,12 @@ php:
   - 5.4
   - 5.3
 
-before_script:
-  - composer install --dev --prefer-source --no-interaction
-
 script:
-  - php vendor/phpunit/phpunit/phpunit.php -c phpunit.xml.dist --coverage-text
+  - ./vendor/bin/phpunit --coverage-clover=coverage.clover
+
+before_install:
+  - composer install --dev
+
+after_script:
+  - wget https://scrutinizer-ci.com/ocular.phar
+  - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
