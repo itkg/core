@@ -66,12 +66,11 @@ class Locator implements LocatorInterface
     private function getFiles($path)
     {
         $files = array();
-        foreach (new \DirectoryIterator($path) as $file) {
-            if ($file->isDot()) {
-                continue;
-            }
 
-            if (null != $this->scriptName && sprintf('%s.php', $this->scriptName) != $file->getFilename()) {
+        foreach (new \DirectoryIterator($path) as $file) {
+            if ($file->isDot()
+                || (null != $this->scriptName && sprintf('%s.php', $this->scriptName) != $file->getFilename())
+            ) {
                 continue;
             }
 

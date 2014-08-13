@@ -112,13 +112,13 @@ class Setup
 
         if ($this->rollbackedFirst) {
             /* When rollback is needed first we invert script & rollback script */
-            $queries         = $this->loader->load($rollbackScript)->getQueries();
-            $rollbackQueries = $this->loader->load($script)->getQueries();
-        } else {
-            $queries         = $this->loader->load($script)->getQueries();
-            $rollbackQueries = $this->loader->load($rollbackScript)->getQueries();
+            list($rollbackScript, $script) = array($script, $rollbackScript);
         }
-        $this->migrations[] = $this->migrationFactory->createMigration($queries, $rollbackQueries);
+
+        $this->migrations[] = $this->migrationFactory->createMigration(
+            $this->loader->load($script)->getQueries(),
+            $this->loader->load($rollbackScript)->getQueries()
+        );
 
         return $this;
     }

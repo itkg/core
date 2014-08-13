@@ -9,11 +9,13 @@ use Symfony\Component\Console\Formatter\OutputFormatterStyle;
  */
 class OutputColorQueryDisplay extends OutputQueryDisplay
 {
-    const SELECT_COLOR = 'green';
-    const UPDATE_COLOR = 'blue';
-    const DELETE_COLOR = 'red';
-    const CREATE_COLOR = 'cyan';
-    const ALTER_COLOR = 'yellow';
+    private $colors = array(
+        'SELECT' => 'green',
+        'UPDATE' => 'blue',
+        'DELETE' => 'red',
+        'CREATE' => 'cyan',
+        'ALTER'  => 'yellow'
+    );
 
     /**
      * Display a query (with colors)
@@ -36,24 +38,7 @@ class OutputColorQueryDisplay extends OutputQueryDisplay
         $query = trim(strtoupper($query));
         $word = current(explode(' ', $query));
 
-        switch ($word) {
-            case 'ALTER':
-                $color = self::ALTER_COLOR;
-                break;
-            case 'CREATE':
-                $color = self::CREATE_COLOR;
-                break;
-            case 'DELETE':
-                $color = self::DELETE_COLOR;
-                break;
-            case 'UPDATE':
-                $color = self::UPDATE_COLOR;
-                break;
-            default:
-                $color = self::SELECT_COLOR;
-                break;
-        }
-        $style = new OutputFormatterStyle($color, null, array('bold'));
+        $style = new OutputFormatterStyle($this->colors[$word], null, array('bold'));
 
         $this->output->getFormatter()->setStyle($word, $style);
 

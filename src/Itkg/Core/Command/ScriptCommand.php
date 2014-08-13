@@ -112,22 +112,19 @@ class ScriptCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $release = $input->getArgument('release');
-
-        $this->setup
-            ->setForcedRollback($input->getOption('force-rollback'))
-            ->setExecuteQueries($input->getOption('execute'))
-            ->setRollbackedFirst($input->getOption('rollback-first'));
-
         $this->setup->getLocator()->setParams(
             array(
-                'release' => $release,
+                'release' => $input->getArgument('release'),
                 'path' => $input->getOption('path'),
                 'scriptName' => $input->getOption('script')
             )
         );
 
-        $this->setup->run();
+        $this->setup
+            ->setForcedRollback($input->getOption('force-rollback'))
+            ->setExecuteQueries($input->getOption('execute'))
+            ->setRollbackedFirst($input->getOption('rollback-first'))
+            ->run();
 
         $this->queryDisplayFactory
             ->create($input->getOption('colors') ? 'color' : '')
