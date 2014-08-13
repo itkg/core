@@ -4,6 +4,7 @@ namespace Itkg\Core\Command;
 
 use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\DriverManager;
+use Itkg\Core\Command\Script\Finder;
 use Itkg\Core\Command\Script\Loader;
 use Itkg\Core\Command\Script\Migration\Factory;
 use Itkg\Core\Command\Script\Query\OutputQueryFactory;
@@ -15,14 +16,6 @@ use Symfony\Component\Console\Tester\CommandTester;
 
 class ScriptCommandTest extends \PHPUnit_Framework_TestCase
 {
-    public function testGetScripts()
-    {
-        $script = __DIR__.'/../../../mock/script/ticket.php';
-        $command = $this->createCommand();
-
-        $this->assertEquals(array($script), $command->getScripts(__DIR__.'/../../../mock/script'));
-    }
-
     /**
      * @expectedException \RuntimeException
      */
@@ -41,7 +34,7 @@ class ScriptCommandTest extends \PHPUnit_Framework_TestCase
 
         $command = $application->find('itkg-core:script');
         $commandTester = new CommandTester($command);
-        $commandTester->execute(array('command' => $command->getName(), 'source' => __DIR__.'/../../../mock/void'));
+        $commandTester->execute(array('command' => $command->getName(), 'release' => 'undefined'));
     }
 
     /**
@@ -61,7 +54,7 @@ class ScriptCommandTest extends \PHPUnit_Framework_TestCase
 
         $command = $application->find('itkg-core:script');
         $commandTester = new CommandTester($command);
-        $commandTester->execute(array('command' => $command->getName(), 'source' => __DIR__.'/../../../mock/uncomplete'));
+        $commandTester->execute(array('command' => $command->getName(), 'path' => __DIR__.'/../../../mock', 'release' => 'uncomplete'));
     }
 
     private function createCommand()
@@ -83,7 +76,7 @@ class ScriptCommandTest extends \PHPUnit_Framework_TestCase
 
         $queryFactory = new OutputQueryFactory(new QueryFormatter());
 
-        return new ScriptCommand('itkg-core:script', new Setup($runner, $loader, $factory), $queryFactory);
+        return new ScriptCommand('itkg-core:script', new Setup($runner, $loader, $factory), $queryFactory, new Finder());
     }
 
 } 
