@@ -1,8 +1,8 @@
 {
     "name":         "itkg/core",
     "type":         "library",
-    "description":  "Itkg config library",
-    "keywords":     ["library", "config", "interkating"],
+    "description":  "Itkg core library",
+    "keywords":     ["library", "core", "interkating"],
     "homepage":     "http://github.com/itkg/core",
     "license":      "MIT",
     "authors":      [
@@ -22,7 +22,8 @@
         "php": ">=5.3.3",
         "symfony/console": "v2.4.6",
         "doctrine/dbal": "v2.4.1",
-        "pimple/pimple": "v1.0.2"
+        "pimple/pimple": "v1.0.2",
+        "monolog/monolog": "1.10.*"
     },
     "autoload": {
         "psr-0": {
