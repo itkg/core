@@ -20,6 +20,10 @@ abstract class CommandExecuterAbstract extends Command
     protected $formatter;
 
     /**
+     * @var OutputInterface
+     */
+    private $output;
+    /**
      * @var array
      */
     protected $defautlRecord = array();
@@ -32,6 +36,7 @@ abstract class CommandExecuterAbstract extends Command
     public function __construct($name, CommandLineFormatter $formatter, array $defautlRecord = array())
     {
         parent::__construct($name);
+
         $this->formatter = $formatter;
         $this->defautlRecord = $defautlRecord;
     }
@@ -47,6 +52,7 @@ abstract class CommandExecuterAbstract extends Command
      */
     public function execute(InputInterface $input, OutputInterface $output)
     {
+        $this->output = $output;
         try {
             $this->doExecute($input, $output);
         } catch(\Exception $e) {
@@ -68,15 +74,15 @@ abstract class CommandExecuterAbstract extends Command
     /**
      * Write a message with extra record params
      *
-     * @param OuputInterface $output
+     * @param OutputInterface $output
      * @param $message
      * @param array $record
      */
-    public function write(OuputInterface $output, $message, array $record = array())
+    protected function write($message, array $record = array())
     {
         $record = array_merge($this->defautlRecord, $record);
         $record['msg'] = $message;
-        $output->writeln($this->formatter->format($record));
+        $this->output->writeln($this->formatter->format($record));
     }
 
     /**
@@ -87,18 +93,33 @@ abstract class CommandExecuterAbstract extends Command
     public function setDefaultRecord(array $defaultRecord = array())
     {
         $this->defautlRecord = $defaultRecord;
+
+        return $this;
+    }
+
+    /**
+     * Merge default record with extra params
+     *
+     * @param array $defaultRecord
+     * @return $this
+     */
+    public function mergeDefaultRecord(array $defaultRecord = array())
+    {
+        $this->defautlRecord = array_merge($this->defautlRecord, $defaultRecord);
+
+        return $this;
     }
 
     /**
      * Write an exception with extra record params
      *
-     * @param OuputInterface $output
+     * @param OutputInterface $output
      * @param \Exception $exception
      * @param array $record
      */
-    public function writeException(OuputInterface $output, \Exception $exception, array $record = array())
+    protected function writeException(\Exception $exception, array $record = array())
     {
         $record = array_merge($this->defautlRecord, $record);
-        $output->writeln($this->formatter->formatException($exception, $record));
+        $this->output->writeln($this->formatter->formatException($exception, $record));
     }
 }
