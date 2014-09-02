@@ -2,14 +2,15 @@
 
 namespace Itkg\Core\Provider;
 
+use Itkg\Core\ServiceContainer;
+use Symfony\Component\EventDispatcher\EventDispatcher;
+
 
 /**
  * @author Pascal DENIS <pascal.denis@businessdecision.com>
  */
 class ServiceProvider implements ServiceProviderInterface
 {
-
-
     /**
      * Registers services on the given container.
      *
@@ -20,15 +21,18 @@ class ServiceProvider implements ServiceProviderInterface
      */
     public function register(\Pimple $container)
     {
-        $container['core']['dispatcher'] = $this->share(function () {
-            $dispatcher = new EventDispatcher;
+        $services = new \Pimple();
+        $services['dispatcher'] = $container->share(function () {
+            $dispatcher = new EventDispatcher();
             // Add listeners
 
             return $dispatcher;
         });
 
-        $container['core']['db'] = $this->share(function() {
+        $services['db'] = $container->share(function() {
             return \Pelican_Db::getInstance();
         });
+
+        $container['core'] = $services;
     }
 }

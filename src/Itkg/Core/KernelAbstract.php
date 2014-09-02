@@ -2,6 +2,7 @@
 
 namespace Itkg\Core;
 
+use Itkg\Core\Event\KernelEvent;
 use Itkg\Core\Event\KernelEvents;
 
 abstract class KernelAbstract
@@ -21,6 +22,7 @@ abstract class KernelAbstract
         $this->container
             ->setApp($app)
             ->setConfig($app->getConfig());
+
         $this->container['core']['dispatcher']->dispatch(KernelEvents::APP_LOADED, new KernelEvent($container));
 
         $this->loadConfig();

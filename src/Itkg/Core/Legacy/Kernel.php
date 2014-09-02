@@ -22,9 +22,9 @@ class Kernel extends KernelAbstract
 
         $this->overridePelicanLoader();
 
-        \Pelican_Cache::$eventDispatcher = $container['dispatcher'];
-        \Pelican_Db::$eventDispatcher = $container['dispatcher'];
-        \Pelican_Request::$eventDispatcher = $container['dispatcher'];
+        \Pelican_Cache::$eventDispatcher = $container['core']['dispatcher'];
+        \Pelican_Db::$eventDispatcher = $container['core']['dispatcher'];
+        \Pelican_Request::$eventDispatcher = $container['core']['dispatcher'];
     }
     /**
      * Create a response from a Pelican_Request
@@ -49,11 +49,6 @@ class Kernel extends KernelAbstract
     public function loadConfig()
     {
         parent::loadConfig();
-
-        // Load old config file
-        include_once __DIR__.'/../../../../../application/configs/config.php';
-
-        \Pelican_Security::base($this->container['config']['security']);
     }
     /**
      * Load routing from routing files
@@ -73,6 +68,7 @@ class Kernel extends KernelAbstract
             $className = null;
             if (isset($r['sequence'])) {
                 $className = $r['sequence'];
+                \Pelican_Route::addSequence($className);
             }
 
             if(!isset($r['arguments'])) {
@@ -88,8 +84,6 @@ class Kernel extends KernelAbstract
                     $route->pushRequestParams($r['params']);
                 }
                 \Pelican_Route::add($route, $name);
-            } else {
-                \Pelican_Route::addSequence($className);
             }
         }
     }
