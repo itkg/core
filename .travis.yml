@@ -8,7 +8,7 @@ php:
 script:
   - ./vendor/bin/phpunit --coverage-clover=coverage.clover
 
-before_install:
+before_script:
   - composer install --prefer-source --no-interaction --dev
 
 after_script:
