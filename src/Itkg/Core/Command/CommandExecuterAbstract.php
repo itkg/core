@@ -56,7 +56,7 @@ abstract class CommandExecuterAbstract extends Command
         try {
             $this->doExecute($input, $output);
         } catch(\Exception $e) {
-            $this->writeException($output, $e);
+            $this->writeException($e);
         }
     }
 
