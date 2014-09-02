@@ -1,6 +1,6 @@
 <?php
 
-namespace Itkg\Core\Model;
+namespace Itkg\Core;
 
 use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\DriverManager;
@@ -11,17 +11,11 @@ use Itkg\Core\Provider\Command\ScriptCommandProvider;
  */
 class ServiceContainerTest extends \PHPUnit_Framework_TestCase
 {
-    public function test__construct()
-    {
-        $config = new Config(new Application());
-        $container = new ServiceContainer($config);
-        $this->assertEquals($config, $container['config']);
-    }
-
     public function testRegister()
     {
-        $config = new Config(new Application());
-        $container = new ServiceContainer($config);
+        $config = new Config();
+        $container = new ServiceContainer();
+        $container->setConfig($config);
         $params = array(
             'dbname' => 'DBNAME',
             'user'   => 'USER',

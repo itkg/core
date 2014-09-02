@@ -1,8 +1,8 @@
 <?php
 
-namespace Itkg\Core\Model;
+namespace Itkg\Core;
 
-use Itkg\Core\Model\Application;
+use Itkg\Core\Application;
 
 
 /**
@@ -30,8 +30,8 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     public function testContainer()
     {
         $this->assertNull($this->object->getContainer());
-        $config = new Config($this->object);
-        $container = new ServiceContainer($config);
+        $config = new Config();
+        $container = new ServiceContainer();
         $application = $this->object->setContainer($container); /* return $this */
         $this->assertEquals($application, $this->object);
         $this->assertEquals($container, $this->object->getContainer());
@@ -44,7 +44,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     public function testConfig()
     {
         $this->assertNull($this->object->getConfig());
-        $config = new Config($this->object);
+        $config = new Config();
         $application = $this->object->setConfig($config); /* return $this */
         $this->assertEquals($application, $this->object);
         $this->assertEquals($config, $this->object->getConfig());

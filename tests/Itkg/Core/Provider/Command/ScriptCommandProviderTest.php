@@ -4,9 +4,9 @@ namespace Itkg\Core\Provider\Command;
 
 use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\DriverManager;
-use Itkg\Core\Model\Application;
-use Itkg\Core\Model\Config;
-use Itkg\Core\Model\ServiceContainer;
+use Itkg\Core\Application;
+use Itkg\Core\Config;
+use Itkg\Core\ServiceContainer;
 
 /**
  * @author Pascal DENIS <pascal.denis@businessdecision.com>
@@ -23,7 +23,10 @@ class ScriptCommandProviderTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->container = new Servicecontainer(new Config(new Application()));
+        $this->container = new Servicecontainer();
+        $this->container
+            ->setApp(new Application())
+            ->setConfig(new Config());
         $this->container->register(new ScriptCommandProvider());
     }
 

@@ -1,8 +1,8 @@
 <?php
 
-namespace Itkg\Core\Model;
+namespace Itkg\Core;
 
-use Itkg\Core\Model\Application;
+use Itkg\Core\Application;
 
 /**
  * @author Pascal DENIS <pascal.denis@businessdecision.com>
@@ -35,7 +35,10 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             'foo' => 'bar',
             'bar' => 'foo'
         );
-        $this->object = new Config($this->application, $this->params);
+        $this->object = new Config(array(
+            __DIR__.'/../../mock/config/config.yml'
+        ));
+        $this->application->setConfig($this->object);
     }
 
     /**
