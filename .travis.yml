@@ -9,7 +9,7 @@ script:
   - ./vendor/bin/phpunit --coverage-clover=coverage.clover
 
 before_install:
-  - composer install --dev
+  - composer install --prefer-source --no-interaction --dev
 
 after_script:
   - wget https://scrutinizer-ci.com/ocular.phar
