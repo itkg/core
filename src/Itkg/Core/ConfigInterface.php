@@ -36,6 +36,5 @@ interface ConfigInterface
      * @return mixed
      */
     public function set($key, $value);
-
 }
 

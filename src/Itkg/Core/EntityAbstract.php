@@ -90,6 +90,7 @@ abstract class EntityAbstract
      * Get cache TTL
      *
      * @implements \Itkg\CachableInterface
+     *
      * @return int
      */
     public function getTtl()
@@ -248,7 +249,7 @@ abstract class EntityAbstract
      */
     public function setDataFromCache($data)
     {
-        if(is_scalar($data)) {
+        if (is_scalar($data)) {
             $data = json_decode($data, true);
         }
 
