@@ -13,6 +13,10 @@
         {
             "name": "Pascal DENIS",
             "email": "pascal.denis@businessdecision.com"
+        },
+        {
+            "name": "Mathieu DUPLOUY",
+            "email": "mathieu.duplouy@businessdecision.com"
         }
     ],
     "require-dev": {
