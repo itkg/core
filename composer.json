@@ -30,7 +30,7 @@
         "monolog/monolog": "1.9.*",
         "symfony/yaml": "v2.5.0",
         "symfony/event-dispatcher": "2.1.*",
-        "symfony/config": "2.6.*@dev"
+        "symfony/config": "2.5.*@dev"
     },
     "autoload": {
         "psr-0": {
