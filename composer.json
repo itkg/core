@@ -2,7 +2,7 @@
     "name":         "itkg/core",
     "type":         "library",
     "description":  "Itkg core library",
-    "keywords":     ["library", "core", "interkating"],
+    "keywords":     ["library", "core", "interakting"],
     "homepage":     "http://github.com/itkg/core",
     "license":      "MIT",
     "authors":      [
