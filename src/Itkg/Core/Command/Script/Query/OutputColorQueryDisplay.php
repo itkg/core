@@ -5,6 +5,10 @@ namespace Itkg\Core\Command\Script\Query;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 
 /**
+ * Class OutputColorQueryDisplay
+ *
+ * Provide some colors for queries
+ *
  * @author Pascal DENIS <pascal.denis@businessdecision.com>
  */
 class OutputColorQueryDisplay extends OutputQueryDisplay
@@ -14,7 +18,7 @@ class OutputColorQueryDisplay extends OutputQueryDisplay
         'UPDATE' => 'blue',
         'DELETE' => 'red',
         'CREATE' => 'cyan',
-        'ALTER'  => 'yellow'
+        'ALTER' => 'yellow'
     );
 
     /**

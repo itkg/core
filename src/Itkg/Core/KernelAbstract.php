@@ -38,6 +38,7 @@ abstract class KernelAbstract
     {
         return $this->container;
     }
+
     /**
      * Load Config from config files
      */
@@ -56,7 +57,7 @@ abstract class KernelAbstract
     protected function getConfigFiles()
     {
         return array(
-            __DIR__.'/Resources/Config/global.yml',
+            __DIR__ . '/Resources/Config/global.yml',
         );
     }
 
@@ -68,7 +69,7 @@ abstract class KernelAbstract
     protected function getRoutingFiles()
     {
         return array(
-            __DIR__.'/Resources/Config/routing.yml',
+            __DIR__ . '/Resources/Config/routing.yml',
         );
     }
 

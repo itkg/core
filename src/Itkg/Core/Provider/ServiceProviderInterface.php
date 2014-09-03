@@ -4,6 +4,8 @@ namespace Itkg\Core\Provider;
 
 
 /**
+ * Interface ServiceProviderInterface
+ *
  * @author Pascal DENIS <pascal.denis@businessdecision.com>
  */
 interface ServiceProviderInterface

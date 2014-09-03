@@ -4,6 +4,13 @@ namespace Itkg\Core\Command\Script\Query;
 
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * Class OutputQueryDisplay
+ *
+ * Query display class (using formatter)
+ *
+ * @package Itkg\Core\Command\Script\Query
+ */
 class OutputQueryDisplay
 {
     /**

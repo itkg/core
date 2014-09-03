@@ -12,6 +12,10 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
+ * Class ScriptCommand
+ *
+ * Symfony command to manage migrations script
+ *
  * @author Pascal DENIS <pascal.denis@businessdecision.com>
  */
 class ScriptCommand extends Command
@@ -42,7 +46,6 @@ class ScriptCommand extends Command
      * @param string $name
      * @param Setup $setup
      * @param OutputQueryFactory $queryDisplayFactory
-     * @param Script\FinderInterface $finder
      */
     public function __construct($name = null, Setup $setup, OutputQueryFactory $queryDisplayFactory)
     {

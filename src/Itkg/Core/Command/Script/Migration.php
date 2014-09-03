@@ -3,6 +3,10 @@
 namespace Itkg\Core\Command\Script;
 
 /**
+ * Class Migration
+ *
+ * Represent couple of queries & rollback queries
+ *
  * @author Pascal DENIS <pascal.denis@businessdecision.com>
  */
 class Migration
@@ -25,7 +29,7 @@ class Migration
      */
     public function __construct(array $queries = array(), array $rollbackQueries = array())
     {
-        $this->queries         = $queries;
+        $this->queries = $queries;
         $this->rollbackQueries = $rollbackQueries;
     }
 

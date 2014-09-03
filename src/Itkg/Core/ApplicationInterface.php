@@ -6,6 +6,8 @@ use Itkg\Core\ConfigInterface;
 use Itkg\Core\ServiceContainer;
 
 /**
+ * Interface ApplicationInterface
+ *
  * @author Pascal DENIS <pascal.denis@businessdecision.com>
  */
 interface ApplicationInterface

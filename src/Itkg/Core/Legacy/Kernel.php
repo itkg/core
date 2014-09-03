@@ -8,6 +8,13 @@ use Itkg\Core\ServiceContainer;
 use Itkg\Core\YamlLoader;
 use Symfony\Component\Yaml\Parser as YamlParser;
 
+/**
+ * Class Kernel
+ *
+ * Legacy kernel for old projects
+ *
+ * @package Itkg\Core\Legacy
+ */
 class Kernel extends KernelAbstract
 {
 
@@ -26,6 +33,7 @@ class Kernel extends KernelAbstract
         \Pelican_Db::$eventDispatcher = $container['core']['dispatcher'];
         \Pelican_Request::$eventDispatcher = $container['core']['dispatcher'];
     }
+
     /**
      * Create a response from a Pelican_Request
      * @param $request
@@ -34,13 +42,13 @@ class Kernel extends KernelAbstract
     public function handle($request)
     {
         return $request->execute($this->container)
-        ->sendHeaders()
-        ->getResponse(
-            $this->container['config']['COMPRESSOUPUT'],
-            $this->container['config']['DROPCOMMENTS'],
-            $this->container['config']['ENCODEEMAIL'],
-            $this->container['config']['HIGHLIGHT']
-        );
+            ->sendHeaders()
+            ->getResponse(
+                $this->container['config']['COMPRESSOUPUT'],
+                $this->container['config']['DROPCOMMENTS'],
+                $this->container['config']['ENCODEEMAIL'],
+                $this->container['config']['HIGHLIGHT']
+            );
     }
 
     /**
@@ -50,6 +58,7 @@ class Kernel extends KernelAbstract
     {
         parent::loadConfig();
     }
+
     /**
      * Load routing from routing files
      *
@@ -71,7 +80,7 @@ class Kernel extends KernelAbstract
                 \Pelican_Route::addSequence($className);
             }
 
-            if(!isset($r['arguments'])) {
+            if (!isset($r['arguments'])) {
                 $r['arguments'] = array();
             }
             if (isset($r['pattern'])) {
@@ -100,7 +109,7 @@ class Kernel extends KernelAbstract
             __DIR__ . '/../../../../vendor/smarty/smarty/distribution/libs/Smarty.class.php',
             'Smarty'
         );
-        \Pelican::$config['PELICAN_LOADER']['Form']            = array(
+        \Pelican::$config['PELICAN_LOADER']['Form'] = array(
             __DIR__ . '/../../../../application/library/Mycanal/Form.php',
             'Mycanal_Form'
         );

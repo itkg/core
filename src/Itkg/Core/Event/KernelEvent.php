@@ -6,6 +6,10 @@ use Itkg\Core\ServiceContainer;
 use Symfony\Component\EventDispatcher\Event;
 
 /**
+ * Class KernelEvent
+ *
+ * Used by kernel
+ *
  * @author Pascal DENIS <pascal.denis@businessdecision.com>
  */
 class KernelEvent extends Event

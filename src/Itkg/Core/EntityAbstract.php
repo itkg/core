@@ -118,7 +118,7 @@ abstract class EntityAbstract
      */
     public function setIsLoaded($isLoaded = true)
     {
-        $this->isLoaded = (bool) $isLoaded;
+        $this->isLoaded = (bool)$isLoaded;
         return $this;
     }
 
@@ -190,7 +190,7 @@ abstract class EntityAbstract
      */
     protected function trimPrefixKey($key)
     {
-        return preg_replace('/^'. static::PROPERTY_PREFIX.'_/', '', $key, 1);
+        return preg_replace('/^' . static::PROPERTY_PREFIX . '_/', '', $key, 1);
     }
 
 

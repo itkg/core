@@ -2,15 +2,20 @@
 
 namespace Itkg\Core;
 
+/**
+ * Class Application
+ *
+ * @package Itkg\Core
+ */
 class Application implements ApplicationInterface
 {
     /**
      * Environments
      */
-    const ENV_DEV     = 'DEV';
+    const ENV_DEV = 'DEV';
     const ENV_PREPROD = 'PREPROD';
-    const ENV_RT      = 'RT';
-    const ENV_PROD    = 'PROD';
+    const ENV_RT = 'RT';
+    const ENV_PROD = 'PROD';
 
     /**
      * @var string
@@ -40,7 +45,7 @@ class Application implements ApplicationInterface
     /**
      * Set Config
      *
-     * @param  ConfigInterface      $config
+     * @param  ConfigInterface $config
      * @return ApplicationInterface
      */
     public function setConfig(ConfigInterface $config)
@@ -62,7 +67,7 @@ class Application implements ApplicationInterface
     /**
      * Set container
      *
-     * @param  ServiceContainer     $container
+     * @param  ServiceContainer $container
      * @return ApplicationInterface
      */
     public function setContainer(ServiceContainer $container)

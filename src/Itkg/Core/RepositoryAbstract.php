@@ -36,16 +36,17 @@ abstract class RepositoryAbstract
      * Constructor
      *
      * @param ConfigInterface $config
-     * @param Pelican_Db      $db
+     * @param Pelican_Db $db
      * @param EventDispatcher $dispatcher
      */
     public function __construct(
         ConfigInterface $config,
         \Pelican_Db $db,
         EventDispatcher $dispatcher
-    ) {
-        $this->config     = $config;
-        $this->db         = $db;
+    )
+    {
+        $this->config = $config;
+        $this->db = $db;
         $this->dispatcher = $dispatcher;
     }
 

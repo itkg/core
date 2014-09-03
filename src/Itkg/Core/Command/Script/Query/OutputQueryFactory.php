@@ -3,6 +3,10 @@
 namespace Itkg\Core\Command\Script\Query;
 
 /**
+ * Class OutputQueryFactory
+ *
+ * Create queryDisplay object (with color or simple)
+ *
  * @author Pascal DENIS <pascal.denis@businessdecision.com>
  */
 class OutputQueryFactory

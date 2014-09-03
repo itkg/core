@@ -2,6 +2,13 @@
 
 namespace Itkg\Core\Command\Script\Query;
 
+/**
+ * Class QueryFormatter
+ *
+ * Format query
+ *
+ * @package Itkg\Core\Command\Script\Query
+ */
 class QueryFormatter implements QueryFormatterInterface
 {
 

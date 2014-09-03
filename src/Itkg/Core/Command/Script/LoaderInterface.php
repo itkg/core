@@ -3,6 +3,8 @@
 namespace Itkg\Core\Command\Script;
 
 /**
+ * Interface LoaderInterface
+ *
  * @author Pascal DENIS <pascal.denis@businessdecision.com>
  */
 interface LoaderInterface

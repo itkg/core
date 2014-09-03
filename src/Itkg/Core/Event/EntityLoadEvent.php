@@ -6,6 +6,11 @@ use Itkg\Core\CachableInterface;
 use Symfony\Component\EventDispatcher\Event as BaseEvent;
 use Itkg\Core\EntityAbstract;
 
+/**
+ * Class EntityLoadEvent
+ *
+ * @package Itkg\Core\Event
+ */
 class EntityLoadEvent extends BaseEvent
 {
     /**

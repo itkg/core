@@ -5,6 +5,10 @@ namespace Itkg\Core\Command\Script\Migration;
 use Itkg\Core\Command\Script\Migration;
 
 /**
+ * Class Factory
+ *
+ * A simple factory which create migrations
+ *
  * @author Pascal DENIS <pascal.denis@businessdecision.com>
  */
 class Factory

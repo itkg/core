@@ -15,6 +15,10 @@ use Itkg\Core\Command\ScriptCommand;
 use Itkg\Core\Provider\ServiceProviderInterface;
 
 /**
+ * Class ScriptCommandProvider
+ *
+ * A provider for script command injection
+ *
  * @author Pascal DENIS <pascal.denis@businessdecision.com>
  */
 class ScriptCommandProvider implements ServiceProviderInterface
@@ -78,15 +82,15 @@ class ScriptCommandProvider implements ServiceProviderInterface
             }
         );
 
-        $container['itkg-core.command.script.locator'] = $container->share(function() {
-                return new Locator();
-            });
+        $container['itkg-core.command.script.locator'] = $container->share(function () {
+            return new Locator();
+        });
         $container['itkg-core.command.script'] = $container->share(function ($container) {
-                return new ScriptCommand(
-                    'itkg-core:script',
-                    $container['itkg-core.command.script.setup'],
-                    $container['itkg-core.command.script.output_query_factory']
-                );
-            });
+            return new ScriptCommand(
+                'itkg-core:script',
+                $container['itkg-core.command.script.setup'],
+                $container['itkg-core.command.script.output_query_factory']
+            );
+        });
     }
 }

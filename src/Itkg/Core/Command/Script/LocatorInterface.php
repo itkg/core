@@ -2,6 +2,11 @@
 
 namespace Itkg\Core\Command\Script;
 
+/**
+ * Interface LocatorInterface
+ *
+ * @package Itkg\Core\Command\Script
+ */
 interface LocatorInterface
 {
     /**

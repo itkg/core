@@ -2,6 +2,11 @@
 
 namespace Itkg\Core\Command\Script\Query;
 
+/**
+ * Interface QueryFormatterInterface
+ *
+ * @package Itkg\Core\Command\Script\Query
+ */
 interface QueryFormatterInterface
 {
     /**

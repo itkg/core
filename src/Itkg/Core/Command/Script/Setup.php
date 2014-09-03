@@ -7,7 +7,13 @@ use Doctrine\DBAL\Query\QueryBuilder;
 use Itkg\Core\Command\Script\Migration\Factory;
 
 /**
+ * Class Setup
+ *
  * Setup release migrations
+ *
+ * Use locator to find scripts,
+ * Use loader to get queries
+ * Use runner to play them
  *
  * @author Pascal DENIS <pascal.denis@businessdecision.com>
  */
@@ -83,10 +89,10 @@ class Setup
      */
     public function __construct(RunnerInterface $runner, LoaderInterface $loader, Factory $migrationFactory, LocatorInterface $locator)
     {
-        $this->runner           = $runner;
-        $this->loader           = $loader;
+        $this->runner = $runner;
+        $this->loader = $loader;
         $this->migrationFactory = $migrationFactory;
-        $this->locator          = $locator;
+        $this->locator = $locator;
     }
 
     /**
@@ -128,7 +134,7 @@ class Setup
      */
     private function createMigrations()
     {
-        $scripts   = $this->locator->findScripts();
+        $scripts = $this->locator->findScripts();
         $rollbacks = $this->locator->findRollbackScripts();
 
         if (empty($scripts)) {

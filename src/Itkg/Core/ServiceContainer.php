@@ -9,9 +9,9 @@ use Itkg\Core\ConfigInterface;
 use Itkg\Core\ApplicationInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
-    /**
-     * @author Pascal DENIS <pascal.denis@businessdecision.com>
-     */
+/**
+ * @author Pascal DENIS <pascal.denis@businessdecision.com>
+ */
 class ServiceContainer extends Pimple
 {
     /**

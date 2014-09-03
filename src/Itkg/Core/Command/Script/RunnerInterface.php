@@ -3,6 +3,8 @@
 namespace Itkg\Core\Command\Script;
 
 /**
+ * Interface RunnerInterface
+ *
  * @author Pascal DENIS <pascal.denis@businessdecision.com>
  */
 interface RunnerInterface
@@ -11,7 +13,7 @@ interface RunnerInterface
      * Run a migration
      *
      * @param Migration $migration
-     * @return mixed
+     * @param bool $forcedRollback
      */
     public function run(Migration $migration, $forcedRollback = false);
 

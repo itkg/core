@@ -18,8 +18,8 @@ class YamlLoader extends FileLoader
     /**
      * Constructor.
      *
-     * @param FileLocatorInterface $locator    A FileLocatorInterface instance
-     * @param YamlParser           $yamlParser A yamlParser instance
+     * @param FileLocatorInterface $locator A FileLocatorInterface instance
+     * @param YamlParser $yamlParser A yamlParser instance
      */
     public function __construct(FileLocatorInterface $locator, YamlParser $yamlParser)
     {
@@ -37,7 +37,7 @@ class YamlLoader extends FileLoader
      */
     public function load($file, $type = null)
     {
-        return (array) $this->yamlParser->parse(file_get_contents($file));
+        return (array)$this->yamlParser->parse(file_get_contents($file));
     }
 
     /**

@@ -6,6 +6,11 @@ use Doctrine\DBAL\Connection;
 use Itkg\Core\Command\Script\Migration\Exception;
 
 /**
+ * Class Runner
+ *
+ * Run migrations (Play queries)
+ * You can execute queries or just simulate them (for display)
+ *
  * @author Pascal DENIS <pascal.denis@businessdecision.com>
  */
 class Runner implements RunnerInterface

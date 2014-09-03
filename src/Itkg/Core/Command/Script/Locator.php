@@ -2,6 +2,13 @@
 
 namespace Itkg\Core\Command\Script;
 
+/**
+ * Class Locator
+ *
+ * Find scripts into releases folder
+ *
+ * @package Itkg\Core\Command\Script
+ */
 class Locator implements LocatorInterface
 {
     /**

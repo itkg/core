@@ -99,7 +99,7 @@ class Config implements \ArrayAccess, ConfigInterface
      * Set a config value for a key
      *
      * @param  string $key
-     * @param  mixed  $value
+     * @param  mixed $value
      * @return $this
      */
     public function set($key, $value)
@@ -111,7 +111,7 @@ class Config implements \ArrayAccess, ConfigInterface
     /**
      * Whether a offset exists
      *
-     * @param  mixed    $offset <p>
+     * @param  mixed $offset <p>
      * @return boolean  True on success or false on failure.
      */
     public function offsetExists($offset)

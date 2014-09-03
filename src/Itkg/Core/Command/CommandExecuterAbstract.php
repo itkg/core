@@ -10,6 +10,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Class CommandExecuterAbstract
+ *
+ * Provide a wrapper to manage logs into command
+ *
  * @package Itkg\Core\Command
  */
 abstract class CommandExecuterAbstract extends Command
@@ -55,7 +58,7 @@ abstract class CommandExecuterAbstract extends Command
         $this->output = $output;
         try {
             $this->doExecute($input, $output);
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             $this->writeException($e);
         }
     }

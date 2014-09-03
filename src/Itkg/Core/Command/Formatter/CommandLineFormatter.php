@@ -6,6 +6,9 @@ use Monolog\Formatter\LineFormatter;
 
 /**
  * Class CommandLineFormatter
+ *
+ * Specific formatter to format exception
+ *
  * @package Itkg\Core\Command\Formatter
  */
 class CommandLineFormatter extends LineFormatter
