@@ -4,7 +4,7 @@ namespace Itkg\Core;
 
 use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\DriverManager;
-use Itkg\Core\Provider\Command\ScriptCommandProvider;
+use Itkg\Core\Command\Provider\ServiceCommandProvider;
 
 /**
  * @author Pascal DENIS <pascal.denis@businessdecision.com>
@@ -28,7 +28,7 @@ class ServiceContainerTest extends \PHPUnit_Framework_TestCase
         $connection = DriverManager::getConnection($params, $config);
         $values = array('doctrine.connection' => $connection);
 
-        $container->register(new ScriptCommandProvider(), $values);
+        $container->register(new ServiceCommandProvider(), $values);
         $this->assertEquals($connection, $container['doctrine.connection']);
     }
 } 

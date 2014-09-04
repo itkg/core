@@ -32,9 +32,13 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testGetSetValue()
     {
-        // Check value exists
+        // Explicit isset
         $this->assertFalse($this->config->has('nonexistent'));
         $this->assertTrue($this->config->has('bar'));
+
+        // ArrayAccess isset
+        $this->assertFalse(isset($this->config['you']));
+        $this->assertTrue(isset($this->config['foo']));
 
         // Explicit getter
         $this->assertEquals($this->config->get('bar'), 'foo');
@@ -74,7 +78,6 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
      */
     public function testOffsetExistedKey()
     {
-        $this->assertFalse(isset($this->config['you']));
-        $this->assertTrue(isset($this->config['foo']));
+
     }
 }
