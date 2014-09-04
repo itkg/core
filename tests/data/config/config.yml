@@ -1,0 +1,4 @@
+imports: imported.yml
+
+foo: bar
+bar: foo
