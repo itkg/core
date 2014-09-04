@@ -46,6 +46,11 @@ class Config implements \ArrayAccess, ConfigInterface
             $configValues = $loader->load($file);
 
             if (isset($configValues['imports'])) {
+
+                if (!is_array($configValues['imports'])) {
+                    $configValues['imports'] = array($configValues['imports']);
+                }
+
                 foreach ($configValues['imports'] as $import) {
                     $loader->setCurrentDir(dirname($file));
                     $importValues = $loader->import($import, null, false, $file);
