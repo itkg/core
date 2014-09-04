@@ -37,7 +37,7 @@ class YamlLoader extends FileLoader
      */
     public function load($file, $type = null)
     {
-        return (array)$this->yamlParser->parse(file_get_contents($file));
+        return (array) $this->yamlParser->parse(file_get_contents($file));
     }
 
     /**
@@ -45,10 +45,7 @@ class YamlLoader extends FileLoader
      */
     public function supports($resource, $type = null)
     {
-        return is_string($resource) && 'yml' === pathinfo(
-            $resource,
-            PATHINFO_EXTENSION
-        );
+        return is_string($resource) && 'yml' === pathinfo($resource, PATHINFO_EXTENSION);
     }
 }
 
