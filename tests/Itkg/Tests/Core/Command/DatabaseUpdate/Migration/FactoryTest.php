@@ -1,6 +1,8 @@
 <?php
 
-namespace Itkg\Core\Command\DatabaseUpdate\Migration;
+namespace Itkg\Tests\Core\Command\DatabaseUpdate\Migration;
+
+use Itkg\Core\Command\DatabaseUpdate\Migration\Factory;
 
 /**
  * @author Pascal DENIS <pascal.denis@businessdecision.com>

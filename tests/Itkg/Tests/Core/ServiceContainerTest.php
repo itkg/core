@@ -1,7 +1,9 @@
 <?php
 
-namespace Itkg\Core;
+namespace Itkg\Tests\Core;
 
+use Itkg\Core\Config;
+use Itkg\Core\ServiceContainer;
 use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\DriverManager;
 use Itkg\Core\Command\Provider\ServiceCommandProvider;
@@ -31,4 +33,4 @@ class ServiceContainerTest extends \PHPUnit_Framework_TestCase
         $container->register(new ServiceCommandProvider(), $values);
         $this->assertEquals($connection, $container['doctrine.connection']);
     }
-} 
+}

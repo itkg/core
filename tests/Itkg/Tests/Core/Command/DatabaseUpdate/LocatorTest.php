@@ -1,6 +1,8 @@
 <?php
 
-namespace Itkg\Core\Command\DatabaseUpdate;
+namespace Itkg\Tests\Core\Command\DatabaseUpdate;
+
+use Itkg\Core\Command\DatabaseUpdate\Locator;
 
 class LocatorTest extends \PHPUnit_Framework_TestCase
 {
@@ -9,7 +11,7 @@ class LocatorTest extends \PHPUnit_Framework_TestCase
         $locator = new Locator();
 
         $locator->setParams(array(
-            'path' => __DIR__.'/../../../../',
+            'path' => TEST_BASE_DIR,
             'release' => 'data',
             'scriptName' => 'ticket'
         ));
@@ -23,11 +25,11 @@ class LocatorTest extends \PHPUnit_Framework_TestCase
         $locator = new Locator();
 
         $locator->setParams(array(
-            'path' => __DIR__.'/../../../../',
+            'path' => TEST_BASE_DIR,
             'release' => 'data',
             'scriptName' => 'none'
         ));
 
         $this->assertEmpty($locator->findScripts());
     }
-} 
+}

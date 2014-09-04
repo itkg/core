@@ -23,7 +23,10 @@ abstract class KernelAbstract
             ->setApp($app)
             ->setConfig($app->getConfig());
 
-        $this->container['core']['dispatcher']->dispatch(KernelEvents::APP_LOADED, new KernelEvent($container));
+        $this->container['core']['dispatcher']->dispatch(
+            KernelEvents::APP_LOADED,
+            new KernelEvent($container)
+        );
 
         $this->loadConfig();
         $this->loadRouting();

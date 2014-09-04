@@ -1,7 +1,9 @@
 <?php
 
-namespace Itkg\Core\Command\DatabaseUpdate;
+namespace Itkg\Tests\Core\Command\DatabaseUpdate;
 
+use Itkg\Core\Command\DatabaseUpdate\Migration;
+use Itkg\Core\Command\DatabaseUpdate\Runner;
 use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\DriverManager;
 
@@ -42,4 +44,4 @@ class RunnerTest extends \PHPUnit_Framework_TestCase
 
         return new Runner($connection);
     }
-} 
+}

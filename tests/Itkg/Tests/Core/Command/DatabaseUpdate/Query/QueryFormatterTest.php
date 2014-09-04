@@ -1,6 +1,8 @@
 <?php
 
-namespace Itkg\Core\Command\DatabaseUpdate\Query;
+namespace Itkg\Tests\Core\Command\DatabaseUpdate\Query;
+
+use Itkg\Core\Command\DatabaseUpdate\Query\QueryFormatter;
 
 /**
  * @author Pascal DENIS <pascal.denis@businessdecision.com>
@@ -19,4 +21,4 @@ EOF;
 
         $this->assertEquals('CREATE TABLE MYC_TEST_SCRIPT (TEST_SCRIPT_ID INT,TEST_NAME varchar(255));'.PHP_EOL, $formatter->format($query));
     }
-} 
+}

@@ -1,8 +1,9 @@
 <?php
 
-namespace Itkg\Core;
+namespace Itkg\Tests\Core;
 
 use Itkg\Core\Application;
+use Itkg\Core\Config;
 
 /**
  * @author Pascal DENIS <pascal.denis@businessdecision.com>
@@ -23,9 +24,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     {
         $this->application = new Application();
 
-        $this->config = new Config(array(
-            __DIR__.'/../../data/config/config.yml'
-        ));
+        $this->config = new Config(array(TEST_BASE_DIR.'/data/config/config.yml'));
 
         $this->application->setConfig($this->config);
     }
@@ -73,11 +72,4 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->config->get('foo');
     }
 
-    /**
-     * Test has key
-     */
-    public function testOffsetExistedKey()
-    {
-
-    }
 }

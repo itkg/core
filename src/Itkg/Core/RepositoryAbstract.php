@@ -10,7 +10,7 @@ abstract class RepositoryAbstract
 {
     /**
      * DB instance
-     * @var Pelican_Db
+     * @var \Pelican_Db
      */
     protected $db;
 
@@ -43,8 +43,7 @@ abstract class RepositoryAbstract
         ConfigInterface $config,
         \Pelican_Db $db,
         EventDispatcher $dispatcher
-    )
-    {
+    ) {
         $this->config = $config;
         $this->db = $db;
         $this->dispatcher = $dispatcher;

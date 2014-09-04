@@ -1,9 +1,10 @@
 <?php
 
-namespace Itkg\Core;
+namespace Itkg\Tests\Core;
 
 use Itkg\Core\Application;
-
+use Itkg\Core\Config;
+use Itkg\Core\ServiceContainer;
 
 /**
  * @author Pascal DENIS <pascal.denis@businessdecision.com>
