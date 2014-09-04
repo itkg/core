@@ -36,7 +36,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             'bar' => 'foo'
         );
         $this->object = new Config(array(
-            __DIR__.'/../../mock/config/config.yml'
+            __DIR__.'/../../data/config/config.yml'
         ));
         $this->application->setConfig($this->object);
     }
