@@ -13,9 +13,22 @@ to execute command : php app/console.php itkg-core:database:update
 * Your release should be a version number (1.0, 1.1, etc)
 * Your release must have two directories : script directory & rollback directory
 * Each directory must contain the same number of scripts with the same name
-* Each script is a PHP file which is executed with a class context (see : [Loader class](https://github.com/itkg/core/blob/master/src/Itkg/Core/Command/DatabaseUpdate/Loader.php)
+* Each script is a PHP file which is executed with a class context (see : [Loader class](https://github.com/itkg/core/blob/master/src/Itkg/Core/Command/DatabaseUpdate/Loader.php))
 
-Script example :
+
+Default structure example :
+.
++-- script
+|  +-- releases
+|     +-- release_version
+|        +-- script
+|           +-- script_1.php
+|        +-- rollback
+|           +-- script_1.php
+
+
+Script example
+
 ```php
     /**
      * @var \Itkg\Core\Command\DatabaseUpdate\Loader
@@ -23,15 +36,6 @@ Script example :
     $this->addQuery("insert into YOUR_TABLE (YOUR_FIELDS)
     values (YOUR_VALUES)");
 ```
-
-Default structure example :
-** script
-*** releases
-**** release_version
-***** script
-****** script_1.php
-***** rollback
-****** script_1.php
 
 ### Display a release script
 ```bash
