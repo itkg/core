@@ -17,7 +17,7 @@ Itkg Core library
 
 If you use composer, add library as a dependency to the composer.json of your application
 
-```php
+```json
     "require": {
         ...
         "itkg/core": "dev-master"
@@ -25,4 +25,8 @@ If you use composer, add library as a dependency to the composer.json of your ap
     },
 
 ```
+
 ## Usage
+
+* [Commands](https://github.com/itkg/core/tree/master/docs/command/index.md)
+
