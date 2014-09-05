@@ -7,7 +7,7 @@ If you do not have a console.php, you can create one like this :
 
 ```php
 
-use MyCanal\Provider\ServiceCommandProvider;
+use Itkg\Core\Command\Provider\ServiceCommandProvider;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Application;
 
