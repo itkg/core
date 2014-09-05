@@ -17,6 +17,7 @@ to execute command : php app/console.php itkg-core:database:update
 
 
 Default structure example :
+```text
 .
 +-- script
 |  +-- releases
@@ -25,7 +26,7 @@ Default structure example :
 |           +-- script_1.php
 |        +-- rollback
 |           +-- script_1.php
-
+```
 
 Script example
 
