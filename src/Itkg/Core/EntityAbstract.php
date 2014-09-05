@@ -167,6 +167,7 @@ abstract class EntityAbstract
         // Otherwise, try to get sub object to get data
         $subKey = strtolower(strstr($desiredKey, '_', true));
         $getterMethodName = 'get' . ucfirst($subKey);
+
         $subObject = $this->$getterMethodName();
         if ($subObject instanceof EntityAbstract) {
             return $subObject->getPropertyValue($desiredKey);

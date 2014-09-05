@@ -1,12 +1,13 @@
 <?php
 
-namespace Itkg\Core\Command\Provider;
+namespace Itkg\Tests\Core\Command\Provider;
 
 use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\DriverManager;
 use Itkg\Core\Application;
 use Itkg\Core\Config;
 use Itkg\Core\ServiceContainer;
+use Itkg\Core\Command\Provider\ServiceCommandProvider;
 
 /**
  * @author Pascal DENIS <pascal.denis@businessdecision.com>

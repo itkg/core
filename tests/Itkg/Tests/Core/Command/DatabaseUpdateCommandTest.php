@@ -1,6 +1,6 @@
 <?php
 
-namespace Itkg\Core\Command;
+namespace Itkg\Tests\Core\Command;
 
 use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\DriverManager;
@@ -12,6 +12,7 @@ use Itkg\Core\Command\DatabaseUpdate\Query\OutputQueryFactory;
 use Itkg\Core\Command\DatabaseUpdate\Query\QueryFormatter;
 use Itkg\Core\Command\DatabaseUpdate\Runner;
 use Itkg\Core\Command\DatabaseUpdate\Setup;
+use Itkg\Core\Command\DatabaseUpdateCommand;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 
@@ -27,10 +28,10 @@ class DatabaseUpdateCommandTest extends \PHPUnit_Framework_TestCase
         $application = new Application();
         $application->add($command);
 
-        if (!file_exists( __DIR__.'/../../../data/void')) {
-            mkdir( __DIR__.'/../../../data/void');
-            mkdir( __DIR__.'/../../../data/void/script');
-            mkdir( __DIR__.'/../../../data/void/rollback');
+        if (!file_exists(TEST_BASE_DIR.'/data/void')) {
+            mkdir(TEST_BASE_DIR.'/data/void');
+            mkdir(TEST_BASE_DIR.'/data/void/script');
+            mkdir(TEST_BASE_DIR.'/data/void/rollback');
         }
 
         $command = $application->find('itkg-core:script');
@@ -48,14 +49,19 @@ class DatabaseUpdateCommandTest extends \PHPUnit_Framework_TestCase
         $application = new Application();
         $application->add($command);
 
-        if (!file_exists( __DIR__.'/../../../data/uncomplete/rollback')) {
-            mkdir( __DIR__.'/../../../data/uncomplete/rollback');
+        if (!file_exists(TEST_BASE_DIR.'/data/uncomplete/rollback')) {
+            mkdir(TEST_BASE_DIR.'/data/uncomplete/rollback');
         }
-
 
         $command = $application->find('itkg-core:script');
         $commandTester = new CommandTester($command);
-        $commandTester->execute(array('command' => $command->getName(), 'path' => __DIR__.'/../../../data', 'release' => 'uncomplete'));
+        $commandTester->execute(
+            array(
+                'command' => $command->getName(),
+                'path'    => TEST_BASE_DIR.'/data',
+                'release' => 'uncomplete'
+            )
+        );
     }
 
     private function createCommand()
@@ -80,4 +86,4 @@ class DatabaseUpdateCommandTest extends \PHPUnit_Framework_TestCase
         return new DatabaseUpdateCommand('itkg-core:script', new Setup($runner, $loader, $factory, $locator), $queryFactory);
     }
 
-} 
+}

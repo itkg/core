@@ -1,10 +1,14 @@
 <?php
 
-namespace Itkg\Core\Command\DatabaseUpdate;
+namespace Itkg\Tests\Core\Command\DatabaseUpdate;
 
 use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\DriverManager;
 use Itkg\Core\Command\DatabaseUpdate\Migration\Factory;
+use Itkg\Core\Command\DatabaseUpdate\Loader;
+use Itkg\Core\Command\DatabaseUpdate\Runner;
+use Itkg\Core\Command\DatabaseUpdate\Locator;
+use Itkg\Core\Command\DatabaseUpdate\Setup;
 
 class SetupTest extends \PHPUnit_Framework_TestCase
 {
@@ -15,7 +19,7 @@ class SetupTest extends \PHPUnit_Framework_TestCase
     public function testUnexistedScript()
     {
         $setup = $this->createSetup();
-        $setup->createMigration('unknown/script.php', __DIR__.'/../../../../data/rollback/ticket.php');
+        $setup->createMigration('unknown/script.php', TEST_BASE_DIR.'/data/rollback/ticket.php');
     }
 
     /**
@@ -24,7 +28,7 @@ class SetupTest extends \PHPUnit_Framework_TestCase
     public function testUnexistedRollbackScript()
     {
         $setup = $this->createSetup();
-        $setup->createMigration(__DIR__.'/../../../../data/script/ticket.php', 'unknown/script.php');
+        $setup->createMigration(TEST_BASE_DIR.'/data/script/ticket.php', 'unknown/script.php');
     }
 
     public function testForcedRollback()
@@ -52,7 +56,7 @@ class SetupTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($setup->getRollbackedFirst());
 
         $setup->getLocator()->setParams(array(
-            'path'    => __DIR__.'/../../../../',
+            'path'    => TEST_BASE_DIR,
             'release' => 'data'
         ));
 
@@ -72,7 +76,7 @@ class SetupTest extends \PHPUnit_Framework_TestCase
         $setup = $this->createSetup();
 
         $setup->getLocator()->setParams(array(
-            'path'    => __DIR__.'/../../../../',
+            'path'    => TEST_BASE_DIR,
             'release' => 'data'
         ));
 
@@ -91,16 +95,16 @@ class SetupTest extends \PHPUnit_Framework_TestCase
      */
     public function testRunWithNoScript()
     {
-        if (!file_exists( __DIR__.'/../../../../data/void')) {
-            mkdir( __DIR__.'/../../../../data/void');
-            mkdir( __DIR__.'/../../../../data/void/script');
-            mkdir( __DIR__.'/../../../../data/void/rollback');
+        if (!file_exists(TEST_BASE_DIR.'/data/void')) {
+            mkdir(TEST_BASE_DIR.'/data/void');
+            mkdir(TEST_BASE_DIR.'/data/void/script');
+            mkdir(TEST_BASE_DIR.'/data/void/rollback');
         }
 
         $setup = $this->createSetup();
 
         $setup->getLocator()->setParams(array(
-            'path'    => __DIR__.'/../../../../data',
+            'path'    => TEST_BASE_DIR.'/data',
             'release' => 'void'
         ));
 
@@ -112,14 +116,14 @@ class SetupTest extends \PHPUnit_Framework_TestCase
      */
     public function testRunWithNoRollback()
     {
-        if (!file_exists( __DIR__.'/../../../../data/uncomplete/rollback')) {
-            mkdir( __DIR__.'/../../../../data/uncomplete/rollback');
+        if (!file_exists(TEST_BASE_DIR.'/data/uncomplete/rollback')) {
+            mkdir(TEST_BASE_DIR.'/data/uncomplete/rollback');
         }
 
         $setup = $this->createSetup();
 
         $setup->getLocator()->setParams(array(
-            'path'    => __DIR__.'/../../../../data',
+            'path'    => TEST_BASE_DIR.'/data',
             'release' => 'uncomplete'
         ));
 
@@ -138,8 +142,8 @@ class SetupTest extends \PHPUnit_Framework_TestCase
 
     public function testCreateMigration()
     {
-        $script = __DIR__.'/../../../../data/script/ticket.php';
-        $rollbackScript = __DIR__.'/../../../../data/rollback/ticket.php';
+        $script = TEST_BASE_DIR.'/data/script/ticket.php';
+        $rollbackScript = TEST_BASE_DIR.'/data/rollback/ticket.php';
 
         $setup = $this->createSetup();
 
@@ -165,4 +169,4 @@ class SetupTest extends \PHPUnit_Framework_TestCase
         $locator = new Locator();
         return new Setup($runner, $loader, $factory, $locator);
     }
-} 
+}

@@ -1,13 +1,13 @@
 <?php
 
-namespace Itkg\Core\Command\DatabaseUpdate\Query;
+namespace Itkg\Tests\Core\Command\DatabaseUpdate\Query;
 
-use Symfony\Component\Console\Output\Output;
+use Symfony\Component\Console\Output\Output as BaseOutput;
 
 /**
  * @author Pascal DENIS <pascal.denis@businessdecision.com>
  */
-class TestOutput extends Output
+class Output extends BaseOutput
 {
     public $output = '';
 

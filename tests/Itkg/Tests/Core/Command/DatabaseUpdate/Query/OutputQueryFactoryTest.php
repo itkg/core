@@ -1,6 +1,10 @@
 <?php
 
-namespace Itkg\Core\Command\DatabaseUpdate\Query;
+namespace Itkg\Tests\Core\Command\DatabaseUpdate\Query;
+
+use Itkg\Core\Command\DatabaseUpdate\Query\OutputQueryFactory;
+use Itkg\Core\Command\DatabaseUpdate\Query\QueryFormatter;
+
 
 /**
  * @author Pascal DENIS <pascal.denis@businessdecision.com>

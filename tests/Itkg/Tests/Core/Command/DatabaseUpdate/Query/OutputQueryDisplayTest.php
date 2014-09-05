@@ -1,10 +1,13 @@
 <?php
 
-namespace Itkg\Core\Command\DatabaseUpdate\Query;
+namespace Itkg\Tests\Core\Command\DatabaseUpdate\Query;
 
+use Itkg\Core\Command\DatabaseUpdate\Query\OutputQueryFactory;
+use Itkg\Core\Command\DatabaseUpdate\Query\QueryFormatter;
 use Symfony\Component\Console\Formatter\OutputFormatter;
 use Symfony\Component\Console\Output\ConsoleOutput;
-use Symfony\Component\Console\Output\Output;
+
+//use Itkg\Tests\Core\Command\DatabaseUpdate\Query\Output;
 
 /**
  * @author Pascal DENIS <pascal.denis@businessdecision.com>
@@ -57,9 +60,10 @@ EOF;
     private function createOutputQuery()
     {
         $factory = new OutputQueryFactory(new QueryFormatter());
+
         return $factory
             ->create()
-            ->setOutput(new TestOutput(ConsoleOutput::VERBOSITY_NORMAL, true, new OutputFormatter()));
+            ->setOutput(new Output(ConsoleOutput::VERBOSITY_NORMAL, true, new OutputFormatter()));
     }
 
 
