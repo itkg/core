@@ -12,6 +12,6 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     public function testCreateMigration()
     {
         $factory = new Factory();
-        $this->assertInstanceOf('Itkg\Core\Command\DatabaseUpdate\Migration\Factory', $factory);
+        $this->assertInstanceOf('Itkg\Core\Command\DatabaseUpdate\Migration', $factory->createMigration(array(), array()));
     }
 }
