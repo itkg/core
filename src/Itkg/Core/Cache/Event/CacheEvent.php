@@ -37,7 +37,7 @@ class CacheEvent extends Event
      * @param int $ttl
      * @param $value
      */
-    public function __construct($key, $ttl = 0, $value)
+    public function __construct($key, $ttl = 0, $value = '')
     {
         $this->key   = $key;
         $this->ttl   = $ttl;
