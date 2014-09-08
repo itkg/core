@@ -9,7 +9,7 @@ php app/console.php itkg-core:database:update
 
 # Default release structure
 
-* Default release directory is under /scripts/releases directory (you can override it, see below)
+* Default release directory is under /script/releases directory (you can override it, see below)
 * Your release should be a version number (1.0, 1.1, etc)
 * Your release must have two directories : script directory & rollback directory
 * Each directory must contain the same number of scripts with the same name
