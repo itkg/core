@@ -46,10 +46,9 @@ class Runner implements RunnerInterface
      * Run a migration
      *
      * @param Migration $migration
-     * @param bool $executeQueries
-     * @param bool $forcedRollback
-     * @throws \Exception
-     * @throws Migration\Exception
+     * @param bool      $executeQueries
+     * @param bool      $forcedRollback
+     *
      * @return void
      */
     public function run(Migration $migration, $executeQueries = false, $forcedRollback = false)

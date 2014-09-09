@@ -131,6 +131,11 @@ class Setup
 
     /**
      * Create migrations from scripts & rollback files
+     *
+     * @return void
+     *
+     * @throws \RuntimeException
+     * @throws \LogicException
      */
     private function createMigrations()
     {
@@ -142,7 +147,7 @@ class Setup
         }
 
         if (sizeof(array_diff_key($scripts, $rollbacks)) != 0) {
-            throw new \LogicException('Please provide as scripts files as rollbacks files with the same name');
+            throw new \LogicException('Scripts and rollbacks must correspond');
         }
 
         foreach ($scripts as $k => $script) {

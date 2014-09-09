@@ -2,6 +2,8 @@
 
 namespace Itkg\Core\Command\DatabaseUpdate;
 
+use Itkg\Core\Migration;
+
 /**
  * Interface RunnerInterface
  *
@@ -13,12 +15,16 @@ interface RunnerInterface
      * Run a migration
      *
      * @param Migration $migration
-     * @param bool $forcedRollback
+     * @param bool      $executeQueries
+     * @param bool      $forcedRollback
+     *
+     * @return void
      */
-    public function run(Migration $migration, $forcedRollback = false);
+    public function run(Migration $migration, $executeQueries = false, $forcedRollback = false);
 
     /**
      * Get played queries
+     *
      * @return array
      */
     public function getPlayedQueries();
