@@ -69,21 +69,35 @@ abstract class EntityAbstract
                 $this->$setterMethodName($value);
             } elseif ($value !== null) {
                 // Otherwise, try to get sub object to set data
-                $subKey = strtolower(strstr($desiredKey, '_', true));
-                $getterMethodName = 'get' . ucfirst($subKey);
-
-                if (!empty($subKey) && method_exists($this, $getterMethodName)) {
-                    $subObject = $this->$getterMethodName();
-
-                    if ($subObject instanceof EntityAbstract) {
-                        $subObject->setDataFromArray(
-                            array($desiredKey => $value)
-                        );
-                    }
-                }
+                $this->setDataForSubEntitiy($desiredKey, $value);
             }
         }
         return $this;
+    }
+
+    /**
+     * Process sub entity to set data recursively
+     *
+     * @param string $propertyKey
+     * @param mixed  $value
+     *
+     * @return void
+     */
+    private function setDataForSubEntitiy($propertyKey, $value)
+    {
+        $subKey = strtolower(strstr($propertyKey, '_', true));
+        $getterMethodName = 'get' . ucfirst($subKey);
+
+        if (!empty($subKey) && method_exists($this, $getterMethodName)) {
+            $subObject = $this->$getterMethodName();
+
+            // If we managed to get sub object, set his data
+            if ($subObject instanceof EntityAbstract) {
+                $subObject->setDataFromArray(
+                    array($propertyKey => $value)
+                );
+            }
+        }
     }
 
     /**
@@ -194,7 +208,6 @@ abstract class EntityAbstract
         return preg_replace('/^' . static::PROPERTY_PREFIX . '_/', '', $key, 1);
     }
 
-
     /**
      * Repository getter
      *
@@ -204,7 +217,6 @@ abstract class EntityAbstract
     {
         return $this->repository;
     }
-
 
     /**
      * Get data from entity for cache set
@@ -226,7 +238,6 @@ abstract class EntityAbstract
             $value = $this->$propName;
 
             if ($value instanceof CachableInterface) {
-
                 $value = $value->getDataForCache();
             } elseif (is_object($value)) {
                 $value = null;
