@@ -12,6 +12,10 @@ abstract class KernelAbstract
      */
     protected $container;
 
+    // File paths
+    const GLOBAL_CONFIG_FILE = '/Resources/Config/global.yml';
+    const GLOBAL_ROUTING_FILE = '/Resources/Config/routing.yml';
+
     /**
      * @param ServiceContainer $container
      * @param ApplicationInterface $app
@@ -28,8 +32,8 @@ abstract class KernelAbstract
             new KernelEvent($container)
         );
 
-        $this->loadConfig();
-        $this->loadRouting();
+        $this->loadConfig()
+            ->loadRouting();
     }
 
     /**
@@ -43,13 +47,20 @@ abstract class KernelAbstract
     }
 
     /**
-     * Load Config from config files
+     * Load Config from config files and dispatch event
+     *
+     * @return $this
      */
-    public function loadConfig()
+    protected function loadConfig()
     {
         $this->container['app']->getConfig()->load($this->getConfigFiles());
 
-        $this->container['core']['dispatcher']->dispatch(KernelEvents::CONFIG_LOADED, new KernelEvent($this->container));
+        $this->container['core']['dispatcher']->dispatch(
+            KernelEvents::CONFIG_LOADED,
+            new KernelEvent($this->container)
+        );
+
+        return $this;
     }
 
     /**
@@ -60,7 +71,7 @@ abstract class KernelAbstract
     protected function getConfigFiles()
     {
         return array(
-            __DIR__ . '/Resources/Config/global.yml',
+            __DIR__ . self::GLOBAL_CONFIG_FILE,
         );
     }
 
@@ -72,16 +83,16 @@ abstract class KernelAbstract
     protected function getRoutingFiles()
     {
         return array(
-            __DIR__ . '/Resources/Config/routing.yml',
+            __DIR__ . self::GLOBAL_ROUTING_FILE,
         );
     }
 
     /**
      * Load routing from routing files
      *
-     * @return void
+     * @return $this
      */
-    abstract public function loadRouting();
+    abstract protected function loadRouting();
 
     /**
      * Create a response from a request

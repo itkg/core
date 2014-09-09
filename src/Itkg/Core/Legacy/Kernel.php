@@ -52,20 +52,12 @@ class Kernel extends KernelAbstract
     }
 
     /**
-     * Load Config from config files
-     */
-    public function loadConfig()
-    {
-        parent::loadConfig();
-    }
-
-    /**
      * Load routing from routing files
      *
      * @throws \RuntimeException
      * @return void
      */
-    public function loadRouting()
+    protected function loadRouting()
     {
         $parser = new YamlParser();
         $routes = array();
@@ -73,34 +65,50 @@ class Kernel extends KernelAbstract
             $routes = array_merge($routes, $parser->parse(file_get_contents($file)));
         }
 
-        foreach ($routes as $name => $r) {
-            $className = null;
-            if (isset($r['sequence'])) {
-                $className = $r['sequence'];
-                \Pelican_Route::addSequence($className);
-            }
+        foreach ($routes as $name => $route) {
+            $this->processRoute($name, $route);
+        }
 
-            if (!isset($r['arguments'])) {
-                $r['arguments'] = array();
-            }
-            if (isset($r['pattern'])) {
-                $route = new \Pelican_Route($r['pattern'], $r['arguments'], $className);
+        return $this;
+    }
 
-                if (isset($r['defaults'])) {
-                    $route->defaults($r['defaults']);
-                }
-                if (isset($r['params'])) {
-                    $route->pushRequestParams($r['params']);
-                }
-                \Pelican_Route::add($route, $name);
+    /**
+     * Add route to current routing
+     *
+     * @param string $name
+     * @param mixed  $route
+     *
+     * @return void
+     */
+    private function processRoute($name, $route)
+    {
+        $className = null;
+        if (isset($route['sequence'])) {
+            $className = $route['sequence'];
+            \Pelican_Route::addSequence($className);
+        }
+
+        if (!isset($route['arguments'])) {
+            $route['arguments'] = array();
+        }
+
+        if (isset($route['pattern'])) {
+            $newRoute = new \Pelican_Route($route['pattern'], $route['arguments'], $className);
+
+            if (isset($route['defaults'])) {
+                $newRoute->defaults($route['defaults']);
             }
+            if (isset($route['params'])) {
+                $newRoute->pushRequestParams($route['params']);
+            }
+            \Pelican_Route::add($newRoute, $name);
         }
     }
 
     /**
      * Override some Pelican class with help of Pelican_Loader
      */
-    public function overridePelicanLoader()
+    private function overridePelicanLoader()
     {
         /**
          * Pseudo DIC
