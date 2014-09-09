@@ -48,4 +48,3 @@ class YamlLoader extends FileLoader
         return is_string($resource) && 'yml' === pathinfo($resource, PATHINFO_EXTENSION);
     }
 }
-

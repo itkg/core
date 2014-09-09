@@ -79,7 +79,8 @@ class DatabaseUpdateCommand extends Command
                 'rollback-first',
                 null,
                 InputOption::VALUE_NONE,
-                'Execute a rollback before play script')
+                'Execute a rollback before play script'
+            )
             ->addOption(
                 'colors',
                 null,

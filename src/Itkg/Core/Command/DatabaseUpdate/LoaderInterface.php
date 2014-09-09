@@ -9,7 +9,6 @@ namespace Itkg\Core\Command\DatabaseUpdate;
  */
 interface LoaderInterface
 {
-
     /**
      * Load a script file
      *
@@ -25,4 +24,3 @@ interface LoaderInterface
      */
     public function getQueries();
 }
-

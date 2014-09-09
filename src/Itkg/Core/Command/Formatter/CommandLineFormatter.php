@@ -27,4 +27,4 @@ class CommandLineFormatter extends LineFormatter
 
         return $this->format($record);
     }
-} 
+}

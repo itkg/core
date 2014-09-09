@@ -37,5 +37,4 @@ class EntityLoadEvent extends BaseEvent
     {
         return $this->entity;
     }
-
 }

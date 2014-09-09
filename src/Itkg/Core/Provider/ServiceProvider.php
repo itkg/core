@@ -5,7 +5,6 @@ namespace Itkg\Core\Provider;
 use Itkg\Core\ServiceContainer;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
-
 /**
  * @author Pascal DENIS <pascal.denis@businessdecision.com>
  */

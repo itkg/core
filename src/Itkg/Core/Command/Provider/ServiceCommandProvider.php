@@ -24,7 +24,6 @@ use Itkg\Core\Provider\ServiceProviderInterface;
  */
 class ServiceCommandProvider implements ServiceProviderInterface
 {
-
     /**
      * Registers services on the given container.
      *
@@ -74,14 +73,13 @@ class ServiceCommandProvider implements ServiceProviderInterface
         });
 
         $container['itkg-core.command.database_update.setup'] = $container->share(function ($container) {
-                return new Setup(
-                    $container['itkg-core.command.database_update.runner'],
-                    $container['itkg-core.command.database_update.loader'],
-                    $container['itkg-core.command.database_update.migration_factory'],
-                    $container['itkg-core.command.database_update.locator']
-                );
-            }
-        );
+            return new Setup(
+                $container['itkg-core.command.database_update.runner'],
+                $container['itkg-core.command.database_update.loader'],
+                $container['itkg-core.command.database_update.migration_factory'],
+                $container['itkg-core.command.database_update.locator']
+            );
+        });
 
         $container['itkg-core.command.database_update.locator'] = $container->share(function () {
             return new Locator();
