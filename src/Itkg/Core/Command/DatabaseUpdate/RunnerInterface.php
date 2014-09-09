@@ -2,7 +2,7 @@
 
 namespace Itkg\Core\Command\DatabaseUpdate;
 
-use Itkg\Core\Migration;
+use Itkg\Core\Command\DatabaseUpdate\Migration as BaseMigration;
 
 /**
  * Interface RunnerInterface
@@ -20,7 +20,7 @@ interface RunnerInterface
      *
      * @return void
      */
-    public function run(Migration $migration, $executeQueries = false, $forcedRollback = false);
+    public function run(BaseMigration $migration, $executeQueries = false, $forcedRollback = false);
 
     /**
      * Get played queries
