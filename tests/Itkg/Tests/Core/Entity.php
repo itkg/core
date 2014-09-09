@@ -15,12 +15,6 @@ class Entity extends EntityAbstract implements \ArrayAccess
     const PROPERTY_PREFIX = 'ENTITY';
 
     /**
-     * Id
-     * @var int
-     */
-    protected $id;
-
-    /**
      * Entity without getter
      * @var int
      */
@@ -36,22 +30,6 @@ class Entity extends EntityAbstract implements \ArrayAccess
         $this->subEntity = new SubEntity;
         $this->subEntityWithoutGetter = new SubEntity;
         return $this;
-    }
-
-    /**
-     * @param int $id
-     * @return $this
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-
-        return $this;
-    }
-
-    public function getId()
-    {
-        return $this->id;
     }
 
     public function getSub()

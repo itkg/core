@@ -2,7 +2,7 @@
 
 namespace Itkg\Core;
 
-use Traversable;
+use Itkg\Core\CollectionableInterface;
 
 class CollectionAbstract implements \IteratorAggregate, \Countable
 {
@@ -11,18 +11,26 @@ class CollectionAbstract implements \IteratorAggregate, \Countable
      */
     protected $elements;
 
-    public function add(EntityAbstract $entity)
+    /**
+     * Add entity to collection
+     *
+     * @param CollectionableInterface $element
+     *
+     * @return $this
+     */
+    public function add(CollectionableInterface $element)
     {
-        /**
-         * @fixme : Add ID into entityAbstract ?
-         */
-        $this->elements[$entity->getId()] = $entity;
+        $this->elements[$element->getId()] = $element;
+        return $this;
     }
 
     /**
      * Get an entity by its ID
+     *
      * @param $id
+     *
      * @return EntityAbstract
+     *
      * @throws \InvalidArgumentException
      */
     public function getById($id)
@@ -31,7 +39,7 @@ class CollectionAbstract implements \IteratorAggregate, \Countable
             return $this->elements[$id];
         }
 
-        throw new \InvalidArgumentException(sprintf('Entity for id %s does not exist', $id));
+        throw new \InvalidArgumentException(sprintf('Element for id %s does not exist', $id));
     }
 
     /**

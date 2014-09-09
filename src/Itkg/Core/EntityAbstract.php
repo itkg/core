@@ -3,9 +3,10 @@
 namespace Itkg\Core;
 
 use Itkg\Core\ServiceContainer;
+use Itkg\Core\CollectionableInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
-abstract class EntityAbstract
+abstract class EntityAbstract implements CollectionableInterface
 {
     /**
      * Property prefix used in arrayAccess & database columns
@@ -47,6 +48,36 @@ abstract class EntityAbstract
         'repository',
         'excludedPropertiesForCache'
     );
+
+    /**
+     * Entity ID
+     *
+     * @var mixed
+     */
+    protected $id;
+
+    /**
+     * Id setter
+     *
+     * @param mixed $id
+     *
+     * @return $this
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+        return $this;
+    }
+
+    /**
+     * Id getter
+     *
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 
     /**
      * Data setter
