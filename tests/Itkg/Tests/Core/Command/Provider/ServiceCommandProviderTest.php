@@ -31,12 +31,6 @@ class ServiceCommandProviderTest extends \PHPUnit_Framework_TestCase
         $this->container->register(new ServiceCommandProvider());
     }
 
-    public function testLoader()
-    {
-        $this->loadDoctrine();
-        $this->assertInstanceOf('Itkg\Core\Command\DatabaseUpdate\LoaderInterface', $this->container['itkg-core.command.database_update.loader']);
-    }
-
     public function testRunner()
     {
         $this->loadDoctrine();
@@ -51,26 +45,6 @@ class ServiceCommandProviderTest extends \PHPUnit_Framework_TestCase
         $loader = $this->container['itkg-core.command.database_update.loader'];
     }
 
-    public function testOutputQueryFactory()
-    {
-        $this->assertInstanceOf('Itkg\Core\Command\DatabaseUpdate\Query\OutputQueryFactory', $this->container['itkg-core.command.database_update.output_query_factory']);
-    }
-
-    public function testQueryFormatter()
-    {
-        $this->assertInstanceOf('Itkg\Core\Command\DatabaseUpdate\Query\QueryFormatterInterface', $this->container['itkg-core.command.database_update.query_formatter']);
-    }
-
-    public function testOutputQueryDisplay()
-    {
-        $this->assertInstanceOf('Itkg\Core\Command\DatabaseUpdate\Query\OutputQueryDisplay', $this->container['itkg-core.command.database_update.output_query_display']);
-    }
-
-    public function testOutputColorQueryDisplay()
-    {
-        $this->assertInstanceOf('Itkg\Core\Command\DatabaseUpdate\Query\OutputColorQueryDisplay', $this->container['itkg-core.command.database_update.output_color_query_display']);
-    }
-
     public function testSetup()
     {
         $this->loadDoctrine();
@@ -81,12 +55,6 @@ class ServiceCommandProviderTest extends \PHPUnit_Framework_TestCase
     {
         $this->loadDoctrine();
         $this->assertInstanceOf('Itkg\Core\Command\DatabaseUpdateCommand', $this->container['itkg-core.command.database_update']);
-    }
-
-    public function testMigrationFactory()
-    {
-        $this->loadDoctrine();
-        $this->assertInstanceOf('Itkg\Core\Command\DatabaseUpdate\Migration\Factory', $this->container['itkg-core.command.database_update.migration_factory']);
     }
 
     private function loadDoctrine()

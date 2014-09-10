@@ -223,6 +223,9 @@ class Setup
         return $this->rollbackedFirst;
     }
 
+    /**
+     * @return array
+     */
     public function getQueries()
     {
         return $this->queries;

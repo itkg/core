@@ -40,55 +40,24 @@ class ServiceCommandProvider implements ServiceProviderInterface
             );
         });
 
-        $container['itkg-core.command.database_update.loader'] = $container->share(function ($container) {
-            return new Loader(
-                $container['doctrine.connection']
-            );
-        });
-
-        $container['itkg-core.command.database_update.query_formatter'] = $container->share(function () {
-            return new QueryFormatter();
-        });
-
-        $container['itkg-core.command.database_update.output_query_display'] = $container->share(function ($container) {
-            return new OutputQueryDisplay(
-                $container['itkg-core.command.database_update.query_formatter']
-            );
-        });
-
-        $container['itkg-core.command.database_update.output_color_query_display'] = $container->share(function ($container) {
-            return new OutputColorQueryDisplay(
-                $container['itkg-core.command.database_update.query_formatter']
-            );
-        });
-
-        $container['itkg-core.command.database_update.migration_factory'] = $container->share(function () {
-            return new Factory();
-        });
-
-        $container['itkg-core.command.database_update.output_query_factory'] = $container->share(function ($container) {
-            return new OutputQueryFactory(
-                $container['itkg-core.command.database_update.query_formatter']
-            );
-        });
-
         $container['itkg-core.command.database_update.setup'] = $container->share(function ($container) {
             return new Setup(
                 $container['itkg-core.command.database_update.runner'],
-                $container['itkg-core.command.database_update.loader'],
-                $container['itkg-core.command.database_update.migration_factory'],
-                $container['itkg-core.command.database_update.locator']
+                new Loader(
+                    $container['doctrine.connection']
+                ),
+                new Factory(),
+                new Locator()
             );
         });
 
-        $container['itkg-core.command.database_update.locator'] = $container->share(function () {
-            return new Locator();
-        });
         $container['itkg-core.command.database_update'] = $container->share(function ($container) {
             return new DatabaseUpdateCommand(
                 'itkg-core:database:update',
                 $container['itkg-core.command.database_update.setup'],
-                $container['itkg-core.command.database_update.output_query_factory']
+                new OutputQueryFactory(
+                    new QueryFormatter()
+                )
             );
         });
     }

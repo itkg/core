@@ -16,6 +16,9 @@ class OutputQueryFactory
      */
     private $formatter;
 
+    /**
+     * @var array
+     */
     private $acceptTypes = array(
         '',
         'color'

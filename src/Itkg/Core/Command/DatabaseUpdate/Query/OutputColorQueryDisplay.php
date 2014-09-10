@@ -13,6 +13,11 @@ use Symfony\Component\Console\Formatter\OutputFormatterStyle;
  */
 class OutputColorQueryDisplay extends OutputQueryDisplay
 {
+    /**
+     * Queries colors
+     *
+     * @var array
+     */
     private $colors = array(
         'SELECT' => 'green',
         'UPDATE' => 'blue',

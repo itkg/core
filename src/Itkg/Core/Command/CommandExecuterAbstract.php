@@ -21,7 +21,6 @@ abstract class CommandExecuterAbstract extends Command
      * @var Formatter\CommandLineFormatter
      */
     protected $formatter;
-
     /**
      * @var OutputInterface
      */

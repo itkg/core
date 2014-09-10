@@ -39,6 +39,12 @@ class Locator implements LocatorInterface
         return $this->getFiles($path);
     }
 
+    /**
+     * Get all rollback scripts for a path
+     * If a scriptName is defined, only scripts like $scriptName.php will be returned
+     *
+     * @return array
+     */
     public function findRollbackScripts()
     {
         $path = sprintf('%s/%s/rollback', $this->path, $this->release);
@@ -59,7 +65,6 @@ class Locator implements LocatorInterface
                 $this->$key = $value;
             }
         }
-
 
         return $this;
     }
