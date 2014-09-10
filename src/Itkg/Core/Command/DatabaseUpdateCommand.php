@@ -41,7 +41,7 @@ class DatabaseUpdateCommand extends Command
     {
         parent::__construct($name);
 
-        $this->setup = $setup;
+        $this->setup               = $setup;
         $this->queryDisplayFactory = $queryDisplayFactory;
     }
 
@@ -108,8 +108,8 @@ class DatabaseUpdateCommand extends Command
     {
         $this->setup->getLocator()->setParams(
             array(
-                'release' => $input->getArgument('release'),
-                'path' => $input->getOption('path'),
+                'release'    => $input->getArgument('release'),
+                'path'       => $input->getOption('path'),
                 'scriptName' => $input->getOption('script')
             )
         );

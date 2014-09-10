@@ -87,12 +87,16 @@ class Setup
      * @param Migration\Factory $migrationFactory
      * @param LocatorInterface $locator
      */
-    public function __construct(RunnerInterface $runner, LoaderInterface $loader, Factory $migrationFactory, LocatorInterface $locator)
-    {
-        $this->runner = $runner;
-        $this->loader = $loader;
+    public function __construct(
+        RunnerInterface $runner,
+        LoaderInterface $loader,
+        Factory $migrationFactory,
+        LocatorInterface $locator
+    ) {
+        $this->runner           = $runner;
+        $this->loader           = $loader;
         $this->migrationFactory = $migrationFactory;
-        $this->locator = $locator;
+        $this->locator          = $locator;
     }
 
     /**
@@ -139,7 +143,7 @@ class Setup
      */
     private function createMigrations()
     {
-        $scripts = $this->locator->findScripts();
+        $scripts   = $this->locator->findScripts();
         $rollbacks = $this->locator->findRollbackScripts();
 
         if (empty($scripts)) {

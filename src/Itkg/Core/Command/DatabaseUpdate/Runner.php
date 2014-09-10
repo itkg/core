@@ -46,8 +46,8 @@ class Runner implements RunnerInterface
      * Run a migration
      *
      * @param Migration $migration
-     * @param bool      $executeQueries
-     * @param bool      $forcedRollback
+     * @param bool $executeQueries
+     * @param bool $forcedRollback
      *
      * @return void
      */

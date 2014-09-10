@@ -23,7 +23,7 @@ class OutputColorQueryDisplay extends OutputQueryDisplay
         'UPDATE' => 'blue',
         'DELETE' => 'red',
         'CREATE' => 'cyan',
-        'ALTER' => 'yellow'
+        'ALTER'  => 'yellow'
     );
 
     /**
@@ -45,7 +45,7 @@ class OutputColorQueryDisplay extends OutputQueryDisplay
     private function changeStyle($query)
     {
         $query = trim(strtoupper($query));
-        $word = current(explode(' ', $query));
+        $word  = current(explode(' ', $query));
 
         $style = new OutputFormatterStyle($this->colors[$word], null, array('bold'));
 
