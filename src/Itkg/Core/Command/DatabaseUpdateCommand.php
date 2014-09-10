@@ -2,8 +2,11 @@
 
 namespace Itkg\Core\Command;
 
-use Itkg\Core\Command\DatabaseUpdate\FinderInterface;
+use Doctrine\DBAL\Connection;
+use Itkg\Core\Command\DatabaseUpdate\Query\Parser;
+use Itkg\Core\Command\DatabaseUpdate\Template\Loader;
 use Itkg\Core\Command\DatabaseUpdate\Query\OutputQueryFactory;
+use Itkg\Core\Command\DatabaseUpdate\QueryDecorator;
 use Itkg\Core\Command\DatabaseUpdate\Setup;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -82,6 +85,12 @@ class DatabaseUpdateCommand extends Command
                 'Execute a rollback before play script'
             )
             ->addOption(
+                'with-template',
+                null,
+                InputOption::VALUE_NONE,
+                'Decorate queries with custom templates'
+            )
+            ->addOption(
                 'colors',
                 null,
                 InputOption::VALUE_NONE,
@@ -120,9 +129,17 @@ class DatabaseUpdateCommand extends Command
             ->setRollbackedFirst($input->getOption('rollback-first'))
             ->run();
 
+        $queries = $this->setup->getQueries();
+        if($input->getOption('with-template')) {
+            $decorator = new QueryDecorator(new Loader(), new Parser(), $queries);
+            $queries = $decorator->decorate()->getQueries();
+        }
+
         $this->queryDisplayFactory
             ->create($input->getOption('colors') ? 'color' : '')
             ->setOutput($output)
-            ->displayAll($this->setup->getQueries());
+            ->displayAll($queries);
+
+
     }
 }
