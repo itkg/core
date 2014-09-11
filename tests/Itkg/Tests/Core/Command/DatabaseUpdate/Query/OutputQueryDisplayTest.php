@@ -7,8 +7,6 @@ use Itkg\Core\Command\DatabaseUpdate\Query\QueryFormatter;
 use Symfony\Component\Console\Formatter\OutputFormatter;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
-//use Itkg\Tests\Core\Command\DatabaseUpdate\Query\Output;
-
 /**
  * @author Pascal DENIS <pascal.denis@businessdecision.com>
  */
