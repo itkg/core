@@ -47,8 +47,9 @@ class Parser
      */
     protected function extractData()
     {
+
         if (preg_match(
-            '/' . $this->type . ' .*(TABLE|INTO|FROM) *([a-zA-Z-_]*)/i',
+            '/' . $this->type . ' *(TABLE|INTO|FROM) ([a-zA-Z-_]*) */i',
             $this->query,
             $matches
         )
