@@ -14,7 +14,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     /**
      * @var Application
      */
-    protected $object;
+    protected $app;
 
     /**
      * Sets up the fixture, for example, opens a network connection.
@@ -22,7 +22,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->object = new Application();
+        $this->app = new Application(Application::ENV_DEV);
     }
 
     /**
@@ -30,12 +30,12 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      */
     public function testContainer()
     {
-        $this->assertNull($this->object->getContainer());
+        $this->assertNull($this->app->getContainer());
         $config = new Config();
         $container = new ServiceContainer();
-        $application = $this->object->setContainer($container); /* return $this */
-        $this->assertEquals($application, $this->object);
-        $this->assertEquals($container, $this->object->getContainer());
+        $application = $this->app->setContainer($container); /* return $this */
+        $this->assertEquals($application, $this->app);
+        $this->assertEquals($container, $this->app->getContainer());
 
     }
 
@@ -44,10 +44,21 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      */
     public function testConfig()
     {
-        $this->assertNull($this->object->getConfig());
+        $this->assertNull($this->app->getConfig());
         $config = new Config();
-        $application = $this->object->setConfig($config); /* return $this */
-        $this->assertEquals($application, $this->object);
-        $this->assertEquals($config, $this->object->getConfig());
+        $application = $this->app->setConfig($config); /* return $this */
+        $this->assertEquals($application, $this->app);
+        $this->assertEquals($config, $this->app->getConfig());
+    }
+
+    /**
+     * Test env
+     */
+    public function testEnv()
+    {
+        $this->assertTrue($this->app->isDev());
+        $this->assertEquals(Application::ENV_DEV, $this->app->getEnv());
+        $this->app = new Application(Application::ENV_PREPROD);
+        $this->assertFalse($this->app->isDev());
     }
 }

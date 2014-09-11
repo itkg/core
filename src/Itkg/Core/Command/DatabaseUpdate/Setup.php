@@ -159,7 +159,7 @@ class Setup
     public function run()
     {
         $this->createMigrations();
-        $queries = array();
+
         foreach ($this->migrations as $migration) {
             $this->runner->run($migration, $this->executeQueries, $this->forcedRollback);
         }
@@ -214,14 +214,6 @@ class Setup
     public function getRollbackedFirst()
     {
         return $this->rollbackedFirst;
-    }
-
-    /**
-     * @return array
-     */
-    public function getQueries()
-    {
-        return $this->queries;
     }
 
     /**
