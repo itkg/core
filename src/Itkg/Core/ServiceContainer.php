@@ -3,10 +3,10 @@
 namespace Itkg\Core;
 
 use Itkg\Cache\CacheFactory;
+use Itkg\Core\ApplicationInterface;
+use Itkg\Core\ConfigInterface;
 use Itkg\Core\Provider\ServiceProviderInterface;
 use Pimple;
-use Itkg\Core\ConfigInterface;
-use Itkg\Core\ApplicationInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
 /**

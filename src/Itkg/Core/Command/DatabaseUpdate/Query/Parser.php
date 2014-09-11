@@ -29,12 +29,13 @@ class Parser
 
     /**
      * @param $query
+     * @return $this
      */
     public function parse($query)
     {
         $this->query = $query;
 
-        $query      = trim(strtolower($query));
+        $query = trim(strtolower($query));
         $this->type = current(explode(' ', $query));
         $this->extractData();
 
@@ -47,7 +48,6 @@ class Parser
      */
     protected function extractData()
     {
-
         if (preg_match(
             '/' . $this->type . ' *(TABLE|INTO|FROM) ([a-zA-Z-_]*) */i',
             $this->query,

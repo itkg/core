@@ -39,10 +39,10 @@ class CacheEvent extends Event
      */
     public function __construct($key, $ttl = 0, $value = '')
     {
-        $this->key   = $key;
-        $this->ttl   = $ttl;
+        $this->key = $key;
+        $this->ttl = $ttl;
         $this->value = $value;
-        $this->size  = mb_strlen($value, '8bit');
+        $this->size = mb_strlen($value, '8bit');
     }
 
     /**

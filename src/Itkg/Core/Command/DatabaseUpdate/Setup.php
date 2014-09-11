@@ -85,11 +85,12 @@ class Setup
         LoaderInterface $loader,
         Factory $migrationFactory,
         LocatorInterface $locator
-    ) {
-        $this->runner           = $runner;
-        $this->loader           = $loader;
+    )
+    {
+        $this->runner = $runner;
+        $this->loader = $loader;
         $this->migrationFactory = $migrationFactory;
-        $this->locator          = $locator;
+        $this->locator = $locator;
     }
 
     /**
@@ -136,7 +137,7 @@ class Setup
      */
     private function createMigrations()
     {
-        $scripts   = $this->locator->findScripts();
+        $scripts = $this->locator->findScripts();
         $rollbacks = $this->locator->findRollbackScripts();
 
         if (empty($scripts)) {

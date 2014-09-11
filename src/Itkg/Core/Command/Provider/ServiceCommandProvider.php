@@ -4,13 +4,13 @@ namespace Itkg\Core\Command\Provider;
 
 use Itkg\Core\Command\DatabaseUpdate;
 use Itkg\Core\Command\DatabaseUpdate\Loader;
-use Itkg\Core\Command\DatabaseUpdate\Template\Loader as TemplateLoader;
 use Itkg\Core\Command\DatabaseUpdate\Locator;
 use Itkg\Core\Command\DatabaseUpdate\Migration\Factory;
 use Itkg\Core\Command\DatabaseUpdate\Query\OutputQueryFactory;
 use Itkg\Core\Command\DatabaseUpdate\Query\QueryFormatter;
 use Itkg\Core\Command\DatabaseUpdate\Runner;
 use Itkg\Core\Command\DatabaseUpdate\Setup;
+use Itkg\Core\Command\DatabaseUpdate\Template\Loader as TemplateLoader;
 use Itkg\Core\Command\DatabaseUpdateCommand;
 use Itkg\Core\Provider\ServiceProviderInterface;
 

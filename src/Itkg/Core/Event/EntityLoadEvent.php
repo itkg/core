@@ -3,8 +3,8 @@
 namespace Itkg\Core\Event;
 
 use Itkg\Core\CachableInterface;
-use Symfony\Component\EventDispatcher\Event as BaseEvent;
 use Itkg\Core\EntityAbstract;
+use Symfony\Component\EventDispatcher\Event as BaseEvent;
 
 /**
  * Class EntityLoadEvent

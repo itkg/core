@@ -2,10 +2,10 @@
 
 namespace Itkg\Core;
 
+use Symfony\Component\Config\FileLocatorInterface;
 use Symfony\Component\Config\Loader\FileLoader;
 use Symfony\Component\Config\Resource\FileResource;
 use Symfony\Component\Yaml\Parser as YamlParser;
-use Symfony\Component\Config\FileLocatorInterface;
 
 class YamlLoader extends FileLoader
 {
@@ -37,7 +37,7 @@ class YamlLoader extends FileLoader
      */
     public function load($file, $type = null)
     {
-        return (array) $this->yamlParser->parse(file_get_contents($file));
+        return (array)$this->yamlParser->parse(file_get_contents($file));
     }
 
     /**

@@ -38,7 +38,7 @@ abstract class CommandExecuterAbstract extends Command
     {
         parent::__construct($name);
 
-        $this->formatter     = $formatter;
+        $this->formatter = $formatter;
         $this->defautlRecord = $defautlRecord;
     }
 
@@ -81,7 +81,7 @@ abstract class CommandExecuterAbstract extends Command
      */
     protected function write($message, array $record = array())
     {
-        $record        = array_merge($this->defautlRecord, $record);
+        $record = array_merge($this->defautlRecord, $record);
         $record['msg'] = $message;
         $this->output->writeln($this->formatter->format($record));
     }

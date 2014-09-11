@@ -5,9 +5,7 @@ namespace Itkg\Core\Command;
 use Doctrine\DBAL\Connection;
 use Itkg\Core\Command\DatabaseUpdate\Query\DecoratorInterface;
 use Itkg\Core\Command\DatabaseUpdate\Query\OutputQueryFactory;
-use Itkg\Core\Command\DatabaseUpdate\Query\Parser;
 use Itkg\Core\Command\DatabaseUpdate\Setup;
-use Itkg\Core\Command\DatabaseUpdate\Template\Loader;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -49,9 +47,9 @@ class DatabaseUpdateCommand extends Command
     {
         parent::__construct($name);
 
-        $this->setup               = $setup;
+        $this->setup = $setup;
         $this->queryDisplayFactory = $queryDisplayFactory;
-        $this->decorator           = $decorator;
+        $this->decorator = $decorator;
     }
 
     /**
@@ -123,8 +121,8 @@ class DatabaseUpdateCommand extends Command
     {
         $this->setup->getLocator()->setParams(
             array(
-                'release'    => $input->getArgument('release'),
-                'path'       => $input->getOption('path'),
+                'release' => $input->getArgument('release'),
+                'path' => $input->getOption('path'),
                 'scriptName' => $input->getOption('script')
             )
         );
@@ -151,6 +149,7 @@ class DatabaseUpdateCommand extends Command
             ->setRollbackedFirst($input->getOption('rollback-first'))
             ->run();
     }
+
     /**
      * Display queries
      */

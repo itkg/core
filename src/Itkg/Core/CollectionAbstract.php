@@ -2,8 +2,6 @@
 
 namespace Itkg\Core;
 
-use Itkg\Core\CollectionableInterface;
-
 class CollectionAbstract implements \IteratorAggregate, \Countable
 {
     /**

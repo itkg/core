@@ -39,7 +39,7 @@ class Loader implements LoaderInterface
     public function load($file, array $data = array())
     {
         $this->queries = array();
-        $this->data    = $data;
+        $this->data = $data;
 
         include $file;
 

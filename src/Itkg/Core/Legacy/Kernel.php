@@ -76,7 +76,7 @@ class Kernel extends KernelAbstract
      * Add route to current routing
      *
      * @param string $name
-     * @param mixed  $route
+     * @param mixed $route
      *
      * @return void
      */

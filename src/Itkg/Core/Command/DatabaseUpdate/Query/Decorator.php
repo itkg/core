@@ -14,7 +14,7 @@ use Itkg\Core\Command\DatabaseUpdate\Template\Loader;
 class Decorator implements DecoratorInterface
 {
     /**
-     * @var Template\Loader
+     * @var Loader
      */
     private $loader;
 
@@ -28,27 +28,27 @@ class Decorator implements DecoratorInterface
      *
      * @var string
      */
-    private $path = 'script/templates';
+    private $templatePath = 'script/templates';
 
     /**
      * Template pre process filename
      */
-    CONST PRE_TEMPLATE_PATH = '%s/pre_%s_template.php';
+    const PRE_TEMPLATE_PATH = '%s/pre_%s_template.php';
 
     /**
      * Template post process filename
      */
-    CONST POST_TEMPLATE_PATH = '%s/post_%s_template.php';
+    const POST_TEMPLATE_PATH = '%s/post_%s_template.php';
 
     /**
-     * @param Template\Loader $loader
-     * @param Query\Parser $parser
+     * @param Loader $loader
+     * @param Parser $parser
      * @param array $queries
      */
     public function __construct(Loader $loader, Parser $parser)
     {
-        $this->loader  = $loader;
-        $this->parser  = $parser;
+        $this->loader = $loader;
+        $this->parser = $parser;
     }
 
     /**
@@ -56,7 +56,8 @@ class Decorator implements DecoratorInterface
      * Template add query before / after current query
      * Use query keyword to retrieve template
      *
-     * @return decorated queries
+     * @param $query
+     * @return array decorated queries
      */
     public function decorate($query)
     {
@@ -64,11 +65,11 @@ class Decorator implements DecoratorInterface
             ->parse($query)
             ->getType();
 
-        $queries   = $this->process(sprintf(self::PRE_TEMPLATE_PATH, $this->path, $queryType));
+        $queries = $this->process(sprintf(self::PRE_TEMPLATE_PATH, $this->templatePath, $queryType));
 
         $queries[] = $query;
 
-        return array_merge($queries, $this->process(sprintf(self::POST_TEMPLATE_PATH, $this->path, $queryType)));
+        return array_merge($queries, $this->process(sprintf(self::POST_TEMPLATE_PATH, $this->templatePath, $queryType)));
     }
 
     /**
@@ -76,6 +77,7 @@ class Decorator implements DecoratorInterface
      * Template add query before / after current query
      * Use query keyword to retrieve template
      *
+     * @param array $queries
      * @return array Decorated queries
      */
     public function decorateAll(array $queries = array())
@@ -90,7 +92,8 @@ class Decorator implements DecoratorInterface
     }
 
     /**
-     * @param $template
+     * @param string $template
+     * @return array
      */
     private function process($template)
     {
@@ -102,5 +105,16 @@ class Decorator implements DecoratorInterface
         }
 
         return array();
+    }
+
+    /**
+     * @param string $templatePath
+     * @return $this
+     */
+    public function setTemplatePath($templatePath)
+    {
+        $this->templatePath = $templatePath;
+
+        return $this;
     }
 }
