@@ -60,14 +60,14 @@ class SetupTest extends \PHPUnit_Framework_TestCase
             'release' => 'data'
         ));
 
-        $setup->run();
+        $queries = $setup->run();
 
         $displayed = array(
             'DROP TABLE MYC_TEST_SCRIPT',
             'DROP TABLE MYC_TEST_SCRIPT2'
         );
 
-        $this->assertEquals($displayed, $setup->getQueries());
+        $this->assertEquals($displayed, $queries);
 
     }
 
@@ -80,14 +80,14 @@ class SetupTest extends \PHPUnit_Framework_TestCase
             'release' => 'data'
         ));
 
-        $setup->run();
+        $queries = $setup->run();
 
         $displayed = array(
             'CREATE TABLE MYC_TEST_SCRIPT (TEST_SCRIPT_ID INT, TEST_NAME varchar(255))',
             'CREATE TABLE MYC_TEST_SCRIPT2 (TEST_SCRIPT_ID INT, TEST_NAME varchar(255))'
         );
 
-        $this->assertEquals($displayed, $setup->getQueries());
+        $this->assertEquals($displayed, $queries);
     }
 
     /**

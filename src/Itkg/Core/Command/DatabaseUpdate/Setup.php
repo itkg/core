@@ -66,13 +66,6 @@ class Setup
     private $executeQueries = false;
 
     /**
-     * Loaded queries
-     *
-     * @var array
-     */
-    private $queries = array();
-
-    /**
      * Script locator
      *
      * @var LocatorInterface
@@ -165,17 +158,12 @@ class Setup
     public function run()
     {
         $this->createMigrations();
-
-        try {
-            foreach ($this->migrations as $migration) {
-                $this->runner->run($migration, $this->executeQueries, $this->forcedRollback);
-            }
-            $this->queries = array_merge($this->queries, $this->runner->getPlayedQueries());
-        } catch (\Exception $e) {
-            $this->queries = array_merge($this->queries, $this->runner->getPlayedQueries());
-
-            throw $e;
+        $queries = array();
+        foreach ($this->migrations as $migration) {
+            $this->runner->run($migration, $this->executeQueries, $this->forcedRollback);
         }
+
+        return $this->runner->getPlayedQueries();
     }
 
     /**

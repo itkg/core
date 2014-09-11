@@ -3,11 +3,11 @@
 namespace Itkg\Core\Command;
 
 use Doctrine\DBAL\Connection;
-use Itkg\Core\Command\DatabaseUpdate\Query\Parser;
-use Itkg\Core\Command\DatabaseUpdate\Template\Loader;
+use Itkg\Core\Command\DatabaseUpdate\Query\DecoratorInterface;
 use Itkg\Core\Command\DatabaseUpdate\Query\OutputQueryFactory;
-use Itkg\Core\Command\DatabaseUpdate\QueryDecorator;
+use Itkg\Core\Command\DatabaseUpdate\Query\Parser;
 use Itkg\Core\Command\DatabaseUpdate\Setup;
+use Itkg\Core\Command\DatabaseUpdate\Template\Loader;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -34,18 +34,24 @@ class DatabaseUpdateCommand extends Command
     private $queryDisplayFactory;
 
     /**
+     * @var Decorator
+     */
+    private $decorator;
+
+    /**
      * Constructor
      *
      * @param string $name
      * @param Setup $setup
      * @param OutputQueryFactory $queryDisplayFactory
      */
-    public function __construct($name = null, Setup $setup, OutputQueryFactory $queryDisplayFactory)
+    public function __construct(Setup $setup, OutputQueryFactory $queryDisplayFactory, DecoratorInterface $decorator, $name = null)
     {
         parent::__construct($name);
 
         $this->setup               = $setup;
         $this->queryDisplayFactory = $queryDisplayFactory;
+        $this->decorator           = $decorator;
     }
 
     /**
@@ -123,23 +129,36 @@ class DatabaseUpdateCommand extends Command
             )
         );
 
-        $this->setup
+        $queries = $this->setup($input);
+
+        if ($input->getOption('with-template')) {
+            $queries = $this->decorator->decorateAll($queries);
+        }
+
+        $this->display($input, $output, $queries);
+    }
+
+    /**
+     * Start migration setup
+     *
+     * @return array
+     */
+    protected function setup(InputInterface $input)
+    {
+        return $this->setup
             ->setForcedRollback($input->getOption('force-rollback'))
             ->setExecuteQueries($input->getOption('execute'))
             ->setRollbackedFirst($input->getOption('rollback-first'))
             ->run();
-
-        $queries = $this->setup->getQueries();
-        if($input->getOption('with-template')) {
-            $decorator = new QueryDecorator(new Loader(), new Parser(), $queries);
-            $queries = $decorator->decorate()->getQueries();
-        }
-
+    }
+    /**
+     * Display queries
+     */
+    protected function display(InputInterface $input, OutputInterface $output, array $queries = array())
+    {
         $this->queryDisplayFactory
             ->create($input->getOption('colors') ? 'color' : '')
             ->setOutput($output)
             ->displayAll($queries);
-
-
     }
 }

@@ -8,7 +8,9 @@ use Itkg\Core\Command\DatabaseUpdate\Finder;
 use Itkg\Core\Command\DatabaseUpdate\Loader;
 use Itkg\Core\Command\DatabaseUpdate\Locator;
 use Itkg\Core\Command\DatabaseUpdate\Migration\Factory;
+use Itkg\Core\Command\DatabaseUpdate\Query\Decorator;
 use Itkg\Core\Command\DatabaseUpdate\Query\OutputQueryFactory;
+use Itkg\Core\Command\DatabaseUpdate\Query\Parser;
 use Itkg\Core\Command\DatabaseUpdate\Query\QueryFormatter;
 use Itkg\Core\Command\DatabaseUpdate\Runner;
 use Itkg\Core\Command\DatabaseUpdate\Setup;
@@ -82,8 +84,8 @@ class DatabaseUpdateCommandTest extends \PHPUnit_Framework_TestCase
         $factory = new Factory();
         $locator = new Locator();
         $queryFactory = new OutputQueryFactory(new QueryFormatter());
-
-        return new DatabaseUpdateCommand('itkg-core:script', new Setup($runner, $loader, $factory, $locator), $queryFactory);
+        $decorator = new Decorator(new \Itkg\Core\Command\DatabaseUpdate\Template\Loader(), new Parser());
+        return new DatabaseUpdateCommand(new Setup($runner, $loader, $factory, $locator), $queryFactory, $decorator, 'itkg-core:script');
     }
 
 }

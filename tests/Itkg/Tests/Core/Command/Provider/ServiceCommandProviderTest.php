@@ -34,7 +34,7 @@ class ServiceCommandProviderTest extends \PHPUnit_Framework_TestCase
     public function testRunner()
     {
         $this->loadDoctrine();
-        $this->assertInstanceOf('Itkg\Core\Command\DatabaseUpdate\RunnerInterface', $this->container['itkg-core.command.database_update.runner']);
+        $this->assertInstanceOf('Itkg\Core\Command\DatabaseUpdate\RunnerInterface', $this->container['itkg-core.command.db_update.runner']);
     }
 
     /**
@@ -48,7 +48,13 @@ class ServiceCommandProviderTest extends \PHPUnit_Framework_TestCase
     public function testSetup()
     {
         $this->loadDoctrine();
-        $this->assertInstanceOf('Itkg\Core\Command\DatabaseUpdate\Setup', $this->container['itkg-core.command.database_update.setup']);
+        $this->assertInstanceOf('Itkg\Core\Command\DatabaseUpdate\Setup', $this->container['itkg-core.command.db_update.setup']);
+    }
+
+    public function testDecorator()
+    {
+        $this->loadDoctrine();
+        $this->assertInstanceOf('Itkg\Core\Command\DatabaseUpdate\Query\Decorator', $this->container['itkg-core.command.db_update.decorator']);
     }
 
     public function testCommand()

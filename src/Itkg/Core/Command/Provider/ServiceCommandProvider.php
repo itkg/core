@@ -4,6 +4,7 @@ namespace Itkg\Core\Command\Provider;
 
 use Itkg\Core\Command\DatabaseUpdate;
 use Itkg\Core\Command\DatabaseUpdate\Loader;
+use Itkg\Core\Command\DatabaseUpdate\Template\Loader as TemplateLoader;
 use Itkg\Core\Command\DatabaseUpdate\Locator;
 use Itkg\Core\Command\DatabaseUpdate\Migration\Factory;
 use Itkg\Core\Command\DatabaseUpdate\Query\OutputQueryFactory;
@@ -16,7 +17,7 @@ use Itkg\Core\Provider\ServiceProviderInterface;
 /**
  * Class ServiceCommandProvider
  *
- * A provider for database_update command injection
+ * A provider for db_update command injection
  *
  * @author Pascal DENIS <pascal.denis@businessdecision.com>
  */
@@ -32,16 +33,25 @@ class ServiceCommandProvider implements ServiceProviderInterface
      */
     public function register(\Pimple $container)
     {
-        $container['itkg-core.command.database_update.runner'] = $container->share(
+        $container['itkg-core.command.db_update.runner'] = $container->share(
             function ($container) {
                 return new Runner($container['doctrine.connection']);
             }
         );
 
-        $container['itkg-core.command.database_update.setup'] = $container->share(
+        $container['itkg-core.command.db_update.decorator'] = $container->share(
+            function ($container) {
+                return new DatabaseUpdate\Query\Decorator(
+                    new TemplateLoader(),
+                    new DatabaseUpdate\Query\Parser()
+                );
+            }
+        );
+
+        $container['itkg-core.command.db_update.setup'] = $container->share(
             function ($container) {
                 return new Setup(
-                    $container['itkg-core.command.database_update.runner'],
+                    $container['itkg-core.command.db_update.runner'],
                     new Loader($container['doctrine.connection']),
                     new Factory(),
                     new Locator()
@@ -52,9 +62,10 @@ class ServiceCommandProvider implements ServiceProviderInterface
         $container['itkg-core.command.database_update'] = $container->share(
             function ($container) {
                 return new DatabaseUpdateCommand(
-                    'itkg-core:database:update',
-                    $container['itkg-core.command.database_update.setup'],
-                    new OutputQueryFactory(new QueryFormatter())
+                    $container['itkg-core.command.db_update.setup'],
+                    new OutputQueryFactory(new QueryFormatter()),
+                    $container['itkg-core.command.db_update.decorator'],
+                    'itkg-core:database:update'
                 );
             }
         );

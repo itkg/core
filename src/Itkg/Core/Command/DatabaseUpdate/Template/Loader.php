@@ -2,12 +2,19 @@
 
 namespace Itkg\Core\Command\DatabaseUpdate\Template;
 
-
 use Itkg\Core\Command\DatabaseUpdate\LoaderInterface;
 
 class Loader implements LoaderInterface
 {
+    /**
+     * @var array
+     */
     private $queries = array();
+
+    /**
+     * @var array
+     */
+    private $data = array();
 
     /**
      * Add a query
@@ -17,7 +24,7 @@ class Loader implements LoaderInterface
      */
     public function addQuery($query)
     {
-        $this->queries[] = $query;
+        $this->queries[] = $this->override($query);
 
         return $this;
     }
@@ -29,13 +36,33 @@ class Loader implements LoaderInterface
      * @param $file
      * @return $this
      */
-    public function load($file)
+    public function load($file, array $data = array())
     {
         $this->queries = array();
+        $this->data    = $data;
 
         include $file;
 
         return $this;
+    }
+
+    /**
+     * Replace some parameters with value
+     * parameter looks like {key}
+     * @param $query
+     * @return string
+     */
+    public function override($query)
+    {
+        foreach ($this->data as $key => $value) {
+            $query = str_replace(
+                sprintf('{%s}', $key),
+                $value,
+                $query
+            );
+        }
+
+        return $query;
     }
 
     /**
