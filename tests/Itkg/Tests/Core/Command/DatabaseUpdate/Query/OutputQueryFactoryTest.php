@@ -3,7 +3,7 @@
 namespace Itkg\Tests\Core\Command\DatabaseUpdate\Query;
 
 use Itkg\Core\Command\DatabaseUpdate\Query\OutputQueryFactory;
-use Itkg\Core\Command\DatabaseUpdate\Query\QueryFormatter;
+use Itkg\Core\Command\DatabaseUpdate\Query\Formatter;
 
 
 /**
@@ -35,6 +35,6 @@ class QutputQueryFactoryTest extends \PHPUnit_Framework_TestCase
 
     private function createFactory()
     {
-        return new OutputQueryFactory(new QueryFormatter());
+        return new OutputQueryFactory(new Formatter());
     }
 }

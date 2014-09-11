@@ -1,6 +1,7 @@
 <?php
 
 namespace Itkg\Tests\Core\Command\DatabaseUpdate\Query;
+
 use Itkg\Core\Command\DatabaseUpdate\Query\Decorator;
 use Itkg\Core\Command\DatabaseUpdate\Query\Parser;
 use Itkg\Core\Command\DatabaseUpdate\Template\Loader;

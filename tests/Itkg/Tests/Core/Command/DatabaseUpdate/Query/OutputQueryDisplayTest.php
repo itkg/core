@@ -3,7 +3,7 @@
 namespace Itkg\Tests\Core\Command\DatabaseUpdate\Query;
 
 use Itkg\Core\Command\DatabaseUpdate\Query\OutputQueryFactory;
-use Itkg\Core\Command\DatabaseUpdate\Query\QueryFormatter;
+use Itkg\Core\Command\DatabaseUpdate\Query\Formatter;
 use Symfony\Component\Console\Formatter\OutputFormatter;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
@@ -52,12 +52,12 @@ EOF;
     public function testFormatter()
     {
         $outputQuery = $this->createOutputQuery();
-        $this->assertEquals($outputQuery, $outputQuery->setFormatter(new QueryFormatter()));
+        $this->assertEquals($outputQuery, $outputQuery->setFormatter(new Formatter()));
     }
 
     private function createOutputQuery()
     {
-        $factory = new OutputQueryFactory(new QueryFormatter());
+        $factory = new OutputQueryFactory(new Formatter());
 
         return $factory
             ->create()

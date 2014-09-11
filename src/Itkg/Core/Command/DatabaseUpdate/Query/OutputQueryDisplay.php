@@ -14,7 +14,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class OutputQueryDisplay
 {
     /**
-     * @var QueryFormatterInterface
+     * @var FormatterInterface
      */
     protected $formatter;
 
@@ -26,9 +26,9 @@ class OutputQueryDisplay
     /**
      * Constructor
      *
-     * @param QueryFormatterInterface $formatter
+     * @param FormatterInterface $formatter
      */
-    public function __construct(QueryFormatterInterface $formatter)
+    public function __construct(FormatterInterface $formatter)
     {
         $this->formatter = $formatter;
     }
@@ -56,10 +56,10 @@ class OutputQueryDisplay
     }
 
     /**
-     * @param QueryFormatterInterface $formatter
+     * @param FormatterInterface $formatter
      * @return $this
      */
-    public function setFormatter(QueryFormatterInterface $formatter)
+    public function setFormatter(FormatterInterface $formatter)
     {
         $this->formatter = $formatter;
 

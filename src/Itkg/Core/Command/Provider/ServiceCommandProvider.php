@@ -7,7 +7,7 @@ use Itkg\Core\Command\DatabaseUpdate\Loader;
 use Itkg\Core\Command\DatabaseUpdate\Locator;
 use Itkg\Core\Command\DatabaseUpdate\Migration\Factory;
 use Itkg\Core\Command\DatabaseUpdate\Query\OutputQueryFactory;
-use Itkg\Core\Command\DatabaseUpdate\Query\QueryFormatter;
+use Itkg\Core\Command\DatabaseUpdate\Query\Formatter;
 use Itkg\Core\Command\DatabaseUpdate\Runner;
 use Itkg\Core\Command\DatabaseUpdate\Setup;
 use Itkg\Core\Command\DatabaseUpdate\Template\Loader as TemplateLoader;
@@ -63,7 +63,7 @@ class ServiceCommandProvider implements ServiceProviderInterface
             function ($container) {
                 return new DatabaseUpdateCommand(
                     $container['itkg-core.command.db_update.setup'],
-                    new OutputQueryFactory(new QueryFormatter()),
+                    new OutputQueryFactory(new Formatter()),
                     $container['itkg-core.command.db_update.decorator'],
                     'itkg-core:database:update'
                 );

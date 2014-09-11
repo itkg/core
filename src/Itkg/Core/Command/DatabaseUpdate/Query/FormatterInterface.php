@@ -7,7 +7,7 @@ namespace Itkg\Core\Command\DatabaseUpdate\Query;
  *
  * @package Itkg\Core\Command\DatabaseUpdate\Query
  */
-interface QueryFormatterInterface
+interface FormatterInterface
 {
     /**
      * Format a query

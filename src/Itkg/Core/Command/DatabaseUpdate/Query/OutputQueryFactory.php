@@ -12,7 +12,7 @@ namespace Itkg\Core\Command\DatabaseUpdate\Query;
 class OutputQueryFactory
 {
     /**
-     * @var QueryFormatterInterface
+     * @var FormatterInterface
      */
     private $formatter;
 
@@ -27,9 +27,9 @@ class OutputQueryFactory
     /**
      * Constructor
      *
-     * @param QueryFormatterInterface $formatter
+     * @param FormatterInterface $formatter
      */
-    public function __construct(QueryFormatterInterface $formatter)
+    public function __construct(FormatterInterface $formatter)
     {
         $this->formatter = $formatter;
     }

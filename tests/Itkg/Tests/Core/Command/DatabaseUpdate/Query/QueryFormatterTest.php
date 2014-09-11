@@ -2,7 +2,7 @@
 
 namespace Itkg\Tests\Core\Command\DatabaseUpdate\Query;
 
-use Itkg\Core\Command\DatabaseUpdate\Query\QueryFormatter;
+use Itkg\Core\Command\DatabaseUpdate\Query\Formatter;
 
 /**
  * @author Pascal DENIS <pascal.denis@businessdecision.com>
@@ -11,7 +11,7 @@ class QueryFormatterTest extends \PHPUnit_Framework_TestCase
 {
     public function testFormat()
     {
-        $formatter = new QueryFormatter();
+        $formatter = new Formatter();
         $query = <<<EOF
 CREATE TABLE MYC_TEST_SCRIPT (
 TEST_SCRIPT_ID INT,

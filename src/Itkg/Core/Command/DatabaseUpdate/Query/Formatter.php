@@ -9,7 +9,7 @@ namespace Itkg\Core\Command\DatabaseUpdate\Query;
  *
  * @package Itkg\Core\Command\DatabaseUpdate\Query
  */
-class QueryFormatter implements QueryFormatterInterface
+class Formatter implements FormatterInterface
 {
 
     /**
