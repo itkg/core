@@ -23,7 +23,8 @@ class OutputColorQueryDisplay extends OutputQueryDisplay
         'UPDATE' => 'blue',
         'DELETE' => 'red',
         'CREATE' => 'cyan',
-        'ALTER' => 'yellow'
+        'ALTER' => 'yellow',
+        'INSERT' => 'white'
     );
 
     /**
