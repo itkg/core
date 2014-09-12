@@ -29,6 +29,22 @@ class RunnerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(array_merge($queries, $queries, $rollbackQueries), $runner->getPlayedQueries());
     }
 
+    /**
+     * @expectedException \Exception
+     */
+    public function testRunException()
+    {
+        $queries = array('QUERY 1', 'QUERY 2');
+        $rollbackQueries = array('ROLLBACK QUERY 1', 'ROLLBACK QUERY 2');
+
+        $migration = new Migration($queries, $rollbackQueries);
+
+        $runner = $this->createRunner();
+
+        $runner->run($migration, true, true);
+
+    }
+
     private function createRunner()
     {
         $params = array(
