@@ -49,7 +49,7 @@ abstract class CommandExecuterAbstract extends Command
      * @param OutputInterface $output
      * @throws \RuntimeException
      * @throws \LogicException
-     * @return int|null|void
+     * @return void
      */
     public function execute(InputInterface $input, OutputInterface $output)
     {
@@ -68,15 +68,14 @@ abstract class CommandExecuterAbstract extends Command
      * @param OutputInterface $output
      * @throws \RuntimeException
      * @throws \LogicException
-     * @return int|null|void
+     * @return void
      */
     abstract public function doExecute(InputInterface $input, OutputInterface $output);
 
     /**
      * Write a message with extra record params
      *
-     * @param OutputInterface $output
-     * @param $message
+     * @param string $message
      * @param array $record
      */
     protected function write($message, array $record = array())
@@ -114,7 +113,6 @@ abstract class CommandExecuterAbstract extends Command
     /**
      * Write an exception with extra record params
      *
-     * @param OutputInterface $output
      * @param \Exception $exception
      * @param array $record
      */

@@ -60,7 +60,8 @@ class DatabaseUpdateCommandTest extends \PHPUnit_Framework_TestCase
             array(
                 'command' => $command->getName(),
                 'path'    => TEST_BASE_DIR.'/data',
-                'release' => 'uncomplete'
+                'release' => 'uncomplete',
+                'with-template' => true
             )
         );
     }
