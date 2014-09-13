@@ -39,11 +39,11 @@ class DecoratorTest extends \PHPUnit_Framework_TestCase
     {
         $decorator = $this->createDecorator();
 
-        $queries = $decorator->decorate('CREATE TABLE MY_TABLE (MY_FIELD INT)');
+        $queries = $decorator->decorate('CREATE OR REPLACE TABLE MY_TABLE (MY_FIELD INT)');
 
         $result = array(
             'PRE_CREATE_TEMPLATE MY_TABLE',
-            'CREATE TABLE MY_TABLE (MY_FIELD INT)',
+            'CREATE OR REPLACE TABLE MY_TABLE (MY_FIELD INT)',
             'POST_CREATE_TEMPLATE MY_TABLE'
         );
 

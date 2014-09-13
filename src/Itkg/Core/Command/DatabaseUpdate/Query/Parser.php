@@ -23,21 +23,14 @@ class Parser
     private $data = array();
 
     /**
-     * @var string
-     */
-    private $query;
-
-    /**
      * @param $query
      * @return $this
      */
     public function parse($query)
     {
-        $this->query = $query;
-
-        $query = trim(strtolower($query));
-        $this->type = current(explode(' ', $query));
-        $this->extractData();
+        $this->data = array();
+        $this->type = '';
+        $this->extractData($query);
 
         return $this;
     }
@@ -46,15 +39,24 @@ class Parser
      * Extra some data from current query
      * Ex : table_name
      */
-    protected function extractData()
+    protected function extractData($query)
     {
+        $query = preg_replace('/OR *REPLACE/', '', $query);
+        /**
+         * @TODO : Grant parse
+         */
         if (preg_match(
-            '/' . $this->type . ' *(TABLE|INTO|FROM) ([a-zA-Z-_]*) */i',
-            $this->query,
+            '/(CREATE|UPDATE|DELETE|ALTER|INSERT|DROP|SELECT|GRANT) *(SEQUENCE|INDEX|SYNONYM|TABLE|INTO|FROM|) *([a-zA-Z-_]*) */i',
+            $query,
             $matches
         )
         ) {
-            $this->data['table_name'] = $matches[2];
+            $this->type = trim(strtolower($matches[1]));
+            if($this->type == 'create') {
+                $this->type = strtolower(trim(sprintf('%s_%s', $matches[1], $matches[2])));
+            }
+
+            $this->data['identifier'] = $matches[3];
         }
     }
 

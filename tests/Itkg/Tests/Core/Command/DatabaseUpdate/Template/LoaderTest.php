@@ -13,7 +13,7 @@ class LoaderTest extends \PHPUnit_Framework_TestCase
     {
         $loader = new Loader();
 
-        $loader->load(TEST_BASE_DIR.'/data/templates/pre_create_template.php', array('table_name' => 'MY_TABLE'));
+        $loader->load(TEST_BASE_DIR.'/data/templates/pre_create_table_template.php', array('identifier' => 'MY_TABLE'));
 
         $this->assertEquals(array('PRE_CREATE_TEMPLATE MY_TABLE'), $loader->getQueries());
     }
