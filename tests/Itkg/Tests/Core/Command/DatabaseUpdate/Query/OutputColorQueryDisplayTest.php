@@ -4,6 +4,7 @@ namespace Itkg\Tests\Core\Command\DatabaseUpdate\Query;
 
 use Itkg\Core\Command\DatabaseUpdate\Query\OutputQueryFactory;
 use Itkg\Core\Command\DatabaseUpdate\Query\Formatter;
+use Itkg\Core\Command\DatabaseUpdate\Query;
 use Symfony\Component\Console\Formatter\OutputFormatter;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
@@ -17,16 +18,16 @@ class OutputColorQueryDisplayTest extends \PHPUnit_Framework_TestCase
         $display = $this->createOutputQuery();
 
         $formatter = new Formatter();
-        $query = 'CREATE TABLE MY_TABLE';
+        $query = new Query('CREATE TABLE MY_TABLE');
 
         $display->display($query);
 
-        $this->assertNotNull($display->getOutput()->getFormatter()->getStyle('CREATE'));
+        $this->assertNotNull($display->getOutput()->getFormatter()->getStyle('create_table'));
 
-        $query = 'INSERT INTO MY_TABLE (FIELD) VALUES (VALUE)';
+        $query = new Query('INSERT INTO MY_TABLE (FIELD) VALUES (VALUE)');
 
         $display->display($query);
-        $this->assertNotNull($display->getOutput()->getFormatter()->getStyle('INSERT'));
+        $this->assertNotNull($display->getOutput()->getFormatter()->getStyle('insert'));
     }
 
     private function createOutputQuery()

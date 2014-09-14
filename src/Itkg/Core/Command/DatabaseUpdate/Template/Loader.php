@@ -3,6 +3,7 @@
 namespace Itkg\Core\Command\DatabaseUpdate\Template;
 
 use Itkg\Core\Command\DatabaseUpdate\LoaderInterface;
+use Itkg\Core\Command\DatabaseUpdate\Query;
 
 class Loader implements LoaderInterface
 {
@@ -24,7 +25,7 @@ class Loader implements LoaderInterface
      */
     public function addQuery($query)
     {
-        $this->queries[] = $this->override($query);
+        $this->queries[] = new Query( $this->override($query));
 
         return $this;
     }

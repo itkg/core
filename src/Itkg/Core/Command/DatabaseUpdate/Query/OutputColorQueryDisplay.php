@@ -2,6 +2,7 @@
 
 namespace Itkg\Core\Command\DatabaseUpdate\Query;
 
+use Itkg\Core\Command\DatabaseUpdate\Query;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 
 /**
@@ -19,20 +20,28 @@ class OutputColorQueryDisplay extends OutputQueryDisplay
      * @var array
      */
     private $colors = array(
-        'SELECT' => 'green',
-        'UPDATE' => 'blue',
-        'DELETE' => 'red',
-        'CREATE' => 'cyan',
-        'ALTER' => 'yellow',
-        'INSERT' => 'white'
+        'select' => 'green',
+        'update' => 'blue',
+        'delete' => 'red',
+        'create_table' => 'cyan',
+        'create_index' => 'cyan',
+        'create_sequence' => 'cyan',
+        'create_synonym' => 'cyan',
+        'drop_table' => 'cyan',
+        'drop_index' => 'cyan',
+        'drop_sequence' => 'cyan',
+        'drop_synonym' => 'cyan',
+        'alter' => 'yellow',
+        'grant' => 'yellow',
+        'insert' => 'white'
     );
 
     /**
      * Display a query (with colors)
      *
-     * @param string $query
+     * @param Query $query
      */
-    public function display($query)
+    public function display(Query $query)
     {
         parent::display($this->changeStyle($query));
     }
@@ -40,18 +49,15 @@ class OutputColorQueryDisplay extends OutputQueryDisplay
     /**
      * Change query color by creating a new Style
      *
-     * @param $query
+     * @param Query $query
      * @return string
      */
-    private function changeStyle($query)
+    private function changeStyle(Query $query)
     {
-        $query = trim(strtoupper($query));
-        $word = current(explode(' ', $query));
+        $style = new OutputFormatterStyle($this->colors[$query->getType()], null, array('bold'));
 
-        $style = new OutputFormatterStyle($this->colors[$word], null, array('bold'));
+        $this->output->getFormatter()->setStyle($query->getType(), $style);
 
-        $this->output->getFormatter()->setStyle($word, $style);
-
-        return sprintf('<%s>%s</%s>', $word, $query, $word);
+        return sprintf('<%s>%s</%s>', $query->getType(), $query, $query->getType());
     }
 }

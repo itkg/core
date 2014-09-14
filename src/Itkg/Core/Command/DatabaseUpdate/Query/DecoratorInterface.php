@@ -1,6 +1,7 @@
 <?php
 
 namespace Itkg\Core\Command\DatabaseUpdate\Query;
+use Itkg\Core\Command\DatabaseUpdate\Query;
 
 
 /**
@@ -11,13 +12,15 @@ interface DecoratorInterface
     /**
      * Decorate a query
      *
-     * @return decorated queries
+     * @param \Itkg\Core\Command\DatabaseUpdate\Query $query
+     * @return array decorated queries
      */
-    public function decorate($query);
+    public function decorate(Query $query);
 
     /**
      * Decorate queries
      *
+     * @param array $queries
      * @return array Decorated queries
      */
     public function decorateAll(array $queries = array());

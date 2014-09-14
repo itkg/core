@@ -4,6 +4,7 @@ namespace Itkg\Tests\Core\Command\DatabaseUpdate\Query;
 
 use Itkg\Core\Command\DatabaseUpdate\Query\Decorator;
 use Itkg\Core\Command\DatabaseUpdate\Query\Parser;
+use Itkg\Core\Command\DatabaseUpdate\Query;
 use Itkg\Core\Command\DatabaseUpdate\Template\Loader;
 
 
@@ -15,9 +16,9 @@ class DecoratorTest extends \PHPUnit_Framework_TestCase
     public function testDecorateAll()
     {
         $queries = array(
-            'DELETE FROM MY_DELETE_TABLE',
-            'INSERT INTO MY_INSERT_TABLE (FIELD_ONE) VALUES (VALUE)',
-            'CREATE TABLE MY_CREATE_TABLE (FIELD INT)'
+            new Query('DELETE FROM MY_DELETE_TABLE'),
+            new Query('INSERT INTO MY_INSERT_TABLE (FIELD_ONE) VALUES (VALUE)'),
+            new Query('CREATE TABLE MY_CREATE_TABLE (FIELD INT)')
         );
 
         $decoratedQueries = $this->createDecorator()->decorateAll($queries);
@@ -39,7 +40,7 @@ class DecoratorTest extends \PHPUnit_Framework_TestCase
     {
         $decorator = $this->createDecorator();
 
-        $queries = $decorator->decorate('CREATE OR REPLACE TABLE MY_TABLE (MY_FIELD INT)');
+        $queries = $decorator->decorate(new Query('CREATE OR REPLACE TABLE MY_TABLE (MY_FIELD INT)'));
 
         $result = array(
             'PRE_CREATE_TEMPLATE MY_TABLE',
@@ -52,7 +53,7 @@ class DecoratorTest extends \PHPUnit_Framework_TestCase
 
     private function createDecorator()
     {
-        $decorator = new Decorator(new Loader(), new Parser());
+        $decorator = new Decorator(new Loader());
         $decorator->setTemplatePath(TEST_BASE_DIR.'/data/templates');
 
         return $decorator;

@@ -56,7 +56,7 @@ class Loader implements LoaderInterface
      */
     public function addQuery($query)
     {
-        $this->queries[] = $query;
+        $this->queries[] = new Query($query);
 
         return $this;
     }
@@ -72,7 +72,7 @@ class Loader implements LoaderInterface
         /**
          * @TODO : How to manage query params ?
          */
-        $this->queries[] = $qb->getSQL();
+        $this->queries[] = new Query($qb->getSQL());
 
         return $this;
     }

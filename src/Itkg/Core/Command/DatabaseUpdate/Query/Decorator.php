@@ -2,6 +2,7 @@
 
 namespace Itkg\Core\Command\DatabaseUpdate\Query;
 
+use Itkg\Core\Command\DatabaseUpdate\Query;
 use Itkg\Core\Command\DatabaseUpdate\Template\Loader;
 
 /**
@@ -17,11 +18,6 @@ class Decorator implements DecoratorInterface
      * @var Loader
      */
     private $loader;
-
-    /**
-     * @var Parser
-     */
-    private $parser;
 
     /**
      * Templates path
@@ -42,13 +38,10 @@ class Decorator implements DecoratorInterface
 
     /**
      * @param Loader $loader
-     * @param Parser $parser
-     * @param array $queries
      */
-    public function __construct(Loader $loader, Parser $parser)
+    public function __construct(Loader $loader)
     {
         $this->loader = $loader;
-        $this->parser = $parser;
     }
 
     /**
@@ -56,20 +49,33 @@ class Decorator implements DecoratorInterface
      * Template add query before / after current query
      * Use query keyword to retrieve template
      *
-     * @param $query
+     * @param Query $query
      * @return array decorated queries
      */
-    public function decorate($query)
+    public function decorate(Query $query)
     {
-        $queryType = $this->parser
-            ->parse($query)
-            ->getType();
-
-        $queries = $this->process(sprintf(self::PRE_TEMPLATE_PATH, $this->templatePath, $queryType));
+        $queries = $this->process(
+            $query,
+            sprintf(
+                self::PRE_TEMPLATE_PATH,
+                $this->templatePath,
+                $query->getType()
+            )
+        );
 
         $queries[] = $query;
 
-        return array_merge($queries, $this->process(sprintf(self::POST_TEMPLATE_PATH, $this->templatePath, $queryType)));
+        return array_merge(
+            $queries,
+            $this->process(
+                $query,
+                sprintf(
+                    self::POST_TEMPLATE_PATH,
+                    $this->templatePath,
+                    $query->getType()
+                )
+            )
+        );
     }
 
     /**
@@ -92,15 +98,16 @@ class Decorator implements DecoratorInterface
     }
 
     /**
+     * @param \Itkg\Core\Command\DatabaseUpdate\Query $query
      * @param string $template
      * @return array
      */
-    private function process($template)
+    private function process(Query $query, $template)
     {
         if (file_exists($template)) {
             return $this->loader->load(
                 $template,
-                $this->parser->getData()
+                $query->getData()
             )->getQueries();
         }
 

@@ -40,10 +40,9 @@ class ServiceCommandProvider implements ServiceProviderInterface
         );
 
         $container['itkg-core.command.db_update.decorator'] = $container->share(
-            function ($container) {
+            function () {
                 return new DatabaseUpdate\Query\Decorator(
-                    new TemplateLoader(),
-                    new DatabaseUpdate\Query\Parser()
+                    new TemplateLoader()
                 );
             }
         );
