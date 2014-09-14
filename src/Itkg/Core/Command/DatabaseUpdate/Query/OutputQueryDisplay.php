@@ -2,6 +2,7 @@
 
 namespace Itkg\Core\Command\DatabaseUpdate\Query;
 
+use Itkg\Core\Command\DatabaseUpdate\Query;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -36,9 +37,9 @@ class OutputQueryDisplay
     /**
      * Display a query
      *
-     * @param string $query
+     * @param Query $query
      */
-    public function display($query)
+    public function display(Query $query)
     {
         $this->output->write($this->formatter->format($query));
     }

@@ -4,6 +4,7 @@ namespace Itkg\Tests\Core\Command\DatabaseUpdate\Query;
 
 use Itkg\Core\Command\DatabaseUpdate\Query\OutputQueryFactory;
 use Itkg\Core\Command\DatabaseUpdate\Query\Formatter;
+use Itkg\Core\Command\DatabaseUpdate\Query;
 use Symfony\Component\Console\Formatter\OutputFormatter;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
@@ -23,7 +24,7 @@ TEST_NAME varchar(255)
 )
 EOF;
 
-        $outputQuery->display($query);
+        $outputQuery->display(new Query($query));
 
         $this->assertEquals('CREATE TABLE MYC_TEST_SCRIPT (TEST_SCRIPT_ID INT,TEST_NAME varchar(255));'.PHP_EOL, $outputQuery->getOutput()->output);
     }
@@ -39,8 +40,8 @@ TEST_NAME varchar(255)
 )
 EOF;
         $queries = array(
-            $query,
-            $query
+            new Query($query),
+            new Query($query)
         );
 
         $outputQuery->displayAll($queries);

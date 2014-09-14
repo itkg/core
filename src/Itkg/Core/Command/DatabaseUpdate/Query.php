@@ -4,23 +4,42 @@ namespace Itkg\Core\Command\DatabaseUpdate;
 
 class Query
 {
+    /**
+     * @var string
+     */
     private $value;
 
+    /**
+     * @var string
+     */
     private $type;
 
-    private $data;
+    /**
+     * @var array
+     */
+    private $data = array();
 
+    /**
+     * @param string $value
+     */
     public function __construct($value)
     {
         $this->value = $value;
         $this->parse();
     }
 
+    /**
+     * @return string
+     */
     public function getValue()
     {
         return $this->value;
     }
 
+    /**
+     * @param string $value
+     * @return $this
+     */
     public function setValue($value)
     {
         $this->value = $value;
@@ -30,16 +49,26 @@ class Query
         return $this;
     }
 
+    /**
+     * @return array
+     */
     public function getData()
     {
         return $this->data;
     }
 
+    /**
+     * @return string
+     */
     public function getType()
     {
         return $this->type;
     }
 
+    /**
+     * Parse query
+     * Extract type & extra data
+     */
     protected function parse()
     {
         $query = preg_replace('/OR *REPLACE/', '', $this->value);
@@ -63,6 +92,9 @@ class Query
         }
     }
 
+    /**
+     * @return string
+     */
     public function __toString()
     {
         return $this->value;

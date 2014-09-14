@@ -43,7 +43,7 @@ class OutputColorQueryDisplay extends OutputQueryDisplay
      */
     public function display(Query $query)
     {
-        parent::display($this->changeStyle($query));
+        parent::display($query->setValue($this->changeStyle($query)));
     }
 
     /**
