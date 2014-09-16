@@ -6,6 +6,7 @@ use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\DriverManager;
 use Itkg\Core\Command\DatabaseUpdate\Migration\Factory;
 use Itkg\Core\Command\DatabaseUpdate\Loader;
+use Itkg\Core\Command\DatabaseUpdate\Query\Decorator;
 use Itkg\Core\Command\DatabaseUpdate\Runner;
 use Itkg\Core\Command\DatabaseUpdate\Locator;
 use Itkg\Core\Command\DatabaseUpdate\Setup;
@@ -167,6 +168,8 @@ class SetupTest extends \PHPUnit_Framework_TestCase
         $runner = new Runner($connection);
         $factory = new Factory();
         $locator = new Locator();
-        return new Setup($runner, $loader, $factory, $locator);
+        $decorator = new Decorator(new \Itkg\Core\Command\DatabaseUpdate\Template\Loader());
+
+        return new Setup($runner, $loader, $factory, $locator, $decorator);
     }
 }

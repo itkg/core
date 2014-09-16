@@ -5,6 +5,7 @@ namespace Itkg\Core\Command\DatabaseUpdate;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Itkg\Core\Command\DatabaseUpdate\Migration\Factory;
+use Itkg\Core\Command\DatabaseUpdate\Query\DecoratorInterface;
 
 /**
  * Class Setup
@@ -73,24 +74,33 @@ class Setup
     private $locator;
 
     /**
+     * Queries decorator
+     * @var DecoratorInterface
+     */
+    private $decorator;
+
+    /**
      * Constructor
      *
      * @param RunnerInterface $runner
      * @param LoaderInterface $loader
      * @param Migration\Factory $migrationFactory
      * @param LocatorInterface $locator
+     * @param Query\DecoratorInterface $decorator
      */
     public function __construct(
         RunnerInterface $runner,
         LoaderInterface $loader,
         Factory $migrationFactory,
-        LocatorInterface $locator
+        LocatorInterface $locator,
+        DecoratorInterface $decorator
     )
     {
         $this->runner = $runner;
         $this->loader = $loader;
         $this->migrationFactory = $migrationFactory;
         $this->locator = $locator;
+        $this->decorator = $decorator;
     }
 
     /**
@@ -161,10 +171,11 @@ class Setup
         $this->createMigrations();
 
         foreach ($this->migrations as $migration) {
+
             $this->runner->run($migration, $this->executeQueries, $this->forcedRollback);
         }
-
-        return $this->runner->getPlayedQueries();
+        // After run, we add decorated queries
+        return $this->decorator->decorateAll($this->runner->getPlayedQueries());
     }
 
     /**

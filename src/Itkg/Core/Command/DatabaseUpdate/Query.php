@@ -40,12 +40,13 @@ class Query
      * @param string $value
      * @return $this
      */
-    public function setValue($value)
+    public function setValue($value, $forcedParse = true)
     {
         $this->value = $value;
 
-        $this->parse();
-
+        if ($forcedParse) {
+            $this->parse();
+        }
         return $this;
     }
 

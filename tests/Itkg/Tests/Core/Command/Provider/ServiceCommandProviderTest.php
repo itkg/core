@@ -42,13 +42,19 @@ class ServiceCommandProviderTest extends \PHPUnit_Framework_TestCase
      */
     public function testDoctrineDependency()
     {
-        $loader = $this->container['itkg-core.command.database_update.loader'];
+        $this->container['itkg-core.command.database_update.loader'];
     }
 
     public function testSetup()
     {
         $this->loadDoctrine();
         $this->assertInstanceOf('Itkg\Core\Command\DatabaseUpdate\Setup', $this->container['itkg-core.command.db_update.setup']);
+    }
+
+    public function testDisplay()
+    {
+        $this->loadDoctrine();
+        $this->assertInstanceOf('Itkg\Core\Command\DatabaseUpdate\Display', $this->container['itkg-core.command.db_update.display']);
     }
 
     public function testDecorator()

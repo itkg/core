@@ -2,9 +2,7 @@
 
 namespace Itkg\Core\Command;
 
-use Doctrine\DBAL\Connection;
-use Itkg\Core\Command\DatabaseUpdate\Query\DecoratorInterface;
-use Itkg\Core\Command\DatabaseUpdate\Query\OutputQueryFactory;
+use Itkg\Core\Command\DatabaseUpdate\Display;
 use Itkg\Core\Command\DatabaseUpdate\Setup;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -27,29 +25,23 @@ class DatabaseUpdateCommand extends Command
     private $setup;
 
     /**
-     * @var OutputQueryFactory
+     * @var Display
      */
-    private $queryDisplayFactory;
-
-    /**
-     * @var Decorator
-     */
-    private $decorator;
+    private $display;
 
     /**
      * Constructor
      *
-     * @param string $name
      * @param Setup $setup
-     * @param OutputQueryFactory $queryDisplayFactory
+     * @param DatabaseUpdate\Display $display
+     * @param string $name
      */
-    public function __construct(Setup $setup, OutputQueryFactory $queryDisplayFactory, DecoratorInterface $decorator, $name = null)
+    public function __construct(Setup $setup, Display $display, $name = null)
     {
         parent::__construct($name);
 
         $this->setup = $setup;
-        $this->queryDisplayFactory = $queryDisplayFactory;
-        $this->decorator = $decorator;
+        $this->display = $display;
     }
 
     /**
@@ -115,7 +107,6 @@ class DatabaseUpdateCommand extends Command
      * @param OutputInterface $output
      * @throws \RuntimeException
      * @throws \LogicException
-     * @return int|null|void
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -129,16 +120,13 @@ class DatabaseUpdateCommand extends Command
 
         $queries = $this->setup($input);
 
-        if ($input->getOption('with-template')) {
-            $queries = $this->decorator->decorateAll($queries);
-        }
-
         $this->display($input, $output, $queries);
     }
 
     /**
      * Start migration setup
      *
+     * @param \Symfony\Component\Console\Input\InputInterface $input
      * @return array
      */
     protected function setup(InputInterface $input)
@@ -155,9 +143,12 @@ class DatabaseUpdateCommand extends Command
      */
     protected function display(InputInterface $input, OutputInterface $output, array $queries = array())
     {
-        $this->queryDisplayFactory
-            ->create($input->getOption('colors') ? 'color' : '')
+        $this->display
             ->setOutput($output)
-            ->displayAll($queries);
+            ->displayQueries(
+                $queries,
+                $input->getOption('colors'),
+                $input->getOption('with-template')
+            );
     }
 }

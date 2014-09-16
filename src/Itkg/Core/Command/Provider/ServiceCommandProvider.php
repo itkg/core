@@ -47,13 +47,23 @@ class ServiceCommandProvider implements ServiceProviderInterface
             }
         );
 
+        $container['itkg-core.command.db_update.display'] = $container->share(
+            function () {
+                return new DatabaseUpdate\Display(
+                    new DatabaseUpdate\Layout\Parser(),
+                    new Formatter()
+                );
+            }
+        );
+
         $container['itkg-core.command.db_update.setup'] = $container->share(
             function ($container) {
                 return new Setup(
                     $container['itkg-core.command.db_update.runner'],
                     new Loader($container['doctrine.connection']),
                     new Factory(),
-                    new Locator()
+                    new Locator(),
+                    $container['itkg-core.command.db_update.decorator']
                 );
             }
         );
@@ -62,8 +72,7 @@ class ServiceCommandProvider implements ServiceProviderInterface
             function ($container) {
                 return new DatabaseUpdateCommand(
                     $container['itkg-core.command.db_update.setup'],
-                    new OutputQueryFactory(new Formatter()),
-                    $container['itkg-core.command.db_update.decorator'],
+                    $container['itkg-core.command.db_update.display'],
                     'itkg-core:database:update'
                 );
             }

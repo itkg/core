@@ -4,6 +4,8 @@ namespace Itkg\Tests\Core\Command;
 
 use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\DriverManager;
+use Itkg\Core\Command\DatabaseUpdate\Display;
+use Itkg\Core\Command\DatabaseUpdate\Layout\Parser;
 use Itkg\Core\Command\DatabaseUpdate\Loader;
 use Itkg\Core\Command\DatabaseUpdate\Locator;
 use Itkg\Core\Command\DatabaseUpdate\Migration\Factory;
@@ -82,9 +84,10 @@ class DatabaseUpdateCommandTest extends \PHPUnit_Framework_TestCase
         $runner = new Runner($connection);
         $factory = new Factory();
         $locator = new Locator();
-        $queryFactory = new OutputQueryFactory(new Formatter());
         $decorator = new Decorator(new \Itkg\Core\Command\DatabaseUpdate\Template\Loader());
-        return new DatabaseUpdateCommand(new Setup($runner, $loader, $factory, $locator), $queryFactory, $decorator, 'itkg-core:script');
+        $display = new Display(new Parser(), new Formatter());
+
+        return new DatabaseUpdateCommand(new Setup($runner, $loader, $factory, $locator, $decorator), $display, 'itkg-core:script');
     }
 
 }
