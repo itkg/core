@@ -35,7 +35,7 @@ This is my template
 
 CREATE TABLE MY_TABLE
 
-Grant query : GRANT SELECT,INSERT,UPDATE,DELETE ON MY_TABLE TO MY_USER
+Grant query :GRANT SELECT,INSERT,UPDATE,DELETE ON MY_TABLE TO MY_USER
 EOF;
         $parser->parse(array($queryGrant, $queryCreate));
 

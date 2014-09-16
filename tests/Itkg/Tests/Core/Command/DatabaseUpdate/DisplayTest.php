@@ -68,7 +68,7 @@ INSERT INTO MY_TABLE (FIELD) VALUES (VALUE);
 UPDATE TABLE MY_TABLE;
 
 
-Grant query : 
+Grant query :
 EOF;
         $this->assertEquals(
             $result,

@@ -2,4 +2,4 @@ This is my template
 
 {all}
 
-Grant query : {grant}
+Grant query :{grant}
