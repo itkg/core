@@ -2,8 +2,6 @@
 
 namespace Itkg\Core\Event;
 
-use Itkg\Core\ServiceContainer;
-
 /**
  * Class KernelEvents
  *

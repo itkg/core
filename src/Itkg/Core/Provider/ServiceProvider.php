@@ -2,7 +2,6 @@
 
 namespace Itkg\Core\Provider;
 
-use Itkg\Core\ServiceContainer;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
 /**

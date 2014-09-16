@@ -4,7 +4,6 @@ namespace Itkg\Core;
 
 use Symfony\Component\Config\FileLocatorInterface;
 use Symfony\Component\Config\Loader\FileLoader;
-use Symfony\Component\Config\Resource\FileResource;
 use Symfony\Component\Yaml\Parser as YamlParser;
 
 class YamlLoader extends FileLoader

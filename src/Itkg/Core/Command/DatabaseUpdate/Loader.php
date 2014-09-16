@@ -4,7 +4,6 @@ namespace Itkg\Core\Command\DatabaseUpdate;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\QueryBuilder;
-use Doctrine\DBAL\SQLParserUtils;
 
 /**
  * Class Loader

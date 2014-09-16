@@ -2,13 +2,9 @@
 
 namespace Itkg\Core;
 
-use Itkg\Core\ApplicationInterface;
 use Itkg\Core\ConfigInterface;
 use Itkg\Core\YamlLoader;
-use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\Config\FileLocator;
-use Symfony\Component\Config\Loader\DelegatingLoader;
-use Symfony\Component\Config\Loader\LoaderResolver;
 use Symfony\Component\Yaml\Parser as YamlParser;
 
 /**

@@ -2,8 +2,6 @@
 
 namespace Itkg\Core\Command\DatabaseUpdate;
 
-use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Query\QueryBuilder;
 use Itkg\Core\Command\DatabaseUpdate\Migration\Factory;
 use Itkg\Core\Command\DatabaseUpdate\Query\DecoratorInterface;
 
