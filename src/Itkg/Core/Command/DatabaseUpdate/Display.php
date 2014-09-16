@@ -36,21 +36,22 @@ class Display
      * @var array
      */
     private $colors = array(
-        'select'          => 'green',
-        'update'          => 'blue',
-        'delete'          => 'red',
-        'create_table'    => 'cyan',
-        'create_index'    => 'cyan',
+        'select' => 'green',
+        'update' => 'blue',
+        'delete' => 'red',
+        'create_table' => 'cyan',
+        'create_index' => 'cyan',
         'create_sequence' => 'cyan',
-        'create_synonym'  => 'cyan',
-        'drop_table'      => 'cyan',
-        'drop_index'      => 'cyan',
-        'drop_sequence'   => 'cyan',
-        'drop_synonym'    => 'cyan',
-        'alter'           => 'yellow',
-        'grant'           => 'yellow',
-        'insert'          => 'white'
+        'create_synonym' => 'cyan',
+        'drop_table' => 'cyan',
+        'drop_index' => 'cyan',
+        'drop_sequence' => 'cyan',
+        'drop_synonym' => 'cyan',
+        'alter' => 'yellow',
+        'grant' => 'yellow',
+        'insert' => 'white'
     );
+
     /**
      * @param Parser $templateParser
      * @param Formatter $queryFormatter
@@ -132,7 +133,7 @@ class Display
      */
     protected function formatQuery(Query $query, $useColor = false)
     {
-        $value = $this->queryFormatter->format((string) $query);
+        $value = $this->queryFormatter->format((string)$query);
 
         if ($useColor) {
             $value = sprintf('<%s>%s</%s>', $query->getType(), $value, $query->getType());

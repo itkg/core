@@ -97,7 +97,7 @@ class Parser
     private function processVar($var)
     {
         $content = '';
-        if (preg_match('/\{'.$var.'\}/', $this->content)) {
+        if (preg_match('/\{' . $var . '\}/', $this->content)) {
             foreach ($this->queries as $key => $query) {
                 if ($var == 'all' || $query->getType() == $var) {
                     $content .= $query;

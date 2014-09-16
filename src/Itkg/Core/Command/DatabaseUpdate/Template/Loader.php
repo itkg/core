@@ -25,7 +25,7 @@ class Loader implements LoaderInterface
      */
     public function addQuery($query)
     {
-        $this->queries[] = new Query( $this->override($query));
+        $this->queries[] = new Query($this->override($query));
 
         return $this;
     }

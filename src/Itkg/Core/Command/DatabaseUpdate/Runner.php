@@ -117,7 +117,7 @@ class Runner implements RunnerInterface
     {
         $this->playedQueries[] = $query;
         if ($executeQueries) {
-            $this->connection->executeQuery((string) $query);
+            $this->connection->executeQuery((string)$query);
         }
     }
 

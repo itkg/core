@@ -1,6 +1,7 @@
 <?php
 
 namespace Itkg\Core\Command\DatabaseUpdate\Query;
+
 use Itkg\Core\Command\DatabaseUpdate\Query;
 
 

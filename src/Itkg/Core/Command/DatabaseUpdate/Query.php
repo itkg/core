@@ -83,7 +83,7 @@ class Query
         )
         ) {
             $this->type = trim(strtolower($matches[1]));
-            if(in_array($this->type, array('create', 'drop')))  {
+            if (in_array($this->type, array('create', 'drop'))) {
                 $this->type = strtolower(trim(sprintf('%s_%s', $matches[1], $matches[2])));
             }
 
