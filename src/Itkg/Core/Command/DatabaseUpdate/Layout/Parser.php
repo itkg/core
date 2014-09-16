@@ -14,7 +14,7 @@ class Parser
     /**
      * @var string
      */
-    private $path = 'script/templates/layout.php';
+    private $path = 'script/templates/layout.template';
 
     /**
      * @var string

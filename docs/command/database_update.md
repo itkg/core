@@ -20,6 +20,10 @@ Default structure example :
 ```text
 .
 +-- script
+|  +-- templates
+|     +-- layout.template (optional)
+|     +-- pre_create_table_template.php (optional)
+|     +-- etc
 |  +-- releases
 |     +-- release_version
 |        +-- script
@@ -94,3 +98,79 @@ You can define another releases directory by specifiying path option :
 ```bash
 php app/console.php itkg-core:database:update RELEASE_VERSION --path=/path/to/you/releases/directory
 ```
+
+## Decorate queries with hooks
+
+You may want to add some queries / info before or after a specific query.
+For example, your delivery script may contain roles management that don't exist in your DEV environment.
+
+You can create hook for that by adding templates file in your templates folder.
+
+Each hook is a PHP file which is executed with a class context (see : [Loader class](https://github.com/itkg/core/blob/master/src/Itkg/Core/Command/DatabaseUpdate/Template/Loader.php))
+
+Imagine, you want to create a synonym for a create table & grant access to a specific user (only on your PROD env)
+Follow these steps :
+
+* Create a file named post_create_table_template.php
+* Add this code into this file :
+
+```php
+/**
+     * @var \Itkg\Core\Command\DatabaseUpdate\Template\Loader
+     */
+$this->addQuery('CREATE OR REPLACE SYNONYM MY_SYNONYM.{identifier} for {identifier}'); // identifier is your table name
+$this->addQuery('GRANT SELECT,INSERT,UPDATE,DELETE ON {identifier} TO YOUR_ROLE'); // identifier is you table name
+
+```
+That's all!
+
+You can add "pre" or "post" hook for all queries type :
+* insert
+* update
+* delete
+* create_table
+* drop_table
+* create_sequence
+* drop_sequence
+* create_synonym
+* drop_synonym
+* alter
+* create_index
+* drop_index
+* grant (Partially implemented)
+
+! Warning : Decorated queries will not be executed with your script. If you want to play query, add it in your script !
+
+### Layout
+
+You can format your delivery script using a layout file named layout.template (see standard structure)
+
+You can use vars into this template to place your different queries.
+
+Example :
+
+```php
+
+My personnalized template file
+
+My create tables {create_table}
+
+Others queries {all}
+
+```
+
+You can use these variables :
+
+* {insert}
+* {update}
+* {delete}
+* {create_table}
+* {drop_table}
+* {create_sequence}
+* {drop_sequence}
+* {create_synonym}
+* {drop_synonym}
+* {alter}
+* {create_index}
+* {drop_index}
+* {grant}
