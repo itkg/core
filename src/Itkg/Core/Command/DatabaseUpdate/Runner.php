@@ -49,6 +49,8 @@ class Runner implements RunnerInterface
      * @param bool $executeQueries
      * @param bool $forcedRollback
      *
+     * @throws \Exception
+     * @throws Migration\Exception
      * @return void
      */
     public function run(Migration $migration, $executeQueries = false, $forcedRollback = false)
@@ -108,15 +110,14 @@ class Runner implements RunnerInterface
      * Run a query if execute query is true
      * else simply add query to played queries stack
      *
-     * @param $query
+     * @param Query $query
      * @param bool $executeQueries
      */
-    private function runQuery($query, $executeQueries = false)
+    private function runQuery(Query $query, $executeQueries = false)
     {
         $this->playedQueries[] = $query;
-
         if ($executeQueries) {
-            $this->connection->executeQuery($query);
+            $this->connection->executeQuery((string)$query);
         }
     }
 

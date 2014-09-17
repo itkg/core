@@ -2,8 +2,7 @@
 
 namespace Itkg\Core\Command;
 
-use Itkg\Core\Command\DatabaseUpdate\FinderInterface;
-use Itkg\Core\Command\DatabaseUpdate\Query\OutputQueryFactory;
+use Itkg\Core\Command\DatabaseUpdate\Display;
 use Itkg\Core\Command\DatabaseUpdate\Setup;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -26,23 +25,23 @@ class DatabaseUpdateCommand extends Command
     private $setup;
 
     /**
-     * @var OutputQueryFactory
+     * @var Display
      */
-    private $queryDisplayFactory;
+    private $display;
 
     /**
      * Constructor
      *
-     * @param string $name
      * @param Setup $setup
-     * @param OutputQueryFactory $queryDisplayFactory
+     * @param DatabaseUpdate\Display $display
+     * @param string $name
      */
-    public function __construct($name = null, Setup $setup, OutputQueryFactory $queryDisplayFactory)
+    public function __construct(Setup $setup, Display $display, $name = null)
     {
         parent::__construct($name);
 
-        $this->setup               = $setup;
-        $this->queryDisplayFactory = $queryDisplayFactory;
+        $this->setup = $setup;
+        $this->display = $display;
     }
 
     /**
@@ -82,6 +81,12 @@ class DatabaseUpdateCommand extends Command
                 'Execute a rollback before play script'
             )
             ->addOption(
+                'with-template',
+                null,
+                InputOption::VALUE_NONE,
+                'Decorate queries with custom templates'
+            )
+            ->addOption(
                 'colors',
                 null,
                 InputOption::VALUE_NONE,
@@ -102,27 +107,48 @@ class DatabaseUpdateCommand extends Command
      * @param OutputInterface $output
      * @throws \RuntimeException
      * @throws \LogicException
-     * @return int|null|void
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->setup->getLocator()->setParams(
             array(
-                'release'    => $input->getArgument('release'),
-                'path'       => $input->getOption('path'),
+                'release' => $input->getArgument('release'),
+                'path' => $input->getOption('path'),
                 'scriptName' => $input->getOption('script')
             )
         );
 
-        $this->setup
+        $queries = $this->setup($input);
+
+        $this->display($input, $output, $queries);
+    }
+
+    /**
+     * Start migration setup
+     *
+     * @param \Symfony\Component\Console\Input\InputInterface $input
+     * @return array
+     */
+    protected function setup(InputInterface $input)
+    {
+        return $this->setup
             ->setForcedRollback($input->getOption('force-rollback'))
             ->setExecuteQueries($input->getOption('execute'))
             ->setRollbackedFirst($input->getOption('rollback-first'))
             ->run();
+    }
 
-        $this->queryDisplayFactory
-            ->create($input->getOption('colors') ? 'color' : '')
+    /**
+     * Display queries
+     */
+    protected function display(InputInterface $input, OutputInterface $output, array $queries = array())
+    {
+        $this->display
             ->setOutput($output)
-            ->displayAll($this->setup->getQueries());
+            ->displayQueries(
+                $queries,
+                $input->getOption('colors'),
+                $input->getOption('with-template')
+            );
     }
 }

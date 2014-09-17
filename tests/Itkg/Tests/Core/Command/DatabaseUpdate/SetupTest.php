@@ -6,6 +6,7 @@ use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\DriverManager;
 use Itkg\Core\Command\DatabaseUpdate\Migration\Factory;
 use Itkg\Core\Command\DatabaseUpdate\Loader;
+use Itkg\Core\Command\DatabaseUpdate\Query\Decorator;
 use Itkg\Core\Command\DatabaseUpdate\Runner;
 use Itkg\Core\Command\DatabaseUpdate\Locator;
 use Itkg\Core\Command\DatabaseUpdate\Setup;
@@ -60,14 +61,14 @@ class SetupTest extends \PHPUnit_Framework_TestCase
             'release' => 'data'
         ));
 
-        $setup->run();
+        $queries = $setup->run();
 
         $displayed = array(
             'DROP TABLE MYC_TEST_SCRIPT',
             'DROP TABLE MYC_TEST_SCRIPT2'
         );
 
-        $this->assertEquals($displayed, $setup->getQueries());
+        $this->assertEquals($displayed, $queries);
 
     }
 
@@ -80,14 +81,14 @@ class SetupTest extends \PHPUnit_Framework_TestCase
             'release' => 'data'
         ));
 
-        $setup->run();
+        $queries = $setup->run();
 
         $displayed = array(
             'CREATE TABLE MYC_TEST_SCRIPT (TEST_SCRIPT_ID INT, TEST_NAME varchar(255))',
             'CREATE TABLE MYC_TEST_SCRIPT2 (TEST_SCRIPT_ID INT, TEST_NAME varchar(255))'
         );
 
-        $this->assertEquals($displayed, $setup->getQueries());
+        $this->assertEquals($displayed, $queries);
     }
 
     /**
@@ -130,6 +131,7 @@ class SetupTest extends \PHPUnit_Framework_TestCase
         $setup->run();
 
     }
+
     /**
      * @expectedException \UnexpectedValueException
      */
@@ -137,6 +139,22 @@ class SetupTest extends \PHPUnit_Framework_TestCase
     {
         $setup = $this->createSetup();
 
+        $setup->run();
+    }
+
+    /**
+     * @expectedException \Exception
+     */
+    public function testRunWithExecuteException()
+    {
+        $setup = $this->createSetup();
+
+        $setup->getLocator()->setParams(array(
+            'path'    => TEST_BASE_DIR,
+            'release' => 'data'
+        ));
+
+        $setup->setExecuteQueries(true);
         $setup->run();
     }
 
@@ -167,6 +185,8 @@ class SetupTest extends \PHPUnit_Framework_TestCase
         $runner = new Runner($connection);
         $factory = new Factory();
         $locator = new Locator();
-        return new Setup($runner, $loader, $factory, $locator);
+        $decorator = new Decorator(new \Itkg\Core\Command\DatabaseUpdate\Template\Loader());
+
+        return new Setup($runner, $loader, $factory, $locator, $decorator);
     }
 }

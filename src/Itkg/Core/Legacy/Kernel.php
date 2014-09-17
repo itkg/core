@@ -5,7 +5,6 @@ namespace Itkg\Core\Legacy;
 use Itkg\Core\ApplicationInterface;
 use Itkg\Core\KernelAbstract;
 use Itkg\Core\ServiceContainer;
-use Itkg\Core\YamlLoader;
 use Symfony\Component\Yaml\Parser as YamlParser;
 
 /**
@@ -76,7 +75,7 @@ class Kernel extends KernelAbstract
      * Add route to current routing
      *
      * @param string $name
-     * @param mixed  $route
+     * @param mixed $route
      *
      * @return void
      */

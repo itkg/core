@@ -3,7 +3,6 @@
 namespace Itkg\Core;
 
 use Itkg\Core\ServiceContainer;
-use Itkg\Core\CollectionableInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
 abstract class EntityAbstract implements CollectionableInterface
@@ -110,7 +109,7 @@ abstract class EntityAbstract implements CollectionableInterface
      * Process sub entity to set data recursively
      *
      * @param string $propertyKey
-     * @param mixed  $value
+     * @param mixed $value
      *
      * @return void
      */

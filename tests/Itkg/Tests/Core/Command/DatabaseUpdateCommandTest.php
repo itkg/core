@@ -4,12 +4,14 @@ namespace Itkg\Tests\Core\Command;
 
 use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\DriverManager;
-use Itkg\Core\Command\DatabaseUpdate\Finder;
+use Itkg\Core\Command\DatabaseUpdate\Display;
+use Itkg\Core\Command\DatabaseUpdate\Layout\Parser;
 use Itkg\Core\Command\DatabaseUpdate\Loader;
 use Itkg\Core\Command\DatabaseUpdate\Locator;
 use Itkg\Core\Command\DatabaseUpdate\Migration\Factory;
+use Itkg\Core\Command\DatabaseUpdate\Query\Decorator;
 use Itkg\Core\Command\DatabaseUpdate\Query\OutputQueryFactory;
-use Itkg\Core\Command\DatabaseUpdate\Query\QueryFormatter;
+use Itkg\Core\Command\DatabaseUpdate\Query\Formatter;
 use Itkg\Core\Command\DatabaseUpdate\Runner;
 use Itkg\Core\Command\DatabaseUpdate\Setup;
 use Itkg\Core\Command\DatabaseUpdateCommand;
@@ -58,10 +60,37 @@ class DatabaseUpdateCommandTest extends \PHPUnit_Framework_TestCase
         $commandTester->execute(
             array(
                 'command' => $command->getName(),
-                'path'    => TEST_BASE_DIR.'/data',
-                'release' => 'uncomplete'
+                '--path'    => TEST_BASE_DIR.'/data',
+                'release' => 'uncomplete',
+                'with-template' => true
             )
         );
+    }
+
+    public function testDisplay()
+    {
+        $command = $this->createCommand();
+
+        $application = new Application();
+        $application->add($command);
+
+        $command = $application->find('itkg-core:script');
+        $commandTester = new CommandTester($command);
+        $commandTester->execute(
+            array(
+                'command' => $command->getName(),
+                '--path'    => TEST_BASE_DIR,
+                'release' => 'data'
+            )
+        );
+
+        $result = <<<EOF
+CREATE TABLE MYC_TEST_SCRIPT (TEST_SCRIPT_ID INT, TEST_NAME varchar(255));
+CREATE TABLE MYC_TEST_SCRIPT2 (TEST_SCRIPT_ID INT, TEST_NAME varchar(255));
+
+EOF;
+
+        $this->assertEquals($result, $commandTester->getDisplay());
     }
 
     private function createCommand()
@@ -81,9 +110,10 @@ class DatabaseUpdateCommandTest extends \PHPUnit_Framework_TestCase
         $runner = new Runner($connection);
         $factory = new Factory();
         $locator = new Locator();
-        $queryFactory = new OutputQueryFactory(new QueryFormatter());
+        $decorator = new Decorator(new \Itkg\Core\Command\DatabaseUpdate\Template\Loader());
+        $display = new Display(new Parser(), new Formatter());
 
-        return new DatabaseUpdateCommand('itkg-core:script', new Setup($runner, $loader, $factory, $locator), $queryFactory);
+        return new DatabaseUpdateCommand(new Setup($runner, $loader, $factory, $locator, $decorator), $display, 'itkg-core:script');
     }
 
 }

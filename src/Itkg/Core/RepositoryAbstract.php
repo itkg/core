@@ -3,8 +3,8 @@
 namespace Itkg\Core;
 
 use Itkg\Core\ConfigInterface;
-use Symfony\Component\EventDispatcher\EventDispatcher;
 use Itkg\Core\EntityAbstract;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 abstract class RepositoryAbstract
 {
@@ -43,7 +43,8 @@ abstract class RepositoryAbstract
         ConfigInterface $config,
         \Pelican_Db $db,
         EventDispatcher $dispatcher
-    ) {
+    )
+    {
         $this->config = $config;
         $this->db = $db;
         $this->dispatcher = $dispatcher;

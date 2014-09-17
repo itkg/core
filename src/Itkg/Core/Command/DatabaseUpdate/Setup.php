@@ -2,9 +2,8 @@
 
 namespace Itkg\Core\Command\DatabaseUpdate;
 
-use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Query\QueryBuilder;
 use Itkg\Core\Command\DatabaseUpdate\Migration\Factory;
+use Itkg\Core\Command\DatabaseUpdate\Query\DecoratorInterface;
 
 /**
  * Class Setup
@@ -66,18 +65,17 @@ class Setup
     private $executeQueries = false;
 
     /**
-     * Loaded queries
-     *
-     * @var array
-     */
-    private $queries = array();
-
-    /**
      * Script locator
      *
      * @var LocatorInterface
      */
     private $locator;
+
+    /**
+     * Queries decorator
+     * @var DecoratorInterface
+     */
+    private $decorator;
 
     /**
      * Constructor
@@ -86,17 +84,21 @@ class Setup
      * @param LoaderInterface $loader
      * @param Migration\Factory $migrationFactory
      * @param LocatorInterface $locator
+     * @param Query\DecoratorInterface $decorator
      */
     public function __construct(
         RunnerInterface $runner,
         LoaderInterface $loader,
         Factory $migrationFactory,
-        LocatorInterface $locator
-    ) {
-        $this->runner           = $runner;
-        $this->loader           = $loader;
+        LocatorInterface $locator,
+        DecoratorInterface $decorator
+    )
+    {
+        $this->runner = $runner;
+        $this->loader = $loader;
         $this->migrationFactory = $migrationFactory;
-        $this->locator          = $locator;
+        $this->locator = $locator;
+        $this->decorator = $decorator;
     }
 
     /**
@@ -143,7 +145,7 @@ class Setup
      */
     private function createMigrations()
     {
-        $scripts   = $this->locator->findScripts();
+        $scripts = $this->locator->findScripts();
         $rollbacks = $this->locator->findRollbackScripts();
 
         if (empty($scripts)) {
@@ -166,16 +168,12 @@ class Setup
     {
         $this->createMigrations();
 
-        try {
-            foreach ($this->migrations as $migration) {
-                $this->runner->run($migration, $this->executeQueries, $this->forcedRollback);
-            }
-            $this->queries = array_merge($this->queries, $this->runner->getPlayedQueries());
-        } catch (\Exception $e) {
-            $this->queries = array_merge($this->queries, $this->runner->getPlayedQueries());
+        foreach ($this->migrations as $migration) {
 
-            throw $e;
+            $this->runner->run($migration, $this->executeQueries, $this->forcedRollback);
         }
+        // After run, we add decorated queries
+        return $this->decorator->decorateAll($this->runner->getPlayedQueries());
     }
 
     /**
@@ -225,14 +223,6 @@ class Setup
     public function getRollbackedFirst()
     {
         return $this->rollbackedFirst;
-    }
-
-    /**
-     * @return array
-     */
-    public function getQueries()
-    {
-        return $this->queries;
     }
 
     /**

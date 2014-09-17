@@ -2,12 +2,13 @@
 
 namespace Itkg\Tests\Core;
 
+use Itkg\Core\CachableInterface;
 use Itkg\Core\EntityAbstract;
 use Itkg\Tests\Core\SubEntity;
 /**
  * Fake entity model for testing purpose
  */
-class Entity extends EntityAbstract implements \ArrayAccess
+class Entity extends EntityAbstract implements \ArrayAccess, CachableInterface
 {
     /**
      * Property prefix used in arrayAccess & database columns
@@ -21,7 +22,7 @@ class Entity extends EntityAbstract implements \ArrayAccess
     protected $subEntityWithoutGetter;
 
     /**
-     * @var Itkg\Tests\Core\Entity
+     * @var \Itkg\Tests\Core\Entity
      */
     protected $subEntity;
 
@@ -103,4 +104,13 @@ class Entity extends EntityAbstract implements \ArrayAccess
         }
     }
 
+    /**
+     * Hash key getter
+     *
+     * @return string
+     */
+    public function getHashKey()
+    {
+        return '_entity';
+    }
 }

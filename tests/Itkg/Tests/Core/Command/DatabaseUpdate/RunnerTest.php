@@ -3,6 +3,7 @@
 namespace Itkg\Tests\Core\Command\DatabaseUpdate;
 
 use Itkg\Core\Command\DatabaseUpdate\Migration;
+use Itkg\Core\Command\DatabaseUpdate\Query;
 use Itkg\Core\Command\DatabaseUpdate\Runner;
 use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\DriverManager;
@@ -15,8 +16,8 @@ class RunnerTest extends \PHPUnit_Framework_TestCase
 {
     public function testRun()
     {
-        $queries = array('QUERY 1', 'QUERY 2');
-        $rollbackQueries = array('ROLLBACK QUERY 1', 'ROLLBACK QUERY 2');
+        $queries = array(new Query('QUERY 1'), new Query('QUERY 2'));
+        $rollbackQueries = array(new Query('ROLLBACK QUERY 1'), new Query('ROLLBACK QUERY 2'));
 
         $migration = new Migration($queries, $rollbackQueries);
 
@@ -27,6 +28,22 @@ class RunnerTest extends \PHPUnit_Framework_TestCase
         $runner->run($migration, false, true);
 
         $this->assertEquals(array_merge($queries, $queries, $rollbackQueries), $runner->getPlayedQueries());
+    }
+
+    /**
+     * @expectedException \Exception
+     */
+    public function testRunException()
+    {
+        $queries = array(new Query('QUERY 1'), new Query('QUERY 2'));
+        $rollbackQueries = array(new Query('ROLLBACK QUERY 1'), new Query('ROLLBACK QUERY 2'));
+
+        $migration = new Migration($queries, $rollbackQueries);
+
+        $runner = $this->createRunner();
+
+        $runner->run($migration, true, true);
+
     }
 
     private function createRunner()
