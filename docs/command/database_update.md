@@ -141,7 +141,7 @@ You can add "pre" or "post" hook for all queries type :
 * drop_index
 * grant (Partially implemented)
 
-! Warning : Decorated queries will not be executed with your script. If you want to play query, add it in your script !
+! Warning : Decorated queries will not be executed with your script. If you want to execute a query, add it in your script !
 
 ### Layout
 
@@ -153,11 +153,11 @@ Example :
 
 ```php
 
-My personnalized layout file
+My personalized layout file
 
 My create tables {create_table}
 
-Others queries {all}
+Others queries (without queries already added) {all}
 ```
 
 You can use these variables :
