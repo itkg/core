@@ -38,6 +38,7 @@ class Query
 
     /**
      * @param string $value
+     * @param bool $forcedParse
      * @return $this
      */
     public function setValue($value, $forcedParse = true)
@@ -77,7 +78,7 @@ class Query
          * @TODO : Grant parse
          */
         if (preg_match(
-            '/(CREATE|UPDATE|DELETE|ALTER|INSERT|DROP|SELECT|GRANT) *(SEQUENCE|INDEX|SYNONYM|TABLE|INTO|FROM|) *([a-zA-Z-_]*) */i',
+            '/(CREATE|UPDATE|DELETE|ALTER|INSERT|DROP|SELECT|GRANT) *(SEQUENCE|INDEX|SYNONYM|TABLE|INTO|FROM|VIEW|) *([a-zA-Z-_]*) */i',
             $query,
             $matches
         )

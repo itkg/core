@@ -130,6 +130,8 @@ You can add "pre" or "post" hook for all queries type :
 * delete
 * create_table
 * drop_table
+* create_view
+* drop_view
 * create_sequence
 * drop_sequence
 * create_synonym
@@ -151,12 +153,11 @@ Example :
 
 ```php
 
-My personnalized template file
+My personnalized layout file
 
 My create tables {create_table}
 
 Others queries {all}
-
 ```
 
 You can use these variables :
@@ -172,5 +173,7 @@ You can use these variables :
 * {drop_synonym}
 * {alter}
 * {create_index}
+* {create_view}
+* {drop_view}
 * {drop_index}
 * {grant}
