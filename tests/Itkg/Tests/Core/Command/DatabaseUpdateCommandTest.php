@@ -60,11 +60,37 @@ class DatabaseUpdateCommandTest extends \PHPUnit_Framework_TestCase
         $commandTester->execute(
             array(
                 'command' => $command->getName(),
-                'path'    => TEST_BASE_DIR.'/data',
+                '--path'    => TEST_BASE_DIR.'/data',
                 'release' => 'uncomplete',
                 'with-template' => true
             )
         );
+    }
+
+    public function testDisplay()
+    {
+        $command = $this->createCommand();
+
+        $application = new Application();
+        $application->add($command);
+
+        $command = $application->find('itkg-core:script');
+        $commandTester = new CommandTester($command);
+        $commandTester->execute(
+            array(
+                'command' => $command->getName(),
+                '--path'    => TEST_BASE_DIR,
+                'release' => 'data'
+            )
+        );
+
+        $result = <<<EOF
+CREATE TABLE MYC_TEST_SCRIPT (TEST_SCRIPT_ID INT, TEST_NAME varchar(255));
+CREATE TABLE MYC_TEST_SCRIPT2 (TEST_SCRIPT_ID INT, TEST_NAME varchar(255));
+
+EOF;
+
+        $this->assertEquals($result, $commandTester->getDisplay());
     }
 
     private function createCommand()

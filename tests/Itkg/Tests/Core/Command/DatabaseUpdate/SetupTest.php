@@ -131,6 +131,7 @@ class SetupTest extends \PHPUnit_Framework_TestCase
         $setup->run();
 
     }
+
     /**
      * @expectedException \UnexpectedValueException
      */
@@ -138,6 +139,22 @@ class SetupTest extends \PHPUnit_Framework_TestCase
     {
         $setup = $this->createSetup();
 
+        $setup->run();
+    }
+
+    /**
+     * @expectedException \Exception
+     */
+    public function testRunWithExecuteException()
+    {
+        $setup = $this->createSetup();
+
+        $setup->getLocator()->setParams(array(
+            'path'    => TEST_BASE_DIR,
+            'release' => 'data'
+        ));
+
+        $setup->setExecuteQueries(true);
         $setup->run();
     }
 

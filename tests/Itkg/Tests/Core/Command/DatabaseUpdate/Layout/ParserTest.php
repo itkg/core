@@ -1,6 +1,6 @@
 <?php
 
-namespace Itkg\Tests\Core\Command\Layout;
+namespace Itkg\Tests\Core\Command\DatabaseUpdate\Layout;
 
 use Itkg\Core\Command\DatabaseUpdate\Layout\Parser;
 use Itkg\Core\Command\DatabaseUpdate\Query;
