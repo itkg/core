@@ -26,7 +26,7 @@ class CacheEvent extends Event
     private $value;
 
     /**
-     * @var int
+     * @var float
      */
     private $size;
 
@@ -42,7 +42,7 @@ class CacheEvent extends Event
         $this->key = $key;
         $this->ttl = $ttl;
         $this->value = $value;
-        $this->size = strlen($value);
+        $this->size = strlen($value) / 8;
     }
 
     /**
@@ -70,7 +70,7 @@ class CacheEvent extends Event
     }
 
     /**
-     * @return int
+     * @return float
      */
     public function getSize()
     {
