@@ -2,9 +2,8 @@
 
 namespace Itkg\Core\Cache;
 
-
 use Itkg\Core\ConfigInterface;
-use Itkg\Cache\InvalidConfigurationException;
+use Itkg\Core\Cache\InvalidConfigurationException;
 
 /**
  * Cache adapter factory
