@@ -2,6 +2,7 @@
 
 namespace Itkg\Core\Cache\Event;
 
+use Itkg\Core\CachableInterface;
 use Symfony\Component\EventDispatcher\Event;
 
 /**
@@ -11,24 +12,9 @@ use Symfony\Component\EventDispatcher\Event;
 class CacheEvent extends Event
 {
     /**
-     * @var string
+     * @var CachableInterface
      */
-    private $key;
-
-    /**
-     * @var int
-     */
-    private $ttl = 0;
-
-    /**
-     * @var string
-     */
-    private $value;
-
-    /**
-     * @var float
-     */
-    private $size;
+    private $cachableData;
 
     /**
      * Constructor
@@ -37,43 +23,16 @@ class CacheEvent extends Event
      * @param int $ttl
      * @param $value
      */
-    public function __construct($key, $ttl = 0, $value = '')
+    public function __construct(CachableInterface $cachableData)
     {
-        $this->key = $key;
-        $this->ttl = $ttl;
-        $this->value = $value;
-        $this->size = strlen($value);
+        $this->cachableData = $cachableData;
     }
 
     /**
-     * @return string
+     * @return CachableInterface
      */
-    public function getKey()
+    public function getCachabledata()
     {
-        return $this->key;
-    }
-
-    /**
-     * @return int
-     */
-    public function getTtl()
-    {
-        return $this->ttl;
-    }
-
-    /**
-     * @return string
-     */
-    public function getValue()
-    {
-        return $this->value;
-    }
-
-    /**
-     * @return float
-     */
-    public function getSize()
-    {
-        return $this->size;
+        return $this->cachableData;
     }
 }

@@ -45,7 +45,7 @@ class Entity extends EntityAbstract implements \ArrayAccess, CachableInterface
     }
 
     /**
-     * Offset to retrieve    /**
+     * Offset to retrieve
      * Return existence of key
      *
      * @param $key
