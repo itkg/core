@@ -42,7 +42,7 @@ class CacheEvent extends Event
         $this->key = $key;
         $this->ttl = $ttl;
         $this->value = $value;
-        $this->size = strlen($value) / 8;
+        $this->size = strlen($value);
     }
 
     /**
