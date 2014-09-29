@@ -2,12 +2,10 @@
 
 namespace Itkg\Core\Cache\Adapter;
 
-
 use Itkg\Core\Cache\AdapterAbstract;
 use Itkg\Core\Cache\AdapterInterface;
 use Itkg\Core\CachableInterface;
 use Itkg\Core\ConfigInterface;
-
 
 /**
  * @author Pascal DENIS <pascal.denis@businessdecision.com>
@@ -40,6 +38,17 @@ class Redis extends AdapterAbstract implements AdapterInterface
     }
 
     /**
+     * @param \Redis $connection
+     * @return $this
+     */
+    public function setConnection(\Redis $connection)
+    {
+        $this->connection = $connection;
+
+        return $this;
+    }
+
+    /**
      * Get value from cache
      *
      * @param \Itkg\Core\CachableInterface $item
@@ -48,7 +57,7 @@ class Redis extends AdapterAbstract implements AdapterInterface
      */
     public function get(CachableInterface $item)
     {
-        return $this->connection->get($item->getHashKey());
+        return $this->getConnection()->get($item->getHashKey());
     }
 
     /**
@@ -60,9 +69,9 @@ class Redis extends AdapterAbstract implements AdapterInterface
      */
     public function set(CachableInterface $item)
     {
-        $this->connection->set($item->getHashKey(), $item->getDataForCache());
+        $this->getConnection()->set($item->getHashKey(), $item->getDataForCache());
         if (null !== $item->getTtl()) {
-            $this->connection->expire($item->getHashKey(), $item->getTtl());
+            $this->getConnection()->expire($item->getHashKey(), $item->getTtl());
         }
     }
 
@@ -74,10 +83,7 @@ class Redis extends AdapterAbstract implements AdapterInterface
      */
     public function remove(CachableInterface $item)
     {
-        $this->connection->eval(
-            "return redis.call('DEL', unpack(redis.call('KEYS', ARGV[1] .. '*')))",
-            array($item->getHashKey())
-        );
+        $this->getConnection()->delete($item->getHashKey());
     }
 
     /**
@@ -87,6 +93,6 @@ class Redis extends AdapterAbstract implements AdapterInterface
      */
     public function removeAll()
     {
-        $this->connection->flushAll();
+        $this->getConnection()->flushAll();
     }
 }
