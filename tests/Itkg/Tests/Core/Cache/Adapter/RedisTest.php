@@ -23,8 +23,6 @@ class RedisTest extends \PHPUnit_Framework_TestCase
         $adapter->removeAll();
         $adapter->set($cacheable);
         $adapter->get($cacheable);
-
-
     }
 
     public function testSetWithNoTtl()
