@@ -34,4 +34,19 @@ class RedisTest extends \PHPUnit_Framework_TestCase
         $adapter->setConnection($stub);
         $adapter->set($cacheable);
     }
+
+    /**
+     * @expectedException \RedisException
+     */
+    public function testConnect()
+    {
+        $adapter = new \Itkg\Core\Cache\Adapter\Redis(array(
+            'default' => array(
+                'host' => '192.168.0.1',
+                'port' => 6971
+            )
+        ));
+
+        $adapter->removeAll();
+    }
 }
