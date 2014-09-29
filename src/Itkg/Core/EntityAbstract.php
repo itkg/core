@@ -133,7 +133,7 @@ abstract class EntityAbstract implements CollectionableInterface
     /**
      * Get cache TTL
      *
-     * @implements \Itkg\CachableInterface
+     * @implements \Itkg\CacheableInterface
      *
      * @return int
      */
@@ -145,7 +145,7 @@ abstract class EntityAbstract implements CollectionableInterface
     /**
      * Return if object is already loaded from cache
      *
-     * @implements \Itkg\CachableInterface
+     * @implements \Itkg\CacheableInterface
      *
      * @return bool
      */
@@ -267,7 +267,7 @@ abstract class EntityAbstract implements CollectionableInterface
 
             $value = $this->$propName;
 
-            if ($value instanceof CachableInterface) {
+            if ($value instanceof CacheableInterface) {
                 $value = $value->getDataForCache();
             } elseif (is_object($value)) {
                 $value = null;
@@ -297,7 +297,7 @@ abstract class EntityAbstract implements CollectionableInterface
 
         if (is_array($data)) {
             foreach ($data as $property => $value) {
-                if ($this->$property instanceof CachableInterface) {
+                if ($this->$property instanceof CacheableInterface) {
                     $this->$property->setDataFromCache($value);
                 } elseif (!is_object($this->$property)) {
                     $this->$property = $value;

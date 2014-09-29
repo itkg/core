@@ -1,7 +1,7 @@
 <?php
 
 namespace Itkg\Core\Cache;
-use Itkg\Core\CachableInterface;
+use Itkg\Core\CacheableInterface;
 
 /**
  * Cache adapter interface
@@ -13,29 +13,29 @@ interface AdapterInterface
     /**
      * Get value from cache
      *
-     * @param \Itkg\Core\CachableInterface $item
+     * @param \Itkg\Core\CacheableInterface $item
      *
      * @return mixed
      */
-    public function get(CachableInterface $item);
+    public function get(CacheableInterface $item);
 
     /**
      * Set a value into the cache
      *
-     * @param \Itkg\Core\CachableInterface $item
+     * @param \Itkg\Core\CacheableInterface $item
      *
      * @return void
      */
-    public function set(CachableInterface $item);
+    public function set(CacheableInterface $item);
 
     /**
      * Remove a value from cache
      *
-     * @param \Itkg\Core\CachableInterface $item
+     * @param \Itkg\Core\CacheableInterface $item
      *
      * @return void
      */
-    public function remove(CachableInterface $item);
+    public function remove(CacheableInterface $item);
 
     /**
      * Remove all cache

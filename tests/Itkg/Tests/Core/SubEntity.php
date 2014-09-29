@@ -3,12 +3,12 @@
 namespace Itkg\Tests\Core;
 
 use Itkg\Tests\Core\Entity as BaseEntity;
-use Itkg\Core\CachableInterface;
+use Itkg\Core\CacheableInterface;
 
 /**
  * Fake entity model for testing purpose
  */
-class SubEntity extends BaseEntity implements CachableInterface
+class SubEntity extends BaseEntity implements CacheableInterface
 {
     /**
      * Property prefix used in arrayAccess & database columns

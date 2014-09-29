@@ -2,7 +2,7 @@
 
 namespace Itkg\Core\Event;
 
-use Itkg\Core\CachableInterface;
+use Itkg\Core\CacheableInterface;
 use Symfony\Component\EventDispatcher\Event as BaseEvent;
 
 /**
@@ -15,14 +15,14 @@ class EntityLoadEvent extends BaseEvent
     /**
      * Entity instance
      *
-     * @var CachableInterface
+     * @var CacheableInterface
      */
     private $entity;
 
     /**
      * Constructor
      */
-    public function __construct(CachableInterface $entity)
+    public function __construct(CacheableInterface $entity)
     {
         $this->entity = $entity;
     }
@@ -30,7 +30,7 @@ class EntityLoadEvent extends BaseEvent
     /**
      * Entity getter
      *
-     * @return CachableInterface
+     * @return CacheableInterface
      */
     public function getEntity()
     {

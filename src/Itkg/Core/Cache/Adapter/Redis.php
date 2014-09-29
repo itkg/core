@@ -4,7 +4,7 @@ namespace Itkg\Core\Cache\Adapter;
 
 use Itkg\Core\Cache\AdapterAbstract;
 use Itkg\Core\Cache\AdapterInterface;
-use Itkg\Core\CachableInterface;
+use Itkg\Core\CacheableInterface;
 use Itkg\Core\ConfigInterface;
 
 /**
@@ -53,11 +53,11 @@ class Redis extends AdapterAbstract implements AdapterInterface
     /**
      * Get value from cache
      *
-     * @param \Itkg\Core\CachableInterface $item
+     * @param \Itkg\Core\CacheableInterface $item
      *
      * @return string
      */
-    public function get(CachableInterface $item)
+    public function get(CacheableInterface $item)
     {
         return $this->getConnection()->get($item->getHashKey());
     }
@@ -65,11 +65,11 @@ class Redis extends AdapterAbstract implements AdapterInterface
     /**
      * Set a value into the cache
      *
-     * @param \Itkg\Core\CachableInterface $item
+     * @param \Itkg\Core\CacheableInterface $item
      *
      * @return void
      */
-    public function set(CachableInterface $item)
+    public function set(CacheableInterface $item)
     {
         $this->getConnection()->set($item->getHashKey(), $item->getDataForCache());
         if (null !== $item->getTtl()) {
@@ -80,10 +80,10 @@ class Redis extends AdapterAbstract implements AdapterInterface
     /**
      * Remove a value from cache
      *
-     * @param \Itkg\Core\CachableInterface $item
+     * @param \Itkg\Core\CacheableInterface $item
      * @return void
      */
-    public function remove(CachableInterface $item)
+    public function remove(CacheableInterface $item)
     {
         $this->getConnection()->delete($item->getHashKey());
     }
