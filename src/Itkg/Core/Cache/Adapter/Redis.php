@@ -28,7 +28,7 @@ class Redis extends AdapterAbstract implements AdapterInterface
         if (null === $this->connection) {
             $this->connection = new \Redis();
 
-            if(!$this->connection->pconnect(
+            if (!$this->connection->pconnect(
                 $this->config['default']['host'],
                 $this->config['default']['port']
             )) {
