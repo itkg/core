@@ -9,6 +9,7 @@ use Itkg\Core\Listener\ResponsePostRendererListener;
 use Itkg\Core\Matcher\RequestMatcher;
 use Itkg\Core\Response\Processor\CompressProcessor;
 use Itkg\Core\Route\Router;
+use Itkg\Core\View\Smarty;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
 /**
@@ -47,7 +48,7 @@ class ServiceProvider implements ServiceProviderInterface
         });
 
         $container['view.engine'] = $container->share(function() {
-            $view = new \Smarty();
+            $view = new Smarty();
             $view->setHead(new \Pelican_Index());
 
             return $view;
