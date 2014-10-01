@@ -3,7 +3,9 @@
 namespace Itkg\Core\Cache\Listener;
 
 use Itkg\Core\Cache\AdapterInterface;
+use Itkg\Core\Cache\Event\CacheEvent;
 use Itkg\Core\Event\EntityLoadEvent;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
@@ -18,13 +20,20 @@ class CacheListener implements EventSubscriberInterface
     private $cache;
 
     /**
+     * @var EventDispatcher
+     */
+    private $dispatcher;
+
+    /**
      * Constructor
      *
      * @param AdapterInterface $cache
+     * @param \Symfony\Component\EventDispatcher\EventDispatcher $dispatcher
      */
-    public function __construct(AdapterInterface $cache)
+    public function __construct(AdapterInterface $cache, EventDispatcher $dispatcher)
     {
         $this->cache = $cache;
+        $this->dispatcher = $dispatcher;
     }
 
     /**
@@ -41,6 +50,8 @@ class CacheListener implements EventSubscriberInterface
             // Set data from cache to entity object
             $entity->setDataFromCache($data);
             $entity->setIsLoaded(true);
+            $this->dispatcher->dispatch('cache.load', new CacheEvent($entity));
+
         }
     }
 
@@ -55,6 +66,7 @@ class CacheListener implements EventSubscriberInterface
 
         if (!$entity->isLoaded()) {
             $this->cache->set($entity);
+            $this->dispatcher->dispatch('cache.set', new CacheEvent($entity));
         }
     }
 

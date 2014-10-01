@@ -34,7 +34,8 @@ class ServiceProvider implements ServiceProviderInterface
                 $services['factory']->create(
                     $container['config']['cache']['adapter'],
                     $container['config']['cache']
-                )
+                ),
+                $container['dispatcher']
             );
         });
 
