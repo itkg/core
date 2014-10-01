@@ -31,7 +31,6 @@ class ServiceProvider implements ServiceProviderInterface
             $dispatcher = new EventDispatcher();
             // Add listeners
             $dispatcher->addSubscriber($container['listener.request_matcher']);
-            $dispatcher->addSubscriber($container['listener.ajax_response_render']);
             $dispatcher->addSubscriber($container['listener.response_exception']);
             $dispatcher->addSubscriber($container['listener.processor_response_render']);
 
