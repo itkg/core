@@ -35,7 +35,7 @@ class ServiceProvider implements ServiceProviderInterface
                     $container['config']['cache']['adapter'],
                     $container['config']['cache']
                 ),
-                $container['dispatcher']
+                $container['core']['dispatcher']
             );
         });
 

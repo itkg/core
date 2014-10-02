@@ -19,6 +19,7 @@ class ServiceProviderTest extends \PHPUnit_Framework_TestCase
     public function createContainer()
     {
         $container = new \Itkg\Core\ServiceContainer();
+        $container->register(new \Itkg\Core\Provider\ServiceProvider());
 
         $container->register(new \Itkg\Core\Cache\Provider\ServiceProvider());
 
