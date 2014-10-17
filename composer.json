@@ -33,7 +33,6 @@
         "symfony/config": "2.5.*",
         "symfony/http-foundation": "2.5.*",
         "symfony/http-kernel": "2.5.*",
-        "smarty/smarty": "dev-master"
     },
     "autoload": {
         "psr-0": {
@@ -42,4 +41,3 @@
         }
     }
 }
-

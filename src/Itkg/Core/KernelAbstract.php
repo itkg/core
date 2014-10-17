@@ -1,39 +1,40 @@
 <?php
 
 namespace Itkg\Core;
-
-use Itkg\Core\Event\KernelEvent;
 use Itkg\Core\Event\KernelEvents;
+use Itkg\Core\Event\KernelEvent;
+use Symfony\Component\EventDispatcher\Event;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Controller\ControllerResolverInterface;
+use Symfony\Component\HttpKernel\HttpKernel;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
 
-abstract class KernelAbstract
+abstract class KernelAbstract extends HttpKernel
 {
     /**
      * @var ServiceContainer
      */
     protected $container;
 
-    // File paths
-    const GLOBAL_CONFIG_FILE = '/Resources/Config/global.yml';
-    const GLOBAL_ROUTING_FILE = '/Resources/Config/routing.yml';
-
     /**
      * @param ServiceContainer $container
      * @param ApplicationInterface $app
+     * @param ControllerResolverInterface $resolver
      */
-    public function __construct(ServiceContainer $container, ApplicationInterface $app)
+    public function __construct(ServiceContainer $container, ApplicationInterface $app, ControllerResolverInterface $resolver)
     {
         $this->container = $container;
+        $this->resolver = $resolver;
         $this->container
             ->setApp($app)
             ->setConfig($app->getConfig());
+        $this->dispatchEvent(KernelEvents::APP_LOADED, new KernelEvent($container));
+        $this->container['kernel'] = $this;
 
-        $this->container['core']['dispatcher']->dispatch(
-            KernelEvents::APP_LOADED,
-            new KernelEvent($container)
-        );
+        parent::__construct($this->container['core']['dispatcher'], $resolver);
 
-        $this->loadConfig()
-            ->loadRouting();
+        $this->loadConfig();
+        $this->loadRouting();
     }
 
     /**
@@ -45,22 +46,14 @@ abstract class KernelAbstract
     {
         return $this->container;
     }
-
     /**
-     * Load Config from config files and dispatch event
-     *
-     * @return $this
+     * Load Config from config files
      */
-    protected function loadConfig()
+    public function loadConfig()
     {
         $this->container['app']->getConfig()->load($this->getConfigFiles());
 
-        $this->container['core']['dispatcher']->dispatch(
-            KernelEvents::CONFIG_LOADED,
-            new KernelEvent($this->container)
-        );
-
-        return $this;
+        $this->dispatchEvent(KernelEvents::CONFIG_LOADED, new KernelEvent($this->container));
     }
 
     /**
@@ -71,7 +64,7 @@ abstract class KernelAbstract
     protected function getConfigFiles()
     {
         return array(
-            __DIR__ . self::GLOBAL_CONFIG_FILE,
+            __DIR__.'/Resources/Config/global.yml',
         );
     }
 
@@ -83,22 +76,47 @@ abstract class KernelAbstract
     protected function getRoutingFiles()
     {
         return array(
-            __DIR__ . self::GLOBAL_ROUTING_FILE,
+            __DIR__.'/Resources/Config/routing.yml',
         );
+    }
+
+    /**
+     * Dispatch an event with the current core dispatcher
+     *
+     * @param $name
+     * @param Event $event
+     */
+    protected function dispatchEvent($name, Event $event)
+    {
+        return $this->container['core']['dispatcher']->dispatch($name, $event);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @api
+     */
+    public function handle(Request $request, $type = HttpKernelInterface::MASTER_REQUEST, $catch = true)
+    {
+        if ($type == HttpKernelInterface::SUB_REQUEST) {
+            $request->query->add(
+                array_merge(
+                    $_POST,
+                    $_GET,
+                    $request->query->all()
+                )
+            );
+        } else {
+            $this->container['request'] = $request;
+        }
+
+        return parent::handle($request, $type, $catch);
     }
 
     /**
      * Load routing from routing files
      *
-     * @return $this
+     * @return void
      */
-    abstract protected function loadRouting();
-
-    /**
-     * Create a response from a request
-     *
-     * @param $request
-     * @return string
-     */
-    abstract public function handle($request);
+    abstract public function loadRouting();
 }

@@ -56,7 +56,6 @@ class ControllerResolver implements ControllerResolverInterface
             $callable = array($controller, $request->attributes->get('action').'Action');
         } else {
             $controller = $this->createLegacyController($request, $controllerName, $routeParams);
-            $controller->setView($this->container['core']['view.engine']); // @fixme : Remove view.engine
             $callable = array($controller, 'call');
         }
 

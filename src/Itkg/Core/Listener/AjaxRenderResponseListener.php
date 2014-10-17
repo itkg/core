@@ -12,6 +12,9 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 
 /**
+ * Ajax legacy listener renderer
+ * Render any callAjax data
+ *
  * @author Pascal DENIS <pascal.denis@businessdecision.com>
  */
 class AjaxRenderResponseListener implements EventSubscriberInterface

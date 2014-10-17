@@ -59,7 +59,7 @@ class ServiceProvider implements ServiceProviderInterface
             );
         });
 
-        $container['listener.ajax_response_render'] = $container->share(function($container) {
+        $container['listener.ajax_response_render'] = $container->share(function() {
             return new AjaxRenderResponseListener(
                 new \Pelican_Ajax_Adapter_Jquery()
             );
