@@ -162,16 +162,11 @@ class Route
      */
     public function matches($uri)
     {
-
         if (!preg_match($this->compiledRegex, $uri, $matches)) {
             return false;
         }
 
         $params = array();
-        /** identification de la structure */
-        $search       = '/public';
-        $documentRoot = '/' . trim($_SERVER['DOCUMENT_ROOT'], '/');
-        $public       = strpos($documentRoot, $search, 0);
         foreach ($matches as $key => $value) {
             if (is_int($key)) {
                 // Skip all unnamed keys
@@ -194,47 +189,12 @@ class Route
             // Set the value for all matched keys
             $params[$key] = $value;
         }
+
         foreach ($this->defaults as $key => $value) {
             if (!isset($params[$key]) or $params[$key] === '') {
                 // Set default values for any key that was not matched
                 $params[$key] = $value;
             }
-        }
-        foreach ($this->requestParams as $type => $keys) {
-            if (is_array($keys)) {
-                foreach ($keys as $key) {
-                    if (!empty($params[$key])) {
-                        switch ($type) {
-                            case 'get':
-                            {
-                                if (empty($_GET[$key])) {
-                                    $_GET[$key] = $params[$key];
-                                }
-                                break;
-                            }
-                            case 'post':
-                            {
-                                if (empty($_POST[$key])) {
-                                    $_POST[$key] = $params[$key];
-                                }
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        /** cas par defaut */
-        if (!isset($params['root'])) {
-            if ($public) {
-                $init = trim(substr($documentRoot, $public + strlen($search), strlen($documentRoot)), '/');
-            } else {
-
-                /** on est directement dans le document root */
-                $init = '';
-            }
-            $params['root'] = trim('/' . $init, '/');
         }
 
         return $params;
