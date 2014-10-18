@@ -32,9 +32,6 @@ class RequestMatcher implements RequestMatcherInterface
         $pathInfo = trim($request->getPathInfo(), '/');
        
         foreach ($this->router->getRouteSequences() as $sequence) {
-            /**
-             * @fixme : Use an RouteMatcher instead of sequence
-             */
             if (!class_exists($sequence)) {
                 throw new \RuntimeException(sprintf('Route sequence %s does not exist', $sequence));
             }

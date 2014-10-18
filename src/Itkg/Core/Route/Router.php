@@ -2,8 +2,6 @@
 
 namespace Itkg\Core\Route;
 
-use Itkg\Core\Route;
-
 /**
  * Class Router
  * @package Itkg\Core\Route

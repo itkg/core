@@ -25,16 +25,19 @@ abstract class KernelAbstract extends HttpKernel
     {
         $this->container = $container;
         $this->resolver = $resolver;
-        $this->container
-            ->setApp($app)
-            ->setConfig($app->getConfig());
+
+        $this->container->setApp($app);
+        $this
+            ->loadConfig()
+            ->loadRouting();
+
+        $this->container->setConfig($app->getConfig());
         $this->dispatchEvent(KernelEvents::APP_LOADED, new KernelEvent($container));
         $this->container['kernel'] = $this;
 
         parent::__construct($this->container['core']['dispatcher'], $resolver);
 
-        $this->loadConfig();
-        $this->loadRouting();
+
     }
 
     /**
@@ -46,10 +49,13 @@ abstract class KernelAbstract extends HttpKernel
     {
         return $this->container;
     }
+
     /**
      * Load Config from config files
+     * @param ConfigInterface $config
+     * @return $this
      */
-    public function loadConfig()
+    protected function loadConfig()
     {
         $this->container['app']->getConfig()->load($this->getConfigFiles());
 
@@ -116,7 +122,7 @@ abstract class KernelAbstract extends HttpKernel
     /**
      * Load routing from routing files
      *
-     * @return void
+     * @return $this
      */
-    abstract public function loadRouting();
+    abstract protected function loadRouting();
 }
