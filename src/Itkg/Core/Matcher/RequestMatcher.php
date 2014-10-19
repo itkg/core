@@ -24,7 +24,7 @@ class RequestMatcher implements RequestMatcherInterface
 
     /**
      * @param Request $request
-     * @return null
+     * @return null|array
      * @throws \RuntimeException
      */
     public function matches(Request $request)

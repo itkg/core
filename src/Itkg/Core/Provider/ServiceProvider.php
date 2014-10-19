@@ -27,6 +27,7 @@ class ServiceProvider implements ServiceProviderInterface
     public function register(\Pimple $mainContainer)
     {
         $container = new \Pimple();
+
         $container['dispatcher'] = $mainContainer->share(function ($container) {
             $dispatcher = new EventDispatcher();
             // Add listeners
@@ -74,7 +75,7 @@ class ServiceProvider implements ServiceProviderInterface
         });
 
         // Response Processors
-        $core['response.processor.compress'] = $container->share(function () {
+        $container['response.processor.compress'] = $container->share(function () {
             return new CompressProcessor();
         });
 
