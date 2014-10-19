@@ -52,7 +52,6 @@ abstract class KernelAbstract extends HttpKernel
 
     /**
      * Load Config from config files
-     * @param ConfigInterface $config
      * @return $this
      */
     protected function loadConfig()
