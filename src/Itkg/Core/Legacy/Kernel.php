@@ -52,32 +52,40 @@ class Kernel extends KernelAbstract
             $routes = array_merge($routes, $parser->parse(file_get_contents($file)));
         }
 
-        foreach ($routes as $name => $r) {
-            $className = null;
-            if (isset($r['sequence'])) {
-                $className = $r['sequence'];
-                $this->container['core']['router']->addRouteSequence($className);
-            }
-
-
-            if (isset($r['pattern'])) {
-                if (!isset($r['arguments'])) {
-                    $r['arguments'] = array();
-                }
-
-                $route = new Route($r['pattern'], $r['arguments'], $className);
-
-                if (isset($r['defaults'])) {
-                    $route->defaults($r['defaults']);
-                }
-                if (isset($r['params'])) {
-                    $route->pushRequestParams($r['params']);
-                }
-                $this->container['core']['router']->addRoute($route, $name);
-            }
+        foreach ($routes as $name => $routeInfos) {
+            $this->processRouteInfos($name, $routeInfos);
         }
 
         return $this;
+    }
+
+    /**
+     * @param $name
+     * @param $routeInfos
+     */
+    private function processRouteInfos($name, $routeInfos)
+    {
+        $className = null;
+        if (isset($routeInfos['sequence'])) {
+            $className = $routeInfos['sequence'];
+            $this->container['core']['router']->addRouteSequence($className);
+        }
+
+        if (isset($routeInfos['pattern'])) {
+            if (!isset($routeInfos['arguments'])) {
+                $routeInfos['arguments'] = array();
+            }
+
+            $route = new Route($routeInfos['pattern'], $routeInfos['arguments'], $className);
+
+            if (isset($routeInfos['defaults'])) {
+                $route->defaults($routeInfos['defaults']);
+            }
+            if (isset($routeInfos['params'])) {
+                $route->pushRequestParams($routeInfos['params']);
+            }
+            $this->container['core']['router']->addRoute($route, $name);
+        }
     }
 
     /**

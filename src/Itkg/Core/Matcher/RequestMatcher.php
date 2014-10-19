@@ -40,22 +40,33 @@ class RequestMatcher implements RequestMatcherInterface
                 $pathInfo,
                 $this->router->getRoutes()
             );
+
             $params = $routeMatcher->process();
             if (is_array($params) && !empty($params)) {
-
-                if (isset($params['params']['controller'])) {
-                    $request->attributes->set('controller', $params['params']['controller']);
-                }
-
-                if (isset($params['params']['action'])) {
-                    $request->attributes->set('action', $params['params']['action']);
-                }
-
-                $request->attributes->set('route_params', $params);
-                return $params;
+                return $this->processParams($request, $params);
             }
         }
 
         return null;
+    }
+
+    /**
+     * @param Request $request
+     * @param array $params
+     * @return array
+     */
+    private function processParams(Request $request, array $params = array())
+    {
+        if (isset($params['params']['controller'])) {
+            $request->attributes->set('controller', $params['params']['controller']);
+        }
+
+        if (isset($params['params']['action'])) {
+            $request->attributes->set('action', $params['params']['action']);
+        }
+
+        $request->attributes->set('route_params', $params);
+
+        return $params;
     }
 }
