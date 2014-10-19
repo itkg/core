@@ -96,33 +96,13 @@ class ControllerResolver implements ControllerResolverInterface
     private function getLegacyControllerPath($controllerName, $routeParams)
     {
         $directory = (isset($routeParams['params']['directory'])) ? $routeParams['params']['directory']: '';
-        $root = (isset($routeParams['root'])) ? $routeParams['root']: '';
 
-        $controller_dir = 'controllers/';
-        if (!empty($this->path)) {
-            $controller_dir = $this->path;
-        }
-
-        $controllerName = str_replace(' ', '/', ucwords(str_replace('/', ' ', $controllerName)));
-
-        $controller_dir = str_replace(
-            '//',
-            '/',
-            '/' . trim($controller_dir . ($directory ? '/' . $directory : ''), '/') . '/'
+        return sprintf(
+            '%s/%s/%s.php',
+            $this->path,
+            trim(($directory ? '/' . $directory : ''), '/'),
+            $controllerName
         );
-        if ($root == 'library') {
-            $init = str_replace('.php', '', __FILE__);
-            $return = $init . '/' . $controllerName . '.php';
-        } elseif (strpos('/' . $root, \Pelican::$config["PLUGIN_PATH"]) !== false) {
-            $temp = explode('/', $root);
-            $name = array_pop($temp);
-            $root = implode('/', $temp) . '/' . ($name == 'backend' ? 'backend' : 'frontend');
-            $return = __DIR__.'/../../../../' . '/' . $root . '/controllers/' . $directory . '/' . $controllerName . '.php';
-        } else {
-            $return = $controller_dir . $controllerName . '.php';
-        }
-
-        return $return;
     }
 
     /**

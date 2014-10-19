@@ -168,17 +168,6 @@ class Route
 
         $params = array();
         foreach ($matches as $key => $value) {
-            if (is_int($key)) {
-                // Skip all unnamed keys
-                continue;
-            }
-
-            /** gestion du directory : pour le cas 'absolute' */
-            if ($key == 'absolute') {
-
-                /** cas particulier de library */
-                $params['root'] = 'application/' . $value . 's/' . $matches['name'];
-            }
 
             /** gestion des sous-repertoires : uniquement si controller contient des _ */
             if ($key == 'controller' && substr_count($value, '_')) {
@@ -190,83 +179,7 @@ class Route
             $params[$key] = $value;
         }
 
-        foreach ($this->defaults as $key => $value) {
-            if (!isset($params[$key]) or $params[$key] === '') {
-                // Set default values for any key that was not matched
-                $params[$key] = $value;
-            }
-        }
-
-        return $params;
-    }
-
-    /**
-     * Generates a URI for the current route based on the parameters given.
-     *
-     * @param array $params (option) URI parameters
-     * @return  string
-     */
-    public function uri(array $params = null)
-    {
-        if ($params === null) {
-            // Use the default parameters
-            $params = $this->defaults;
-        } else {
-            // Add the default parameters
-            $params += $this->defaults;
-        }
-
-        // Start with the routed URI
-        $uri = $this->uri;
-
-        if (strpos($uri, '<') === false and strpos($uri, '(') === false) {
-            // This is a static route, no need to replace anything
-            return $uri;
-        }
-
-        while (preg_match('#\([^()]++\)#', $uri, $match)) {
-            // Search for the matched value
-
-
-            $search = $match[0];
-
-            // Remove the parenthesis from the match as the replace
-            $replace = substr($match[0], 1, -1);
-
-            while (preg_match('#' . self::REGEX_KEY . '#', $replace, $match)) {
-                list ($key, $param) = $match;
-
-                if (!empty($params[$param])) {
-                    // Replace the key with the parameter value
-                    $replace = str_replace($key, $params[$param], $replace);
-                } else {
-                    // This group has missing parameters
-                    $replace = '';
-                    break;
-                }
-            }
-
-            // Replace the group in the URI
-            $uri = str_replace($search, $replace, $uri);
-        }
-
-        while (preg_match('#' . self::REGEX_KEY . '#', $uri, $match)) {
-            list ($key, $param) = $match;
-
-            if (empty($params[$param])) {
-                // Ungrouped parameters are required
-                throw new \Exception(
-                    sprintf('Required route parameter not passed: %s', $param)
-                );
-            }
-
-            $uri = str_replace($key, $params[$param], $uri);
-        }
-
-        // Trim all extra slashes from the URI
-        $uri = preg_replace('#//+#', '/', rtrim($uri, '/'));
-
-        return $uri;
+        return array_merge($this->defaults, $params);
     }
 
     /**
@@ -284,44 +197,20 @@ class Route
 
         if (strpos($regex, '(') !== false) {
             // Make optional parts of the URI non-capturing and optional
-            $regex = str_replace(
-                array(
-                    '(',
-                    ')'
-                ),
-                array(
-                    '(?:',
-                    ')?'
-                ),
-                $regex
-            );
+            $regex = str_replace(array('(',')'), array('(?:', ')?'), $regex);
         }
 
         // Insert default regex for keys
-        $regex = str_replace(
-            array(
-                '<',
-                '>'
-            ),
-            array(
-                '(?P<',
-                '>' . self::REGEX_SEGMENT . ')'
-            ),
-            $regex
-        );
+        $regex = str_replace(array('<', '>'), array('(?P<', '>' . self::REGEX_SEGMENT . ')'), $regex);
 
-        if (!empty($this->regex)) {
-            $search = $replace = array();
-            foreach ($this->regex as $key => $value) {
-                $search[]  = "<$key>" . self::REGEX_SEGMENT;
-                $replace[] = "<$key>$value";
-            }
-
-            // Replace the default regex with the user-specified regex
-            $regex = str_replace($search, $replace, $regex);
+        $search = $replace = array();
+        foreach ($this->regex as $key => $value) {
+            $search[]  = "<$key>" . self::REGEX_SEGMENT;
+            $replace[] = "<$key>$value";
         }
 
-        return '#^' . $regex . '$#';
+        // Replace the default regex with the user-specified regex
+        return sprintf('#^%s$#', str_replace($search, $replace, $regex));
     }
 
     /**
