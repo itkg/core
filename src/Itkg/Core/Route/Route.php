@@ -60,7 +60,7 @@ class Route
      */
     protected $defaults = array(
         'controller' => 'index',
-        'action'     => 'index'
+        'action' => 'index'
     );
 
     /**
@@ -171,8 +171,8 @@ class Route
 
             /** gestion des sous-repertoires : uniquement si controller contient des _ */
             if ($key == 'controller' && substr_count($value, '_')) {
-                $temp                = explode('_', $value);
-                $value               = array_pop($temp);
+                $temp = explode('_', $value);
+                $value = array_pop($temp);
                 $params['directory'] = implode('/', $temp);
             }
             // Set the value for all matched keys
@@ -197,7 +197,7 @@ class Route
 
         if (strpos($regex, '(') !== false) {
             // Make optional parts of the URI non-capturing and optional
-            $regex = str_replace(array('(',')'), array('(?:', ')?'), $regex);
+            $regex = str_replace(array('(', ')'), array('(?:', ')?'), $regex);
         }
 
         // Insert default regex for keys
@@ -205,7 +205,7 @@ class Route
 
         $search = $replace = array();
         foreach ($this->regex as $key => $value) {
-            $search[]  = "<$key>" . self::REGEX_SEGMENT;
+            $search[] = "<$key>" . self::REGEX_SEGMENT;
             $replace[] = "<$key>$value";
         }
 

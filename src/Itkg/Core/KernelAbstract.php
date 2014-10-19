@@ -1,8 +1,9 @@
 <?php
 
 namespace Itkg\Core;
-use Itkg\Core\Event\KernelEvents;
+
 use Itkg\Core\Event\KernelEvent;
+use Itkg\Core\Event\KernelEvents;
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ControllerResolverInterface;
@@ -69,7 +70,7 @@ abstract class KernelAbstract extends HttpKernel
     protected function getConfigFiles()
     {
         return array(
-            __DIR__.'/Resources/Config/global.yml',
+            __DIR__ . '/Resources/Config/global.yml',
         );
     }
 
@@ -81,7 +82,7 @@ abstract class KernelAbstract extends HttpKernel
     protected function getRoutingFiles()
     {
         return array(
-            __DIR__.'/Resources/Config/routing.yml',
+            __DIR__ . '/Resources/Config/routing.yml',
         );
     }
 

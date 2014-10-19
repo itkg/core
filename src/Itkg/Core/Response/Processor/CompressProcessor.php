@@ -29,7 +29,7 @@ class CompressProcessor implements PostProcessorInterface
         );
         $content = preg_replace($search, $replace, $content);
         $content = str_replace("\n", "", $content);
-        
+
         $response->setContent($content);
 
     }

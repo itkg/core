@@ -47,6 +47,7 @@ class DatabaseEvent extends Event
     {
         return $this->executionTime;
     }
+
     /**
      * @return string
      */

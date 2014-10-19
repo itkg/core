@@ -4,7 +4,6 @@ namespace Itkg\Core\Cache;
 
 use Itkg\Core\CacheableInterface;
 
-
 /**
  * @author Pascal DENIS <pascal.denis@businessdecision.com>
  */
@@ -74,7 +73,8 @@ class CacheableData implements CacheableInterface
      * @param bool $isLoaded
      */
     public function setIsLoaded($isLoaded = true)
-    {}
+    {
+    }
 
     /**
      * Get data from entity for cache set

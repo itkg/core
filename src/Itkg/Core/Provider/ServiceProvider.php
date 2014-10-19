@@ -42,39 +42,39 @@ class ServiceProvider implements ServiceProviderInterface
         });
 
 
-        $container['router'] = $container->share(function() {
+        $container['router'] = $container->share(function () {
             return new Router();
         });
 
-        $container['request_matcher'] = $container->share(function($container) {
+        $container['request_matcher'] = $container->share(function ($container) {
             return new RequestMatcher(
                 $container['router']
             );
         });
 
         // listeners
-        $container['listener.request_matcher'] = $container->share(function($container) {
+        $container['listener.request_matcher'] = $container->share(function ($container) {
             return new RequestMatcherListener(
                 $container['request_matcher']
             );
         });
 
-        $container['listener.ajax_response_render'] = $container->share(function() {
+        $container['listener.ajax_response_render'] = $container->share(function () {
             return new AjaxRenderResponseListener(
                 new \Pelican_Ajax_Adapter_Jquery()
             );
         });
 
-        $container['listener.response_exception'] = $container->share(function() {
+        $container['listener.response_exception'] = $container->share(function () {
             return new ResponseExceptionListener();
         });
 
-        $container['listener.processor_response_render'] = $container->share(function() {
+        $container['listener.processor_response_render'] = $container->share(function () {
             return new ResponsePostRendererListener();
         });
 
         // Response Processors
-        $core['response.processor.compress'] = $container->share(function() {
+        $core['response.processor.compress'] = $container->share(function () {
             return new CompressProcessor();
         });
 

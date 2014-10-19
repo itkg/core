@@ -7,13 +7,14 @@ use Itkg\Core\Event\KernelEvent;
 use Itkg\Core\Event\RequestEvent;
 use Itkg\Core\Event\ResponseEvent;
 use Itkg\Core\KernelAbstract;
-use Itkg\Core\Matcher\RequestMatcher;
-use Itkg\Core\Resolver\ControllerResolver;;
+use Itkg\Core\Resolver\ControllerResolver;
 use Itkg\Core\Route\Route;
 use Itkg\Core\ServiceContainer;
 use Itkg\Core\YamlLoader;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Yaml\Parser as YamlParser;
+
+;
 
 class Kernel extends KernelAbstract
 {
@@ -78,6 +79,7 @@ class Kernel extends KernelAbstract
 
         return $this;
     }
+
     /**
      * Override some Pelican class with help of Pelican_Loader
      */
@@ -90,7 +92,7 @@ class Kernel extends KernelAbstract
             __DIR__ . '/../../../../vendor/smarty/smarty/distribution/libs/Smarty.class.php',
             'Smarty'
         );
-        \Pelican::$config['PELICAN_LOADER']['Form']            = array(
+        \Pelican::$config['PELICAN_LOADER']['Form'] = array(
             __DIR__ . '/../../../../application/library/Mycanal/Form.php',
             'Mycanal_Form'
         );

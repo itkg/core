@@ -51,7 +51,7 @@ class ResponseExceptionListener implements EventSubscriberInterface
     public function onExceptionThrown(GetResponseForExceptionEvent $event)
     {
         $exception = $event->getException();
-        $kernel    = $event->getKernel();
+        $kernel = $event->getKernel();
 
         // Load errorCode Controller if exist else throw exception again
         if ($exception instanceof NotFoundHttpException) {

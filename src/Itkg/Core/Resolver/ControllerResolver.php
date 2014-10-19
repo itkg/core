@@ -50,10 +50,10 @@ class ControllerResolver implements ControllerResolverInterface
      */
     public function resolve(Request $request, $controllerName, $routeParams = array())
     {
-        if (class_exists($controllerName.'Controller')) {
-            $controllerName = $controllerName.'Controller';
+        if (class_exists($controllerName . 'Controller')) {
+            $controllerName = $controllerName . 'Controller';
             $controller = new $controllerName;
-            $callable = array($controller, $request->attributes->get('action').'Action');
+            $callable = array($controller, $request->attributes->get('action') . 'Action');
         } else {
             $controller = $this->createLegacyController($request, $controllerName, $routeParams);
             $callable = array($controller, 'call');
@@ -62,7 +62,6 @@ class ControllerResolver implements ControllerResolverInterface
         $controller
             ->setContainer($this->container)
             ->setRequest($request);
-
 
 
         return $callable;
@@ -95,7 +94,7 @@ class ControllerResolver implements ControllerResolverInterface
      */
     private function getLegacyControllerPath($controllerName, $routeParams)
     {
-        $directory = (isset($routeParams['params']['directory'])) ? $routeParams['params']['directory']: '';
+        $directory = (isset($routeParams['params']['directory'])) ? $routeParams['params']['directory'] : '';
 
         return sprintf(
             '%s/%s/%s.php',
@@ -150,7 +149,7 @@ class ControllerResolver implements ControllerResolverInterface
      */
     public function getController(Request $request)
     {
-        if(!$request->attributes->has('controller')) {
+        if (!$request->attributes->has('controller')) {
             throw new NotFoundHttpException(sprintf('No controller found for pathinfo %s', $request->getPathInfo()));
         }
 
