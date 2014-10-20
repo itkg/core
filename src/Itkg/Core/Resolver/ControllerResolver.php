@@ -63,7 +63,6 @@ class ControllerResolver implements ControllerResolverInterface
             ->setContainer($this->container)
             ->setRequest($request);
 
-
         return $callable;
     }
 

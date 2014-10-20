@@ -40,7 +40,6 @@ class KernelAbstractTest extends \PHPUnit_Framework_TestCase
 
         $stub->__construct($mockContainer, $app, new ControllerResolver($mockContainer));
 
-
+        $this->assertEquals($mockContainer, $stub->getContainer());
     }
-
-} 
+}
