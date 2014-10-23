@@ -167,5 +167,7 @@ class Config implements \ArrayAccess, ConfigInterface
 
             $configValues = array_replace_recursive($configValues, $importValues);
         }
+
+        return $configValues;
     }
 }
