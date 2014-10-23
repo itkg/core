@@ -22,6 +22,7 @@ class ServiceContainer extends Pimple
     public function setConfig(ConfigInterface $config)
     {
         $this['config'] = $config;
+        $this->loadConfig($config);
         return $this;
     }
 
@@ -35,6 +36,7 @@ class ServiceContainer extends Pimple
     public function setApp(ApplicationInterface $app)
     {
         $this['app'] = $app;
+        $this->loadApp($app);
         return $this;
     }
 
@@ -55,5 +57,21 @@ class ServiceContainer extends Pimple
         }
 
         return $this;
+    }
+
+    /**
+     * @param ConfigInterface $config
+     */
+    protected function loadConfig(ConfigInterface $config)
+    {
+
+    }
+
+    /**
+     * @param ApplicationInterface $app
+     */
+    protected function loadApp(ApplicationInterface $app)
+    {
+
     }
 }

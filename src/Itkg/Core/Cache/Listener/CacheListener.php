@@ -81,7 +81,7 @@ class CacheListener implements EventSubscriberInterface
     {
         return array(
             'entity.before.load' => 'fetchEntityFromCache',
-            'entity.after.load'  => 'setCacheForEntity',
+            'entity.after.load' => 'setCacheForEntity',
         );
     }
 }

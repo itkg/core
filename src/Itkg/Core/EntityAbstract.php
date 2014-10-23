@@ -172,11 +172,11 @@ abstract class EntityAbstract implements CollectionableInterface
      * PAGE_ID => id with PROPERTY_PREFIX set to PAGE
      * MEDIA_DISPLAY_TYPE => displayType with PROPERTY_PREFIX set to MEDIA
      *
-     * @param  string $propName
+     * @param  string $propertyName
      *
      * @return string
      */
-    protected function getPropertyName($propName)
+    protected function getPropertyName($propertyName)
     {
         return lcfirst(
             str_replace(
@@ -186,7 +186,7 @@ abstract class EntityAbstract implements CollectionableInterface
                     str_replace(
                         '_',
                         ' ',
-                        strtolower($propName)
+                        strtolower($propertyName)
                     )
                 )
             )
@@ -196,12 +196,13 @@ abstract class EntityAbstract implements CollectionableInterface
     /**
      * Get method name for getter
      *
-     * @param  string $propName
+     * @param  string $propertyName
+     * @throws \InvalidArgumentException
      * @return string
      */
-    protected function getPropertyValue($propName)
+    protected function getPropertyValue($propertyName)
     {
-        $desiredKey = $this->trimPrefixKey($propName);
+        $desiredKey = $this->trimPrefixKey($propertyName);
 
         $getter = 'get' . ucfirst($this->getPropertyName($desiredKey));
         if (method_exists($this, $getter)) {
@@ -220,7 +221,7 @@ abstract class EntityAbstract implements CollectionableInterface
         throw new \InvalidArgumentException(
             sprintf(
                 'No getter set for %s (getter was %s:%s)',
-                $propName,
+                $propertyName,
                 get_called_class(),
                 $getter
             )
@@ -260,29 +261,14 @@ abstract class EntityAbstract implements CollectionableInterface
         $excludes = array_flip($this->excludedPropertiesForCache);
         $excludes['excludedPropertiesForCache'] = true;
         foreach ($reflectionClass->getProperties() as $property) {
-            $propName = $property->getName();
-            if (isset($excludes[$propName])) {
-                continue;
-            }
-
-            $value = $this->$propName;
-
-            if ($value instanceof CacheableInterface) {
-                $value = $value->getDataForCache();
-            } elseif (is_object($value)) {
-                $value = null;
-            }
-
-            if (null !== $value) {
-                $array[$propName] = $value;
+            $propertyName = $property->getName();
+            if (!isset($excludes[$propertyName])
+                && null !== $value = $this->processPropertyForCache($propertyName)) {
+                $array[$propertyName] = $value;
             }
         }
 
-        if (empty($array)) {
-            return null;
-        }
-        return json_encode($array);
-
+        return $this->encodeDataForCache($array);
     }
 
     /**
@@ -306,5 +292,38 @@ abstract class EntityAbstract implements CollectionableInterface
         }
 
         return $this;
+    }
+
+    /**
+     * Process a property to get data for caching flow
+     *
+     * @param string $propertyName
+     * @return mixed|null
+     */
+    protected function processPropertyForCache($propertyName)
+    {
+        $value = $this->$propertyName;
+
+        if ($value instanceof CacheableInterface) {
+            $value = $value->getDataForCache();
+        } elseif (is_object($value)) {
+            $value = null;
+        }
+
+        return $value;
+    }
+
+    /**
+     * Encode data for caching flow
+     *
+     * @param array $data
+     * @return string|null
+     */
+    protected function encodeDataForCache(array $data = array())
+    {
+        if (empty($data)) {
+            return null;
+        }
+        return json_encode($data);
     }
 }

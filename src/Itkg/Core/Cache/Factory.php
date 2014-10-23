@@ -2,8 +2,8 @@
 
 namespace Itkg\Core\Cache;
 
-use Itkg\Core\ConfigInterface;
 use Itkg\Core\Cache\InvalidConfigurationException;
+use Itkg\Core\ConfigInterface;
 
 /**
  * Cache adapter factory
@@ -50,11 +50,11 @@ class Factory
         /**
          * @fixme : Active this part & clean cache config
          */
-         if (!isset($config[$adapterType])) {
-             throw new InvalidConfigurationException(
-                 sprintf('Config is not set for adapter %s', $adapterType)
-             );
-         }
+        if (!isset($config[$adapterType])) {
+            throw new InvalidConfigurationException(
+                sprintf('Config is not set for adapter %s', $adapterType)
+            );
+        }
 
         return new $this->adapters[$adapterType]($config[$adapterType]);
     }

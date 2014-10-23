@@ -19,6 +19,9 @@ class KernelEvent extends Event
      */
     private $container;
 
+    /**
+     * @param ServiceContainer $container
+     */
     public function __construct(ServiceContainer $container)
     {
         $this->container = $container;

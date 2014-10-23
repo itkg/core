@@ -1,6 +1,7 @@
 <?php
 
 namespace Itkg\Core\Cache;
+
 use Itkg\Core\CacheableInterface;
 
 /**

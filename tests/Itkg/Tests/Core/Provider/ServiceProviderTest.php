@@ -17,5 +17,6 @@ class ServiceProviderTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf('\Pimple', $container['core']);
         $this->assertInstanceOf('Symfony\Component\EventDispatcher\EventDispatcher', $container['core']['dispatcher']);
+        $this->assertInstanceOf('Itkg\Core\Response\Processor\CompressProcessor', $container['core']['response.processor.compress']);
     }
 }

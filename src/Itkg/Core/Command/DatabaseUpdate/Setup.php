@@ -112,15 +112,7 @@ class Setup
      */
     public function createMigration($script, $rollbackScript)
     {
-        if (!file_exists($script) || !file_exists($rollbackScript)) {
-            throw new \InvalidArgumentException(
-                sprintf(
-                    "%s or %s does not exist",
-                    $script,
-                    $rollbackScript
-                )
-            );
-        }
+        $this->checkScripts($script, $rollbackScript);
 
         if ($this->rollbackedFirst) {
             /* When rollback is needed first we invert script & rollback script */
@@ -233,5 +225,23 @@ class Setup
     public function getLocator()
     {
         return $this->locator;
+    }
+
+    /**
+     * @param string $script
+     * @param string $rollbackScript
+     * @throws \InvalidArgumentException
+     */
+    protected function checkScripts($script, $rollbackScript)
+    {
+        if (!file_exists($script) || !file_exists($rollbackScript)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "%s or %s does not exist",
+                    $script,
+                    $rollbackScript
+                )
+            );
+        }
     }
 }

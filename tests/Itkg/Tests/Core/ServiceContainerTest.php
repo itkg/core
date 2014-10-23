@@ -2,6 +2,7 @@
 
 namespace Itkg\Tests\Core;
 
+use Itkg\Core\Application;
 use Itkg\Core\Config;
 use Itkg\Core\ServiceContainer;
 use Doctrine\DBAL\Configuration;
@@ -32,5 +33,17 @@ class ServiceContainerTest extends \PHPUnit_Framework_TestCase
 
         $container->register(new ServiceCommandProvider(), $values);
         $this->assertEquals($connection, $container['doctrine.connection']);
+    }
+
+    public function testLoad()
+    {
+        $config = new Config();
+        $app = new Application('DEV');
+        $container = $this->getMock('Itkg\Core\ServiceContainer', array('loadConfig', 'loadApp'));
+        $container->expects($this->once())->method('loadConfig')->with($config);
+        $container->expects($this->once())->method('loadApp')->with($app);
+
+        $container->setConfig($config);
+        $container->setApp($app);
     }
 }
