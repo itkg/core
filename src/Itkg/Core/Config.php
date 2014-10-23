@@ -35,25 +35,12 @@ class Config implements \ArrayAccess, ConfigInterface
      */
     public function load(array $files = array())
     {
-
         $loader = new YamlLoader(new FileLocator, new YamlParser);
 
         foreach ($files as $file) {
             $configValues = $loader->load($file);
 
-            if (isset($configValues['imports'])) {
-
-                if (!is_array($configValues['imports'])) {
-                    $configValues['imports'] = array($configValues['imports']);
-                }
-
-                foreach ($configValues['imports'] as $import) {
-                    $loader->setCurrentDir(dirname($file));
-                    $importValues = $loader->import($import, null, false, $file);
-
-                    $configValues = array_replace_recursive($configValues, $importValues);
-                }
-            }
+            $configValues = $this->loadImports($loader, $file, $configValues);
 
             $this->params = array_replace_recursive($this->params, $configValues);
         }
@@ -153,6 +140,32 @@ class Config implements \ArrayAccess, ConfigInterface
     {
         if ($this->has($offset)) {
             unset($this->params[$offset]);
+        }
+    }
+
+    /**
+     * Load imports
+     *
+     * @param YamlLoader $loader
+     * @param string $file
+     * @param array $configValues
+     * @return array
+     */
+    protected function loadImports(YamlLoader $loader, $file, array $configValues = array())
+    {
+        if (!isset($configValues['imports'])) {
+            return $configValues;
+        }
+
+        if (!is_array($configValues['imports'])) {
+            $configValues['imports'] = array($configValues['imports']);
+        }
+
+        foreach ($configValues['imports'] as $import) {
+            $loader->setCurrentDir(dirname($file));
+            $importValues = $loader->import($import, null, false, $file);
+
+            $configValues = array_replace_recursive($configValues, $importValues);
         }
     }
 }
