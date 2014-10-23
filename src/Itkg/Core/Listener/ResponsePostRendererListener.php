@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: user
- * Date: 04/09/14
- * Time: 09:35
- */
 
 namespace Itkg\Core\Listener;
 

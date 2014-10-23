@@ -139,10 +139,9 @@ class ControllerResolver implements ControllerResolverInterface
      *
      * @param Request $request A Request instance
      *
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      * @return callable|false A PHP callable representing the Controller,
      *                        or false if this resolver is not able to determine the controller
-     *
-     * @throws \LogicException If the controller can't be found
      *
      * @api
      */
@@ -178,6 +177,7 @@ class ControllerResolver implements ControllerResolverInterface
                 sprintf('Method %s does not exist for controller %s', $actionName, get_class($controller[0]))
             );
         }
+
         return array(
             $actionName
         );

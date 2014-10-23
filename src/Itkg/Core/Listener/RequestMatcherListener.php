@@ -61,7 +61,6 @@ class RequestMatcherListener implements EventSubscriberInterface
      */
     public function onMatchRequest(GetResponseEvent $event)
     {
-
         $this->matcher->matches($event->getRequest());
     }
 }

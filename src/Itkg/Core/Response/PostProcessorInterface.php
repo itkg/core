@@ -18,4 +18,4 @@ interface PostProcessorInterface
      * @param Response $response
      */
     public function process(Response $response);
-} 
+}
