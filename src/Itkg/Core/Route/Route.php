@@ -109,7 +109,7 @@ class Route
 
         $this->uri = $uri;
         // Store the compiled regex locally
-        $this->compiledRegex = $this->_compile();
+        $this->compiledRegex = $this->compile();
     }
 
     /**
@@ -189,7 +189,7 @@ class Route
      * @access  protected
      * @return  string
      */
-    protected function _compile()
+    protected function compile()
     {
         // The URI should be considered literal except for keys and optional parts
         // Escape everything preg_quote would escape except for : ( ) < >

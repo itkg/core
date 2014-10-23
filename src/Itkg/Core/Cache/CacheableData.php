@@ -25,6 +25,11 @@ class CacheableData implements CacheableInterface
     private $data;
 
     /**
+     * @var bool
+     */
+    private $loaded = false;
+
+    /**
      * @param $hashKey
      * @param $ttl
      * @param $data
@@ -64,7 +69,7 @@ class CacheableData implements CacheableInterface
      */
     public function isLoaded()
     {
-        return null !== $this->data;
+        return $this->loaded;
     }
 
     /**
@@ -74,6 +79,7 @@ class CacheableData implements CacheableInterface
      */
     public function setIsLoaded($isLoaded = true)
     {
+        $this->loaded = $isLoaded;
     }
 
     /**

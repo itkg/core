@@ -12,6 +12,9 @@ use Symfony\Component\HttpFoundation\RequestMatcherInterface;
  */
 class RequestMatcher implements RequestMatcherInterface
 {
+    /**
+     * @var \Itkg\Core\Route\Router
+     */
     protected $router;
 
     /**
@@ -24,7 +27,7 @@ class RequestMatcher implements RequestMatcherInterface
 
     /**
      * @param Request $request
-     * @return null|array
+     * @return bool
      * @throws \RuntimeException
      */
     public function matches(Request $request)
@@ -42,18 +45,18 @@ class RequestMatcher implements RequestMatcherInterface
             );
 
             $params = $routeMatcher->process();
-            if (is_array($params) && !empty($params)) {
+            if (is_array($params)) {
                 return $this->processParams($request, $params);
             }
         }
 
-        return null;
+        return false;
     }
 
     /**
      * @param Request $request
      * @param array $params
-     * @return array
+     * @return bool
      */
     private function processParams(Request $request, array $params = array())
     {
@@ -67,6 +70,6 @@ class RequestMatcher implements RequestMatcherInterface
 
         $request->attributes->set('route_params', $params);
 
-        return $params;
+        return $request->attributes->has('controller');
     }
 }
