@@ -232,7 +232,7 @@ class Setup
      * @param string $rollbackScript
      * @throws \InvalidArgumentException
      */
-    protected function checkScript($script, $rollbackScript)
+    protected function checkScripts($script, $rollbackScript)
     {
         if (!file_exists($script) || !file_exists($rollbackScript)) {
             throw new \InvalidArgumentException(
