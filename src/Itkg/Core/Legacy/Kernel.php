@@ -14,8 +14,11 @@ use Itkg\Core\YamlLoader;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Yaml\Parser as YamlParser;
 
-;
-
+/**
+ * Class Kernel
+ * @package Itkg\Core\Legacy
+ * @author Pascal DENIS <pascal.denis@businessdecision.com>
+ */
 class Kernel extends KernelAbstract
 {
     /**
@@ -88,21 +91,8 @@ class Kernel extends KernelAbstract
         }
     }
 
-    /**
-     * Override some Pelican class with help of Pelican_Loader
-     */
-    public function overridePelicanLoader()
+    protected function overridePelicanLoader()
     {
-        /**
-         * Pseudo DIC
-         */
-        \Pelican::$config['PELICAN_LOADER']['External.Smarty'] = array(
-            __DIR__ . '/../../../../vendor/smarty/smarty/distribution/libs/Smarty.class.php',
-            'Smarty'
-        );
-        \Pelican::$config['PELICAN_LOADER']['Form'] = array(
-            __DIR__ . '/../../../../application/library/Mycanal/Form.php',
-            'Mycanal_Form'
-        );
+
     }
 }

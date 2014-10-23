@@ -21,6 +21,8 @@ class EntityLoadEvent extends BaseEvent
 
     /**
      * Constructor
+     *
+     * @param CacheableInterface $entity
      */
     public function __construct(CacheableInterface $entity)
     {
