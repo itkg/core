@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Itkg\Core package.
+ *
+ * (c) Interakting - Business & Decision
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Itkg\Core;
 
 use Itkg\Core\Event\KernelEvent;
@@ -10,6 +19,10 @@ use Symfony\Component\HttpKernel\Controller\ControllerResolverInterface;
 use Symfony\Component\HttpKernel\HttpKernel;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
+/**
+ * Class KernelAbstract
+ * @package Itkg\Core
+ */
 abstract class KernelAbstract extends HttpKernel
 {
     /**

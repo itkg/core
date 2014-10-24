@@ -1,11 +1,24 @@
 <?php
 
+/*
+ * This file is part of the Itkg\Core package.
+ *
+ * (c) Interakting - Business & Decision
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Itkg\Core;
 
 use Symfony\Component\Config\FileLocatorInterface;
 use Symfony\Component\Config\Loader\FileLoader;
 use Symfony\Component\Yaml\Parser as YamlParser;
 
+/**
+ * Class YamlLoader
+ * @package Itkg\Core
+ */
 class YamlLoader extends FileLoader
 {
     /**
