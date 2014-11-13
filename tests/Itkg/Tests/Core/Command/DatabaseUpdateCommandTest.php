@@ -21,6 +21,7 @@ use Itkg\Core\Command\DatabaseUpdate\Migration\Factory;
 use Itkg\Core\Command\DatabaseUpdate\Query\Decorator;
 use Itkg\Core\Command\DatabaseUpdate\Query\OutputQueryFactory;
 use Itkg\Core\Command\DatabaseUpdate\Query\Formatter;
+use Itkg\Core\Command\DatabaseUpdate\ReleaseChecker;
 use Itkg\Core\Command\DatabaseUpdate\Runner;
 use Itkg\Core\Command\DatabaseUpdate\Setup;
 use Itkg\Core\Command\DatabaseUpdateCommand;
@@ -122,7 +123,7 @@ EOF;
         $decorator = new Decorator(new \Itkg\Core\Command\DatabaseUpdate\Template\Loader());
         $display = new Display(new Parser(), new Formatter());
 
-        return new DatabaseUpdateCommand(new Setup($runner, $loader, $factory, $locator, $decorator), $display, 'itkg-core:script');
+        return new DatabaseUpdateCommand(new Setup($runner, $loader, $factory, $locator, $decorator, new ReleaseChecker()), $display, 'itkg-core:script');
     }
 
 }

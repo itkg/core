@@ -87,6 +87,11 @@ class Setup
     private $decorator;
 
     /**
+     * @var ReleaseChecker
+     */
+    private $releaseChecker;
+
+    /**
      * Constructor
      *
      * @param RunnerInterface $runner
@@ -94,13 +99,15 @@ class Setup
      * @param Migration\Factory $migrationFactory
      * @param LocatorInterface $locator
      * @param Query\DecoratorInterface $decorator
+     * @param ReleaseChecker $releaseChecker
      */
     public function __construct(
         RunnerInterface $runner,
         LoaderInterface $loader,
         Factory $migrationFactory,
         LocatorInterface $locator,
-        DecoratorInterface $decorator
+        DecoratorInterface $decorator,
+        ReleaseChecker $releaseChecker
     )
     {
         $this->runner = $runner;
@@ -108,6 +115,7 @@ class Setup
         $this->migrationFactory = $migrationFactory;
         $this->locator = $locator;
         $this->decorator = $decorator;
+        $this->releaseChecker = $releaseChecker;
     }
 
     /**
@@ -121,7 +129,7 @@ class Setup
      */
     public function createMigration($script, $rollbackScript)
     {
-        $this->checkScripts($script, $rollbackScript);
+        $this->releaseChecker->checkScript($script, $rollbackScript);
 
         if ($this->rollbackedFirst) {
             /* When rollback is needed first we invert script & rollback script */
@@ -149,13 +157,7 @@ class Setup
         $scripts = $this->locator->findScripts();
         $rollbacks = $this->locator->findRollbackScripts();
 
-        if (empty($scripts)) {
-            throw new \RuntimeException(sprintf('No scripts were found in release'));
-        }
-
-        if (sizeof(array_diff_key($scripts, $rollbacks)) != 0) {
-            throw new \LogicException('Scripts and rollbacks must correspond');
-        }
+        $this->releaseChecker->check($scripts, $rollbacks);
 
         foreach ($scripts as $k => $script) {
             $this->createMigration($script, $rollbacks[$k]);
@@ -234,23 +236,5 @@ class Setup
     public function getLocator()
     {
         return $this->locator;
-    }
-
-    /**
-     * @param string $script
-     * @param string $rollbackScript
-     * @throws \InvalidArgumentException
-     */
-    protected function checkScripts($script, $rollbackScript)
-    {
-        if (!file_exists($script) || !file_exists($rollbackScript)) {
-            throw new \InvalidArgumentException(
-                sprintf(
-                    "%s or %s does not exist",
-                    $script,
-                    $rollbackScript
-                )
-            );
-        }
     }
 }
