@@ -37,11 +37,14 @@ class Finder implements FinderInterface
         $files = array();
 
         foreach (new \DirectoryIterator($this->path) as $file) {
-            if($file->isDot()) continue;
+            if ($file->isDot()) {
+                continue;
+            }
             $files[] = $file->getFilename();
         }
 
         sort($files);
+
         return $files;
     }
 

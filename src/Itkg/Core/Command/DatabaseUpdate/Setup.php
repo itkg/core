@@ -108,14 +108,13 @@ class Setup
         LocatorInterface $locator,
         DecoratorInterface $decorator,
         ReleaseChecker $releaseChecker
-    )
-    {
-        $this->runner = $runner;
-        $this->loader = $loader;
+    ) {
+        $this->runner           = $runner;
+        $this->loader           = $loader;
         $this->migrationFactory = $migrationFactory;
-        $this->locator = $locator;
-        $this->decorator = $decorator;
-        $this->releaseChecker = $releaseChecker;
+        $this->locator          = $locator;
+        $this->decorator        = $decorator;
+        $this->releaseChecker   = $releaseChecker;
     }
 
     /**
@@ -154,7 +153,7 @@ class Setup
      */
     private function createMigrations()
     {
-        $scripts = $this->locator->findScripts();
+        $scripts   = $this->locator->findScripts();
         $rollbacks = $this->locator->findRollbackScripts();
 
         $this->releaseChecker->checkScripts($scripts, $rollbacks);
@@ -175,6 +174,7 @@ class Setup
 
             $this->runner->run($migration, $this->executeQueries, $this->forcedRollback);
         }
+
         // After run, we add decorated queries
         return $this->decorator->decorateAll($this->runner->getPlayedQueries());
     }

@@ -10,6 +10,7 @@
  */
 
 namespace Itkg\Core\Command;
+
 use Itkg\Core\Command\DatabaseList\FinderInterface;
 use Itkg\Core\Command\DatabaseUpdate\LocatorInterface;
 use Itkg\Core\Command\DatabaseUpdate\ReleaseChecker;
@@ -48,13 +49,17 @@ class DatabaseListCommand extends Command
      * @param DatabaseUpdate\ReleaseChecker $checker
      * @param null $name
      */
-    public function __construct(LocatorInterface $locator, FinderInterface $finder, ReleaseChecker $checker, $name = null)
-    {
+    public function __construct(
+        LocatorInterface $locator,
+        FinderInterface $finder,
+        ReleaseChecker $checker,
+        $name = null
+    ) {
         parent::__construct($name);
 
         $this->locator = $locator;
         $this->checker = $checker;
-        $this->finder = $finder;
+        $this->finder  = $finder;
     }
 
     /**
@@ -89,14 +94,14 @@ class DatabaseListCommand extends Command
         foreach ($this->finder->findAll() as $release) {
             $this->locator->setParams(array('release' => $release));
             $scripts = $rollbacks = array();
-            $status = '<fg=green>OK</fg=green>';
+            $status  = '<fg=green>OK</fg=green>';
 
             try {
-                $scripts = $this->locator->findScripts();
+                $scripts   = $this->locator->findScripts();
                 $rollbacks = $this->locator->findRollbackScripts();
                 $this->checker->check($scripts, $rollbacks);
             } catch (\Exception $e) {
-                $status = sprintf('<fg=red>%s</fg=red>', $e->getMessage());
+                $status   = sprintf('<fg=red>%s</fg=red>', $e->getMessage());
                 $failed[] = $release;
             }
 
@@ -118,6 +123,7 @@ class DatabaseListCommand extends Command
             $this->locator->setParams(array('path' => $input->getOption('path')));
         }
     }
+
     /**
      * Display result as a table
      *
