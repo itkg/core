@@ -83,48 +83,56 @@ class DatabaseListCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        if ($input->getOption('path')) {
-            $this->finder->setPath($input->getOption('path'));
-            $this->locator->setParams(array('path' => $input->getOption('path')));
-        }
+        $this->configureOptions($input);
 
-        $rows = array();
-        $failed = array();
+        $rows = $failed = array();
         foreach ($this->finder->findAll() as $release) {
             $this->locator->setParams(array('release' => $release));
             $scripts = $rollbacks = array();
             $status = '<fg=green>OK</fg=green>';
+
             try {
                 $scripts = $this->locator->findScripts();
                 $rollbacks = $this->locator->findRollbackScripts();
-                $this->checker->check($scripts, $rollbacks, true);
+                $this->checker->check($scripts, $rollbacks);
             } catch (\Exception $e) {
                 $status = sprintf('<fg=red>%s</fg=red>', $e->getMessage());
                 $failed[] = $release;
             }
 
-            $rows[] = array(
-                $release,
-                count($scripts),
-                count($rollbacks),
-                $status
-            );
+            $rows[] = array($release, count($scripts), count($rollbacks), $status);
         }
 
-        $this->display($output, $rows);
+        $this->display($output, $rows, $failed);
+    }
+
+    /**
+     * Configure input options
+     *
+     * @param InputInterface $input
+     */
+    protected function configureOptions(InputInterface $input)
+    {
+        if ($input->getOption('path')) {
+            $this->finder->setPath($input->getOption('path'));
+            $this->locator->setParams(array('path' => $input->getOption('path')));
+        }
+    }
+    /**
+     * Display result as a table
+     *
+     * @param OutputInterface $output
+     * @param array $rows
+     */
+    protected function display(OutputInterface $output, array $rows = array(), array $failed = array())
+    {
+        $this->getApplication()->getHelperSet()->get('table')
+            ->setHeaders(array('Name', 'Scripts', 'Rollbacks', 'Status'))
+            ->setRows($rows)
+            ->render($output);
 
         if (!empty($failed)) {
             $output->writeln(sprintf('<fg=red>Check failed for release(s) %s</fg=red>', implode(', ', $failed)));
         }
-    }
-
-    protected function display(OutputInterface $output, array $rows = array())
-    {
-        $table = $this->getApplication()->getHelperSet()->get('table');
-        $table
-            ->setHeaders(array('Name', 'Scripts', 'Rollbacks', 'Status'))
-            ->setRows($rows);
-        $table->render($output);
-
     }
 }

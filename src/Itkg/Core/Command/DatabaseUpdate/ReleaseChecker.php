@@ -24,6 +24,7 @@ class ReleaseChecker
 {
     /**
      * Check a release scripts & rollbacks
+     * and each script separately
      *
      * @param array $scripts
      * @param array $rollbacks
@@ -31,7 +32,25 @@ class ReleaseChecker
      * @throws \LogicException
      * @throws \InvalidArgumentException
      */
-    public function check(array $scripts, array $rollbacks, $recursiveCheck = false)
+    public function check(array $scripts, array $rollbacks)
+    {
+        $this->checkScripts($scripts, $rollbacks);
+
+        foreach ($scripts as $k => $script) {
+            $this->checkScript($script, $rollbacks[$k]);
+        }
+
+    }
+
+    /**
+     * Check a release scripts & rollbacks (without separate script check)
+     *
+     * @param array $scripts
+     * @param array $rollbacks
+     * @throws \RuntimeException
+     * @throws \LogicException
+     */
+    public function checkScripts(array $scripts, array $rollbacks)
     {
         if (empty($scripts)) {
             throw new \RuntimeException(sprintf('No scripts were found in release'));
@@ -40,15 +59,10 @@ class ReleaseChecker
         if (sizeof(array_diff_key($scripts, $rollbacks)) != 0) {
             throw new \LogicException('Scripts and rollbacks must correspond');
         }
-
-        if ($recursiveCheck) {
-            foreach ($scripts as $k => $script) {
-                $this->checkScript($script, $rollbacks[$k]);
-            }
-        }
     }
 
     /**
+     * Check a specific couple of script / rollback
      * @param $script
      * @param $rollbackScript
      * @throws \InvalidArgumentException

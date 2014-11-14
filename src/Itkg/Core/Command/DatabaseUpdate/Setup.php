@@ -157,7 +157,7 @@ class Setup
         $scripts = $this->locator->findScripts();
         $rollbacks = $this->locator->findRollbackScripts();
 
-        $this->releaseChecker->check($scripts, $rollbacks);
+        $this->releaseChecker->checkScripts($scripts, $rollbacks);
 
         foreach ($scripts as $k => $script) {
             $this->createMigration($script, $rollbacks[$k]);
