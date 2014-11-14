@@ -41,10 +41,7 @@ $application->run(new ArgvInput());
 ```
 
 
-
-
 # Usage
 
 * [Database update](https://github.com/itkg/core/tree/master/docs/command/database_update.md)
-
-
+* [Database list](https://github.com/itkg/core/tree/master/docs/command/database_list.md)
