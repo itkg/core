@@ -16,6 +16,7 @@ use Doctrine\DBAL\DriverManager;
 use Itkg\Core\Command\DatabaseUpdate\Migration\Factory;
 use Itkg\Core\Command\DatabaseUpdate\Loader;
 use Itkg\Core\Command\DatabaseUpdate\Query\Decorator;
+use Itkg\Core\Command\DatabaseUpdate\ReleaseChecker;
 use Itkg\Core\Command\DatabaseUpdate\Runner;
 use Itkg\Core\Command\DatabaseUpdate\Locator;
 use Itkg\Core\Command\DatabaseUpdate\Setup;
@@ -196,6 +197,6 @@ class SetupTest extends \PHPUnit_Framework_TestCase
         $locator = new Locator();
         $decorator = new Decorator(new \Itkg\Core\Command\DatabaseUpdate\Template\Loader());
 
-        return new Setup($runner, $loader, $factory, $locator, $decorator);
+        return new Setup($runner, $loader, $factory, $locator, $decorator, new ReleaseChecker());
     }
 }

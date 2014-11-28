@@ -11,7 +11,8 @@
 
 namespace Itkg\Core\Command\Provider;
 
-use Itkg\Core\Command\DatabaseUpdate;
+use Itkg\Core\Command\DatabaseList\Finder;
+use Itkg\Core\Command\DatabaseListCommand;
 use Itkg\Core\Command\DatabaseUpdate\Loader;
 use Itkg\Core\Command\DatabaseUpdate\Locator;
 use Itkg\Core\Command\DatabaseUpdate\Migration\Factory;
@@ -20,6 +21,7 @@ use Itkg\Core\Command\DatabaseUpdate\Query\OutputQueryFactory;
 use Itkg\Core\Command\DatabaseUpdate\Runner;
 use Itkg\Core\Command\DatabaseUpdate\Setup;
 use Itkg\Core\Command\DatabaseUpdate\Template\Loader as TemplateLoader;
+use Itkg\Core\Command\DatabaseUpdate;
 use Itkg\Core\Command\DatabaseUpdateCommand;
 use Itkg\Core\Provider\ServiceProviderInterface;
 
@@ -72,7 +74,8 @@ class ServiceCommandProvider implements ServiceProviderInterface
                     new Loader($container['doctrine.connection']),
                     new Factory(),
                     new Locator(),
-                    $container['itkg-core.command.db_update.decorator']
+                    $container['itkg-core.command.db_update.decorator'],
+                    new DatabaseUpdate\ReleaseChecker()
                 );
             }
         );
@@ -83,6 +86,17 @@ class ServiceCommandProvider implements ServiceProviderInterface
                     $container['itkg-core.command.db_update.setup'],
                     $container['itkg-core.command.db_update.display'],
                     'itkg-core:database:update'
+                );
+            }
+        );
+
+        $container['itkg-core.command.database_list'] = $container->share(
+            function ($container) {
+                return new DatabaseListCommand(
+                    new Locator(),
+                    new Finder(),
+                    new DatabaseUpdate\ReleaseChecker(),
+                    'itkg-core:database:list'
                 );
             }
         );
