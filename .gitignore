@@ -1,2 +1,6 @@
 /vendor
 /report
+.project
+.settings
+composer.phar
+
