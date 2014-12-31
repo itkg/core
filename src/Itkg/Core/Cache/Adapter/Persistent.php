@@ -11,23 +11,30 @@
 
 namespace Itkg\Core\Cache\Adapter;
 
-use Itkg\Core\Cache\AdapterAbstract;
 use Itkg\Core\Cache\AdapterInterface;
 use Itkg\Core\CacheableInterface;
 
 /**
- * Class Memory
+ * Class Persistent
  *
- * Store cache in array
+ * Store cache in specific adapter & keep in memory (with array storage)
  *
  * @package Itkg\Core\Cache\Adapter
  */
-class Memory extends AdapterAbstract implements AdapterInterface
+class Persistent extends Memory
 {
     /**
-     * @var array
+     * @var \Itkg\Core\Cache\AdapterInterface
      */
-    private $values = array();
+    protected $adapter;
+
+    /**
+     * @param AdapterInterface $adapter
+     */
+    public function __construct(AdapterInterface $adapter)
+    {
+        $this->adapter = $adapter;
+    }
 
     /**
      * Get value from cache
@@ -38,7 +45,11 @@ class Memory extends AdapterAbstract implements AdapterInterface
      */
     public function get(CacheableInterface $item)
     {
-        return isset($this->values[$item->getHashKey()]) ? $this->values[$item->getHashKey()] : false;
+        if (false !== $result = parent::get($item)) {
+            return $result;
+        }
+
+        return $this->adapter->get($item);
     }
 
     /**
@@ -50,7 +61,8 @@ class Memory extends AdapterAbstract implements AdapterInterface
      */
     public function set(CacheableInterface $item)
     {
-        $this->values[$item->getHashKey()] = $item->getDataForCache();
+        parent::set($item);
+        $this->adapter->set($item);
     }
 
     /**
@@ -61,9 +73,8 @@ class Memory extends AdapterAbstract implements AdapterInterface
      */
     public function remove(CacheableInterface $item)
     {
-        if (isset($this->values[$item->getHashKey()])) {
-            unset($this->values[$item->getHashKey()]);
-        }
+        parent::remove($item);
+        $this->adapter->remove($item);
     }
 
     /**
@@ -73,6 +84,26 @@ class Memory extends AdapterAbstract implements AdapterInterface
      */
     public function removeAll()
     {
-        $this->values = array();
+        parent::removeAll();
+        $this->adapter->removeAll();
     }
-}
+
+    /**
+     * @return AdapterInterface
+     */
+    public function getAdapter()
+    {
+        return $this->adapter;
+    }
+
+    /**
+     * @param AdapterInterface $adapter
+     * @return $this
+     */
+    public function setAdapter(AdapterInterface $adapter)
+    {
+        $this->adapter = $adapter;
+
+        return $this;
+    }
+} 
