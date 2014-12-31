@@ -12,7 +12,7 @@
 /**
  * @author Pascal DENIS <pascal.denis@businessdecision.com>
  */
-class MemoryTest extends \PHPUnit_Framework_TestCase
+class PersistentTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetSetRemoveAndRemoveAll()
     {
