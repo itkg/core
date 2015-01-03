@@ -14,47 +14,45 @@ namespace Itkg\Core\Cache\Adapter\Chain;
 use Itkg\Core\Cache\AdapterInterface;
 use Itkg\Core\CacheableInterface;
 
-class SimpleStrategy implements CachingStrategyInterface
+class UseFirstWorkingStrategy implements CachingStrategyInterface
 {
     /**
      * @param array $adapters
      * @param CacheableInterface $item
+     * @throws \RuntimeException
      * @return mixed
      */
     public function get(array $adapters, CacheableInterface $item)
     {
-        /**
-         * @fixme : Change silent catch
-         */
         foreach ($adapters as $adapter) {
             try {
                 return $adapter->get($item);
-            } catch(\Exception $e) {
+            } catch (\Exception $e) {
                 continue;
             }
         }
 
-        return false;
+        throw new \RuntimeException('No cache system is available');
     }
 
     /**
      * @param array $adapters
      * @param CacheableInterface $item
+     * @throws \RuntimeException
      * @return void
      */
     public function set(array $adapters, CacheableInterface $item)
     {
-        /**
-         * @fixme : Change silent catch
-         */
         foreach ($adapters as $adapter) {
             try {
                 $adapter->set($item);
-                break;
-            } catch(\Exception $e) {
+                return;
+            } catch (\Exception $e) {
                 continue;
             }
         }
+
+        throw new \RuntimeException('No cache system is available');
     }
 
     /**

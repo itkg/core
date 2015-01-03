@@ -12,7 +12,7 @@
 namespace Itkg\Core\Cache\Adapter;
 
 use Itkg\Core\Cache\Adapter\Chain\CachingStrategyInterface;
-use Itkg\Core\Cache\Adapter\Chain\SimpleStrategy;
+use Itkg\Core\Cache\Adapter\Chain\UseFirstWorkingStrategy;
 use Itkg\Core\Cache\AdapterAbstract;
 use Itkg\Core\CacheableInterface;
 
@@ -37,7 +37,7 @@ class Chain extends AdapterAbstract
         $this->adapters = $adapters;
 
         if (null === $cachingStrategy) {
-            $cachingStrategy = new SimpleStrategy();
+            $cachingStrategy = new UseFirstWorkingStrategy();
         }
 
         $this->cachingStrategy = $cachingStrategy;
