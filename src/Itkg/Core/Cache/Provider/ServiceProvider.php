@@ -24,12 +24,11 @@ class ServiceProvider implements ServiceProviderInterface
     public function register(\Pimple $container)
     {
         $services = new \Pimple();
-        $services['factory'] = $container->share(function ($c) {
-            return new \Itkg\Core\Cache\Factory($c['adapters']);
+        $services['factory'] = $container->share(function () use ($container) {
+            return new \Itkg\Core\Cache\Factory($container['cache']['adapters']);
         });
 
-        $services['listener'] = $container->share(function ($c) use ($services, $container) {
-
+        $services['listener'] = $container->share(function () use ($services, $container) {
             return new CacheListener(
                 $services['factory']->create(
                     $container['config']['cache']['adapter'],
