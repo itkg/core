@@ -11,19 +11,16 @@
 
 namespace Itkg\Core\Provider;
 
-use Itkg\Core\Listener\AjaxRenderResponseListener;
 use Itkg\Core\Listener\RequestMatcherListener;
-use Itkg\Core\Listener\ResponseExceptionListener;
-use Itkg\Core\Listener\ResponsePostRendererListener;
 use Itkg\Core\Matcher\RequestMatcher;
-use Itkg\Core\Response\Processor\CompressProcessor;
 use Itkg\Core\Route\Router;
-use Symfony\Component\EventDispatcher\EventDispatcher;
 
 /**
+ * Manage router services
+ *
  * @author Pascal DENIS <pascal.denis@businessdecision.com>
  */
-class ServiceProvider implements ServiceProviderInterface
+class ServiceRouterProvider implements ServiceProviderInterface
 {
     /**
      * Registers services on the given container.
@@ -35,15 +32,23 @@ class ServiceProvider implements ServiceProviderInterface
      */
     public function register(\Pimple $mainContainer)
     {
-        $container = new \Pimple();
-
-        $container['dispatcher'] = $mainContainer->share(function () {
-            $dispatcher = new EventDispatcher();
-            // Add listeners
-
-            return $dispatcher;
+        $mainContainer['router'] = $mainContainer->share(function () {
+            return new Router();
         });
 
-        $mainContainer['core'] = $container;
+        $mainContainer['request_matcher'] = $mainContainer->share(function ($mainContainer) {
+            return new RequestMatcher(
+                $mainContainer['router']
+            );
+        });
+
+        // listeners
+        $mainContainer['listener.request_matcher'] = $mainContainer->share(function ($mainContainer) {
+            return new RequestMatcherListener(
+                $mainContainer['request_matcher']
+            );
+        });
+
+        $mainContainer['dispatcher']->addSubscriber($mainContainer['listener.request_matcher']);
     }
 }
