@@ -13,9 +13,18 @@ namespace Itkg\Core\Cache\Adapter\Chain;
 
 use Itkg\Core\CacheableInterface;
 
+/**
+ * Interface CachingStrategyInterface
+ *
+ * @package Itkg\Core\Cache\Adapter\Chain
+ *
+ * @author Pascal DENIS <pascal.denis@businessdecision.com>
+ */
 interface CachingStrategyInterface
 {
     /**
+     * Get cache data from adapters
+     *
      * @param array $adapters
      * @param CacheableInterface $item
      * @return mixed
@@ -23,6 +32,8 @@ interface CachingStrategyInterface
     public function get(array $adapters, CacheableInterface $item);
 
     /**
+     * Set cache data to adapters
+     *
      * @param array $adapters
      * @param CacheableInterface $item
      * @return void
@@ -30,6 +41,8 @@ interface CachingStrategyInterface
     public function set(array $adapters, CacheableInterface $item);
 
     /**
+     * Remove cache data from adapters
+     *
      * @param array $adapters
      * @param CacheableInterface $item
      * @return void
@@ -37,6 +50,8 @@ interface CachingStrategyInterface
     public function remove(array $adapters, CacheableInterface $item);
 
     /**
+     * Remove all cache from adapters
+     *
      * @param array $adapters
      * @return void
      */

@@ -54,7 +54,7 @@ class UseFirstWorkingStrategyTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \RuntimeException
+     * @expectedException \Itkg\Core\Cache\Adapter\Chain\Exception\UnhandledCacheException
      */
     public function testGetUnWorkingAdapters()
     {
@@ -70,7 +70,7 @@ class UseFirstWorkingStrategyTest extends \PHPUnit_Framework_TestCase
 
 
     /**
-     * @expectedException \RuntimeException
+     * @expectedException \Itkg\Core\Cache\Adapter\Chain\Exception\UnhandledCacheException
      */
     public function testSetUnWorkingAdapters()
     {
