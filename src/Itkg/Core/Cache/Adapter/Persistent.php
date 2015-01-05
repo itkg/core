@@ -21,7 +21,7 @@ use Itkg\Core\CacheableInterface;
  *
  * @package Itkg\Core\Cache\Adapter
  */
-class Persistent extends Memory
+class Persistent extends Registry
 {
     /**
      * @var \Itkg\Core\Cache\AdapterInterface
