@@ -80,7 +80,7 @@ class UseFirstWorkingStrategy implements CachingStrategyInterface
     public function remove(array $adapters, CacheableInterface $item)
     {
         foreach ($adapters as $adapter) {
-            $adapter->remove();
+            $adapter->remove($item);
         }
     }
 
