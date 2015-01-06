@@ -19,7 +19,6 @@ use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
-
 /**
  * Ajax legacy listener renderer
  * Render any callAjax data
@@ -88,4 +87,3 @@ class AjaxRenderResponseListener implements EventSubscriberInterface
         );
     }
 }
-

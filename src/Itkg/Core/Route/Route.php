@@ -130,7 +130,7 @@ class Route
      * @param Array $defaults (option) key values
      * @return $this
      */
-    public function defaults(array $defaults = null)
+    public function defaults(array $defaults = array())
     {
         $this->defaults = $defaults;
 
@@ -142,7 +142,7 @@ class Route
      *
      * @return \Pelican_Route
      */
-    public function pushRequestParams(array $params = null)
+    public function pushRequestParams(array $params = array())
     {
         $this->requestParams = $params;
 

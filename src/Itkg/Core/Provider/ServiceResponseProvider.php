@@ -50,5 +50,4 @@ class ServiceProcessorProvider implements ServiceProviderInterface
         $dispatcher->addSubscriber($mainContainer['listener.response_exception']);
         $dispatcher->addSubscriber($mainContainer['listener.processor_response_render']);
     }
-
-} 
+}

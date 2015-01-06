@@ -43,7 +43,7 @@ class DatabaseUpdateCommand extends Command
      *
      * @param Setup $setup
      * @param DatabaseUpdate\Display $display
-     * @param string $name
+     * @param string|null $name
      */
     public function __construct(Setup $setup, Display $display, $name = null)
     {

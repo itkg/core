@@ -34,14 +34,10 @@ class ServiceLegacyProvider implements ServiceProviderInterface
             return \Pelican_Db::getInstance();
         });
 
-
-
-
         $mainContainer['listener.ajax_response_render'] = $mainContainer->share(function () {
             return new AjaxRenderResponseListener(
                 new \Pelican_Ajax_Adapter_Jquery()
             );
         });
     }
-
-} 
+}

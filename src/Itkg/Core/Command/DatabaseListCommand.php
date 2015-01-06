@@ -47,7 +47,7 @@ class DatabaseListCommand extends Command
      * @param LocatorInterface $locator
      * @param DatabaseList\FinderInterface $finder
      * @param DatabaseUpdate\ReleaseChecker $checker
-     * @param null $name
+     * @param string|null $name
      */
     public function __construct(
         LocatorInterface $locator,

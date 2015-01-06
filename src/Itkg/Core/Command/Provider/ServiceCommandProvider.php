@@ -91,7 +91,7 @@ class ServiceCommandProvider implements ServiceProviderInterface
         );
 
         $container['itkg-core.command.database_list'] = $container->share(
-            function ($container) {
+            function () {
                 return new DatabaseListCommand(
                     new Locator(),
                     new Finder(),

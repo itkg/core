@@ -106,4 +106,4 @@ class Persistent extends Registry
 
         return $this;
     }
-} 
+}
