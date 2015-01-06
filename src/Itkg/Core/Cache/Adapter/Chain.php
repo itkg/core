@@ -12,10 +12,20 @@
 namespace Itkg\Core\Cache\Adapter;
 
 use Itkg\Core\Cache\Adapter\Chain\CachingStrategyInterface;
-use Itkg\Core\Cache\Adapter\Chain\SimpleStrategy;
+
+use Itkg\Core\Cache\Adapter\Chain\UseFirstWorkingStrategy;
 use Itkg\Core\Cache\AdapterAbstract;
 use Itkg\Core\CacheableInterface;
 
+/**
+ * Class Chain
+ *
+ * This adapter handle many cache adapters to retrieve, set and remove cache using different caching strategy
+ *
+ * @package Itkg\Core\Cache\Adapter
+ *
+ * @author Pascal DENIS <pascal.denis@businessdecision.com>
+ */
 class Chain extends AdapterAbstract
 {
     /**
@@ -37,14 +47,14 @@ class Chain extends AdapterAbstract
         $this->adapters = $adapters;
 
         if (null === $cachingStrategy) {
-            $cachingStrategy = new SimpleStrategy();
+            $cachingStrategy = new UseFirstWorkingStrategy();
         }
 
         $this->cachingStrategy = $cachingStrategy;
     }
 
     /**
-     * Get value from cache
+     * Get value from cache using caching strategy
      *
      * @param \Itkg\Core\CacheableInterface $item
      *
@@ -59,7 +69,7 @@ class Chain extends AdapterAbstract
     }
 
     /**
-     * Set a value into the cache
+     * Set a value into the cache using caching strategy
      *
      * @param \Itkg\Core\CacheableInterface $item
      *
@@ -74,7 +84,7 @@ class Chain extends AdapterAbstract
     }
 
     /**
-     * Remove a value from cache
+     * Remove a value from cache using caching strategy
      *
      * @param \Itkg\Core\CacheableInterface $item
      * @return void
@@ -88,7 +98,7 @@ class Chain extends AdapterAbstract
     }
 
     /**
-     * Remove cache
+     * Remove cache using caching strategy
      *
      * @return void
      */
@@ -106,7 +116,7 @@ class Chain extends AdapterAbstract
     }
 
     /**
-     * @return CachingStrategyInterface|SimpleStrategy
+     * @return CachingStrategyInterface
      */
     public function getCachingStrategy()
     {

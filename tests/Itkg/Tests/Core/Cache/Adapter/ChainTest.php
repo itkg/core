@@ -17,9 +17,9 @@ class ChainTest extends \PHPUnit_Framework_TestCase
     public function testGetSetRemoveAndRemoveAll()
     {
         $data = new \Itkg\Core\Cache\CacheableData('my_key', null, array('values'));
-        $adapters = array(new \Itkg\Core\Cache\Adapter\Memory(array()));
 
-        $strategy = $this->getMock('Itkg\Core\Cache\Adapter\Chain\SimpleStrategy');
+        $adapters = array($this->getMock('Itkg\Core\Cache\Adapter\Redis', array(), array(array())));
+        $strategy = $this->getMock('Itkg\Core\Cache\Adapter\Chain\UseFirstWorkingStrategy');
 
         $strategy->expects($this->once())->method('get')->with($adapters, $data);
         $strategy->expects($this->once())->method('set')->with($adapters, $data);
@@ -35,9 +35,10 @@ class ChainTest extends \PHPUnit_Framework_TestCase
 
     public function testDefaultStrategy()
     {
-        $adapters = array(new \Itkg\Core\Cache\Adapter\Memory(array()));
+        $adapters = array($this->getMock('Itkg\Core\Cache\Adapter\Redis', array(), array(array())));
+
         $chain = new \Itkg\Core\Cache\Adapter\Chain($adapters);
 
-        $this->assertInstanceOf('Itkg\Core\Cache\Adapter\Chain\SimpleStrategy', $chain->getCachingStrategy());
+        $this->assertInstanceOf('Itkg\Core\Cache\Adapter\Chain\UseFirstWorkingStrategy', $chain->getCachingStrategy());
     }
 }
