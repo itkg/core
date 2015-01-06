@@ -16,7 +16,7 @@ class MemoryTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetSetRemoveAndRemoveAll()
     {
-        $memory = new \Itkg\Core\Cache\Adapter\Memory(array());
+        $memory = new \Itkg\Core\Cache\Adapter\Registry(array());
 
         $data = new \Itkg\Core\Cache\CacheableData('my_key', null, array('values'));
         $otherData = new \Itkg\Core\Cache\CacheableData('my_key2', null, array('values2'));

@@ -12,9 +12,10 @@
 namespace Itkg\Core\Cache\Adapter;
 
 use Itkg\Core\Cache\AdapterAbstract;
+use Itkg\Core\Cache\AdapterInterface;
 use Itkg\Core\CacheableInterface;
 
-class Memory extends AdapterAbstract
+class Registry implements AdapterInterface
 {
     /**
      * @var array

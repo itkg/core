@@ -18,7 +18,7 @@ class PersistentTest extends \PHPUnit_Framework_TestCase
     {
         $data = new \Itkg\Core\Cache\CacheableData('my_key', null, array('values'));
 
-        $adapter = $this->getMock('Itkg\Core\Cache\Adapter\Memory', array(), array(array()));
+        $adapter = $this->getMock('Itkg\Core\Cache\Adapter\Registry', array(), array());
         $adapter->expects($this->exactly(2))->method('get')->with($data)->will($this->returnValue(false));
         $adapter->expects($this->once())->method('set')->with($data);
         $adapter->expects($this->once())->method('remove')->with($data);
