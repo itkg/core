@@ -110,4 +110,4 @@ class RedisCluster extends Redis
         }
         return $this->connection;
     }
-} 
+}

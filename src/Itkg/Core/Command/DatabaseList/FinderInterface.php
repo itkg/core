@@ -31,4 +31,4 @@ interface FinderInterface
      * @return $this
      */
     public function setPath($path);
-} 
+}

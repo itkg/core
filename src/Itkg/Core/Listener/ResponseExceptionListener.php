@@ -11,7 +11,6 @@
 
 namespace Itkg\Core\Listener;
 
-
 use Itkg\Core\Exception\HttpException;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
