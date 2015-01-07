@@ -30,14 +30,14 @@ class ServiceLegacyProvider implements ServiceProviderInterface
      */
     public function register(\Pimple $mainContainer)
     {
-        $mainContainer['db'] = $mainContainer->share(function () {
+        $mainContainer['core']['db'] = $mainContainer->share(function () {
             return \Pelican_Db::getInstance();
         });
 
 
 
 
-        $mainContainer['listener.ajax_response_render'] = $mainContainer->share(function () {
+        $mainContainer['core']['listener.ajax_response_render'] = $mainContainer->share(function () {
             return new AjaxRenderResponseListener(
                 new \Pelican_Ajax_Adapter_Jquery()
             );
