@@ -16,19 +16,18 @@ use Itkg\Core\Cache\AdapterInterface;
 use Itkg\Core\CacheableInterface;
 
 /**
- * Class UseFirstWorkingStrategy
+ * Class UseAllStrategy
  *
- * This strategy is a FIFO strategy
- * First added adapter is used. If first adapter is down, second adapter will be used, etc.
+ * This strategy use all adapters to save, retrieve and delete cache
  *
  * @package Itkg\Core\Cache\Adapter\Chain
  *
  * @author Pascal DENIS <pascal.denis@businessdecision.com>
  */
-class UseFirstWorkingStrategy implements CachingStrategyInterface
+class UseAllStrategy implements CachingStrategyInterface
 {
     /**
-     * Get cache from first up adapter
+     * Get cache from any adapter if contains
      *
      * @param array $adapters
      * @param CacheableInterface $item
@@ -38,18 +37,17 @@ class UseFirstWorkingStrategy implements CachingStrategyInterface
     public function get(array $adapters, CacheableInterface $item)
     {
         foreach ($adapters as $adapter) {
-            try {
-                return $adapter->get($item);
-            } catch (\Exception $e) {
-                continue;
+
+            if (false !== $value = $adapter->get($item)) {
+                return $value;
             }
         }
 
-        throw new UnhandledCacheException('No cache system is available');
+        return false;
     }
 
     /**
-     * Set cache to first up adapter
+     * Set cache to all adapters
      *
      * @param array $adapters
      * @param CacheableInterface $item
@@ -59,15 +57,8 @@ class UseFirstWorkingStrategy implements CachingStrategyInterface
     public function set(array $adapters, CacheableInterface $item)
     {
         foreach ($adapters as $adapter) {
-            try {
-                $adapter->set($item);
-                return;
-            } catch (\Exception $e) {
-                continue;
-            }
+            $adapter->set($item);
         }
-
-        throw new UnhandledCacheException('No cache system is available');
     }
 
     /**
