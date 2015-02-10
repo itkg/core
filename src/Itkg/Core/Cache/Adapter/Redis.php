@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Itkg\Core package.
+ *
+ * (c) Interakting - Business & Decision
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Itkg\Core\Cache\Adapter;
 
 use Itkg\Core\Cache\AdapterAbstract;
@@ -8,6 +17,10 @@ use Itkg\Core\CacheableInterface;
 use Itkg\Core\ConfigInterface;
 
 /**
+ * Class Redis
+ *
+ * Simple redis adapter
+ *
  * @author Pascal DENIS <pascal.denis@businessdecision.com>
  */
 class Redis extends AdapterAbstract implements AdapterInterface
@@ -21,6 +34,7 @@ class Redis extends AdapterAbstract implements AdapterInterface
     /**
      * Connection getter
      *
+     * @throws \RedisException
      * @return \Redis
      */
     public function getConnection()

@@ -12,18 +12,13 @@
 namespace Itkg\Core\Provider;
 
 use Itkg\Core\Listener\AjaxRenderResponseListener;
-use Itkg\Core\Listener\RequestMatcherListener;
-use Itkg\Core\Listener\ResponseExceptionListener;
-use Itkg\Core\Listener\ResponsePostRendererListener;
-use Itkg\Core\Matcher\RequestMatcher;
-use Itkg\Core\Response\Processor\CompressProcessor;
-use Itkg\Core\Route\Router;
-use Symfony\Component\EventDispatcher\EventDispatcher;
 
 /**
+ * Manage old dependencies services
+ *
  * @author Pascal DENIS <pascal.denis@businessdecision.com>
  */
-class ServiceProvider implements ServiceProviderInterface
+class ServiceLegacyProvider implements ServiceProviderInterface
 {
     /**
      * Registers services on the given container.
@@ -35,15 +30,18 @@ class ServiceProvider implements ServiceProviderInterface
      */
     public function register(\Pimple $mainContainer)
     {
-        $container = new \Pimple();
-
-        $container['dispatcher'] = $mainContainer->share(function () {
-            $dispatcher = new EventDispatcher();
-            // Add listeners
-
-            return $dispatcher;
+        $mainContainer['core']['db'] = $mainContainer->share(function () {
+            return \Pelican_Db::getInstance();
         });
 
-        $mainContainer['core'] = $container;
+
+
+
+        $mainContainer['core']['listener.ajax_response_render'] = $mainContainer->share(function () {
+            return new AjaxRenderResponseListener(
+                new \Pelican_Ajax_Adapter_Jquery()
+            );
+        });
     }
-}
+
+} 
