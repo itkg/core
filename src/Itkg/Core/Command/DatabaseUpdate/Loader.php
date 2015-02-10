@@ -64,7 +64,7 @@ class Loader implements LoaderInterface
      */
     public function addQuery($query)
     {
-        $this->queries[] = new Query($query);
+        $this->queries[] = new Query(preg_replace('/^(\s)+/m', ' ', $query));
 
         return $this;
     }
