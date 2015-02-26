@@ -2,24 +2,30 @@
 
 namespace Itkg\Core\Cache\Listener;
 
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Itkg\Core\Cache\AdapterInterface;
 use Itkg\Core\Cache\Event\CacheEvent;
+use Itkg\Core\Cache\Event\CacheEvents;
 use Itkg\Core\Event\EntityLoadEvent;
+use Itkg\Core\Event\EntityLoadEvents;
 use Symfony\Component\EventDispatcher\EventDispatcher;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+
 
 /**
  * Cache event listener
- *
  */
 class CacheListener implements EventSubscriberInterface
 {
     /**
+     * Cache adapter instance
+     *
      * @var AdapterInterface
      */
     private $cache;
 
     /**
+     * Event dispatcher instance
+     *
      * @var EventDispatcher
      */
     private $dispatcher;
@@ -40,6 +46,8 @@ class CacheListener implements EventSubscriberInterface
      * Load data from cache
      *
      * @param EntityLoadEvent $event
+     *
+     * @return void
      */
     public function fetchEntityFromCache(EntityLoadEvent $event)
     {
@@ -59,6 +67,8 @@ class CacheListener implements EventSubscriberInterface
      * Set cache
      *
      * @param EntityLoadEvent $event
+     *
+     * @return void
      */
     public function setCacheForEntity(EntityLoadEvent $event)
     {
@@ -71,6 +81,30 @@ class CacheListener implements EventSubscriberInterface
     }
 
     /**
+     * Remove entity cache
+     *
+     * @param CacheEvent $event
+     *
+     * @return void
+     */
+    public function removeEntityCache(CacheEvent $event)
+    {
+        $this->cache->remove($event->getCacheableData());
+    }
+
+    /**
+     * Purge all entity cache
+     *
+     * @param CacheEvent $event
+     *
+     * @return void
+     */
+    public function purgeEntityCache(CacheEvent $event)
+    {
+        $this->cache->removeAll();
+    }
+
+    /**
      * Register events and callbacks
      *
      * @implements EventSubscriberInterface
@@ -80,8 +114,10 @@ class CacheListener implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return array(
-            'entity.before.load' => 'fetchEntityFromCache',
-            'entity.after.load' => 'setCacheForEntity',
+            CacheEvents::PURGE_CACHE      => 'purgeCache',
+            CacheEvents::REMOVE_CACHE     => 'removeEntityCache',
+            EntityLoadEvents::AFTER_LOAD  => 'setCacheForEntity',
+            EntityLoadEvents::BEFORE_LOAD => 'fetchEntityFromCache',
         );
     }
 }

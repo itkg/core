@@ -13,6 +13,7 @@ namespace Itkg\Core;
 
 use Itkg\Core\ConfigInterface;
 use Itkg\Core\EntityAbstract;
+use Itkg\Core\DatabaseInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
 /**
@@ -23,7 +24,7 @@ abstract class RepositoryAbstract
 {
     /**
      * DB instance
-     * @var \Pelican_Db
+     * @var DatabaseInterface
      */
     protected $db;
 
@@ -48,9 +49,9 @@ abstract class RepositoryAbstract
     /**
      * Constructor
      *
-     * @param ConfigInterface $config
-     * @param Pelican_Db $db
-     * @param EventDispatcher $dispatcher
+     * @param ConfigInterface   $config
+     * @param DatabaseInterface $db
+     * @param EventDispatcher   $dispatcher
      */
     public function __construct(
         ConfigInterface $config,
@@ -67,6 +68,7 @@ abstract class RepositoryAbstract
      * Entity setter
      *
      * @param  EntityAbstracct $entity
+     *
      * @return $this
      */
     public function setEntity(EntityAbstract $entity)

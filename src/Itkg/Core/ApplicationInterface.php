@@ -32,6 +32,7 @@ interface ApplicationInterface
      * Set Config
      *
      * @param ConfigInterface $config
+     *
      * @return mixed
      */
     public function setConfig(ConfigInterface $config);
@@ -47,6 +48,7 @@ interface ApplicationInterface
      * Set container
      *
      * @param ServiceContainer $container
+     *
      * @return mixed
      */
     public function setContainer(ServiceContainer $container);

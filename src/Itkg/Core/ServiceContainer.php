@@ -52,10 +52,10 @@ class ServiceContainer extends Pimple
     /**
      * Registers a service provider.
      *
-     * @param ServiceProviderInterface $provider A ServiceProviderInterface instance
-     * @param array $values An array of values that customizes the provider
+     * @param ServiceProviderInterface $provider  A ServiceProviderInterface instance
+     * @param array                    $values    An array of values that customizes the provider
      *
-     * @return static
+     * @return ServiceContainer
      */
     public function register(ServiceProviderInterface $provider, array $values = array())
     {
@@ -69,6 +69,8 @@ class ServiceContainer extends Pimple
     }
 
     /**
+     * Load config
+     *
      * @param ConfigInterface $config
      */
     protected function loadConfig(ConfigInterface $config)
@@ -77,6 +79,8 @@ class ServiceContainer extends Pimple
     }
 
     /**
+     * Load application
+     *
      * @param ApplicationInterface $app
      */
     protected function loadApp(ApplicationInterface $app)

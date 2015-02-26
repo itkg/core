@@ -1,8 +1,5 @@
 <?php
 
-namespace MyCanal\Cache\Adapter;
-
-
 use Itkg\Core\Cache\Adapter\RedisCluster;
 use Itkg\Core\Cache\CacheableData;
 
