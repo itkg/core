@@ -98,6 +98,7 @@ class Persistent extends Registry
 
     /**
      * @param AdapterInterface $adapter
+     *
      * @return $this
      */
     public function setAdapter(AdapterInterface $adapter)
@@ -106,4 +107,5 @@ class Persistent extends Registry
 
         return $this;
     }
-} 
+
+}

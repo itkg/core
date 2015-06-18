@@ -6,7 +6,6 @@ use Itkg\Core\Cache\Listener\CacheListener;
 use Itkg\Core\Provider\ServiceProviderInterface;
 use Itkg\Core\ServiceContainer;
 
-
 /**
  * @author Pascal DENIS <pascal.denis@businessdecision.com>
  */
