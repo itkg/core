@@ -25,10 +25,10 @@ class FileSystem extends AdapterAbstract implements AdapterInterface
     protected $targetDirectory;
 
     /**
-     * Is started
+     * Started
      * @var bool
      */
-    protected $isStarted = false;
+    protected $started = false;
 
     /**
      * Constructor
@@ -76,8 +76,8 @@ class FileSystem extends AdapterAbstract implements AdapterInterface
      */
     protected function getTargetFile($hashKey)
     {
-        if (!$this->isStarted) {
-            $this->isStarted = true;
+        if (!$this->started) {
+            $this->started = true;
             $this->createDir($this->targetDirectory);
         }
 
