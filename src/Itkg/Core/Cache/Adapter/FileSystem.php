@@ -25,6 +25,12 @@ class FileSystem extends AdapterAbstract implements AdapterInterface
     protected $targetDirectory;
 
     /**
+     * Is started
+     * @var bool
+     */
+    protected $isStarted = false;
+
+    /**
      * Constructor
      *
      * @param array $config
@@ -33,9 +39,7 @@ class FileSystem extends AdapterAbstract implements AdapterInterface
     {
         parent::__construct($config);
 
-        $this->createDir($config['storageDir']);
-
-        $this->targetDirectory = realpath($config['storageDir']);
+        $this->targetDirectory = $config['storageDir'];
     }
 
     /**
@@ -72,6 +76,11 @@ class FileSystem extends AdapterAbstract implements AdapterInterface
      */
     protected function getTargetFile($hashKey)
     {
+        if (!$this->isStarted) {
+            $this->isStarted = true;
+            $this->createDir($this->targetDirectory);
+        }
+
         $hashDir = substr($hashKey, -1);
 
         $targetDir = $this->targetDirectory . DIRECTORY_SEPARATOR . $hashDir;
@@ -100,7 +109,7 @@ class FileSystem extends AdapterAbstract implements AdapterInterface
 
         $return = false;
         if (file_exists($targetFile)) {
-            if ((filemtime($filename) + $item->getTtl()) > time()) {
+            if ($item->getTtl() > 0 && ((filemtime($targetFile) + $item->getTtl()) < time())) {
                 $this->remove($item);
             } else {
                 $return = unserialize(file_get_contents($targetFile, false, null, strlen(self::STR_PREFIX)));
@@ -146,7 +155,7 @@ class FileSystem extends AdapterAbstract implements AdapterInterface
     public function remove(CacheableInterface $item)
     {
         $targetFile = $this->getTargetFile($item->getHashKey());
-        if (!unlink($targetFile)) {
+        if (file_exists($targetFile) && !unlink($targetFile)) {
             throw new \RuntimeException(
                 sprintf('Unable to delete %s cache file', $targetFile)
             );
