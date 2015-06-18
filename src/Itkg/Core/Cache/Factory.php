@@ -38,7 +38,6 @@ class Factory
      *
      * @throws \InvalidArgumentException
      */
-
     public function create($adapterType, array $config)
     {
         if (!array_key_exists($adapterType, $this->adapters)) {

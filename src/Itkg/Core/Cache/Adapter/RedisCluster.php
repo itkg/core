@@ -42,6 +42,7 @@ class RedisCluster extends Redis
     {
         return $this->getSlaveConnection()->get($item->getHashKey());
     }
+
     /**
      * Set a value into the cache
      *
@@ -57,6 +58,7 @@ class RedisCluster extends Redis
             $con->expire($item->getHashKey(), $item->getTtl());
         }
     }
+
     /**
      * Remove a value from cache
      *
@@ -68,6 +70,7 @@ class RedisCluster extends Redis
     {
         $this->getConnection()->delete($item->getHashKey());
     }
+
     /**
      * Remove cache from decache databases
      *
@@ -77,6 +80,7 @@ class RedisCluster extends Redis
     {
         $this->getConnection()->flushAll();
     }
+
     /**
      * Get slave connection
      * If connection is not initialized, we create a new one
@@ -110,4 +114,5 @@ class RedisCluster extends Redis
         }
         return $this->connection;
     }
-} 
+
+}

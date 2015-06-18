@@ -13,11 +13,12 @@ namespace Itkg\Core\Resolver;
 
 use Itkg\Core\ServiceContainer;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Controller\ControllerResolverInterface;
+use Itkg\Core\Resolver\ControllerResolverInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Class ControllerResolver
+ *
  * @package Itkg\Core\Resolver
  */
 class ControllerResolver implements ControllerResolverInterface

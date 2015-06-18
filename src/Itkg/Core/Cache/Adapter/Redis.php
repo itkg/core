@@ -45,8 +45,7 @@ class Redis extends AdapterAbstract implements AdapterInterface
             if (!$this->connection->pconnect(
                 $this->config['default']['host'],
                 $this->config['default']['port']
-            )
-            ) {
+            )) {
                 throw new \RedisException('Unable to connect');
             }
         }
@@ -112,4 +111,5 @@ class Redis extends AdapterAbstract implements AdapterInterface
     {
         $this->getConnection()->flushAll();
     }
+
 }

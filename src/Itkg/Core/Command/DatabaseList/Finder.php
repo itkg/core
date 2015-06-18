@@ -58,4 +58,4 @@ class Finder implements FinderInterface
 
         return $this;
     }
-} 
+}

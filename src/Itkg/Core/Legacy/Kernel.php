@@ -16,7 +16,7 @@ use Itkg\Core\Event\KernelEvent;
 use Itkg\Core\Event\RequestEvent;
 use Itkg\Core\Event\ResponseEvent;
 use Itkg\Core\KernelAbstract;
-use Itkg\Core\Resolver\ControllerResolver;
+use Itkg\Core\Resolver\ControllerResolverInterface;
 use Itkg\Core\Route\Route;
 use Itkg\Core\ServiceContainer;
 use Itkg\Core\YamlLoader;
@@ -31,12 +31,17 @@ use Symfony\Component\Yaml\Parser as YamlParser;
 class Kernel extends KernelAbstract
 {
     /**
-     * @param ServiceContainer $container
-     * @param ApplicationInterface $app
-     * @param \Itkg\Core\Resolver\ControllerResolver $resolver
+     * Constructor
+     *
+     * @param ServiceContainer            $container
+     * @param ApplicationInterface        $app
+     * @param ControllerResolverInterface $resolver
      */
-    public function __construct(ServiceContainer $container, ApplicationInterface $app, ControllerResolver $resolver)
-    {
+    public function __construct(
+        ServiceContainer $container,
+        ApplicationInterface $app,
+        ControllerResolverInterface $resolver
+    ) {
         \Pelican::$config = $app->getConfig();
         parent::__construct($container, $app, $resolver);
 
@@ -47,13 +52,11 @@ class Kernel extends KernelAbstract
         \Pelican_Request::$eventDispatcher = $container['core']['dispatcher'];
         \Backoffice_Div_Helper::$kernel = $this;
         $this->resolver->setPath($this->container['config']['APPLICATION_CONTROLLERS']);
-
     }
 
     /**
      * Load routing from routing files
      *
-     * @throws \RuntimeException
      * @return $this
      */
     protected function loadRouting()
@@ -72,10 +75,12 @@ class Kernel extends KernelAbstract
     }
 
     /**
-     * @param $name
-     * @param $routeInfos
+     * Process route infos
+     *
+     * @param string $name
+     * @param array $routeInfos
      */
-    private function processRouteInfos($name, $routeInfos)
+    private function processRouteInfos($name, array $routeInfos)
     {
         $className = null;
         if (isset($routeInfos['sequence'])) {

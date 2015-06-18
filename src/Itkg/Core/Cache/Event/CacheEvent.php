@@ -19,9 +19,7 @@ class CacheEvent extends Event
     /**
      * Constructor
      *
-     * @param string $key
-     * @param int $ttl
-     * @param $value
+     * @param CacheableInterface $CacheableData
      */
     public function __construct(CacheableInterface $CacheableData)
     {

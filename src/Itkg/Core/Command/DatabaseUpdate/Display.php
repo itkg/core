@@ -141,7 +141,7 @@ class Display
      */
     protected function formatQuery(Query $query, $useColor = false)
     {
-        $value = $this->queryFormatter->format((string)$query);
+        $value = $this->queryFormatter->format((string) $query);
 
         if ($useColor) {
             $value = sprintf('<%s>%s</%s>', $query->getType(), $value, $query->getType());

@@ -86,12 +86,12 @@ class Query
      */
     protected function parse()
     {
-        $query = preg_replace('/OR *REPLACE/', '', $this->value);
+        $query = preg_replace('/OR\s+REPLACE/', '', $this->value);
         /**
          * @TODO : Grant parse
          */
         if (preg_match(
-            '/(CREATE|UPDATE|DELETE|ALTER|INSERT|DROP|SELECT|GRANT) *(SEQUENCE|INDEX|SYNONYM|TABLE|INTO|FROM|VIEW|) *([a-zA-Z-_]*) */i',
+            '/(CREATE|UPDATE|DELETE|ALTER|INSERT|DROP|SELECT|GRANT)\s+(SEQUENCE|INDEX|SYNONYM|TABLE|INTO|FROM|VIEW|)\s*([a-zA-Z-_]*)\s*/im',
             $query,
             $matches
         )

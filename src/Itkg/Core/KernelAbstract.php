@@ -26,17 +26,23 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 abstract class KernelAbstract extends HttpKernel
 {
     /**
+     * Container instance
      * @var ServiceContainer
      */
     protected $container;
 
     /**
-     * @param ServiceContainer $container
-     * @param ApplicationInterface $app
+     * Constructor
+     *
+     * @param ServiceContainer            container
+     * @param ApplicationInterface        $app
      * @param ControllerResolverInterface $resolver
      */
-    public function __construct(ServiceContainer $container, ApplicationInterface $app, ControllerResolverInterface $resolver)
-    {
+    public function __construct(
+        ServiceContainer $container,
+        ApplicationInterface $app,
+        ControllerResolverInterface $resolver
+    ) {
         $this->container = $container;
         $this->resolver = $resolver;
 
@@ -50,8 +56,6 @@ abstract class KernelAbstract extends HttpKernel
         $this->container['kernel'] = $this;
 
         parent::__construct($this->container['core']['dispatcher'], $resolver);
-
-
     }
 
     /**

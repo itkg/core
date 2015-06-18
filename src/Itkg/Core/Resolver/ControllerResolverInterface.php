@@ -9,25 +9,20 @@
  * file that was distributed with this source code.
  */
 
-namespace Itkg\Core\Command\DatabaseList;
+namespace Itkg\Core\Resolver;
+
+use Symfony\Component\HttpKernel\Controller\ControllerResolverInterface as BaseInterface;
 
 /**
- * Interface FinderInterface
- * @package Itkg\Core\Command\DatabaseList
- *
- * @author Pascal DENIS <pascal.denis@businessdecision.com>
+ * ControllerResolver Interface
  */
-interface FinderInterface
+interface ControllerResolverInterface extends BaseInterface
 {
     /**
-     * Find all releases
+     * Set path
      *
-     * @return array
-     */
-    public function findAll();
-
-    /**
-     * @param string $path
+     * @param  string $path
+     *
      * @return $this
      */
     public function setPath($path);
