@@ -30,7 +30,17 @@ class RunnerTest extends \PHPUnit_Framework_TestCase
 
         $migration = new Migration($queries, $rollbackQueries);
 
-        $runner = $this->createRunner();
+        $connectionMock = $this->getMockBuilder('\Doctrine\DBAL\Connection')
+            ->disableOriginalConstructor()
+            ->setMethods(array('executeQuery', 'connect'))
+            ->getMock();
+
+        $connectionMock->expects($this->any())
+            ->method('connect')
+            ->will($this->returnSelf());
+
+        $runner = new Runner($connectionMock);
+
         $runner->run($migration);
 
         $this->assertEquals($queries, $runner->getPlayedQueries());
@@ -49,25 +59,20 @@ class RunnerTest extends \PHPUnit_Framework_TestCase
 
         $migration = new Migration($queries, $rollbackQueries);
 
-        $runner = $this->createRunner();
+        $connectionMock = $this->getMockBuilder('\Doctrine\DBAL\Connection')
+            ->disableOriginalConstructor()
+            ->setMethods(array('executeQuery'))
+            ->getMock();
+
+        $connectionMock->expects($this->once())
+            ->method('executeQuery')
+            ->will(
+                $this->throwException(new \Exception('Die !'))
+            );
+
+        $runner = new Runner($connectionMock);
 
         $runner->run($migration, true, true);
-
     }
 
-    private function createRunner()
-    {
-        $params = array(
-            'dbname' => 'DBNAME',
-            'user'   => 'USER',
-            'password' => 'PWD',
-            'host' => '',
-            'driver' => 'oci8'
-        );
-
-        $config = new Configuration();
-        $connection = DriverManager::getConnection($params, $config);
-
-        return new Runner($connection);
-    }
 }
