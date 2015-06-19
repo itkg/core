@@ -97,7 +97,7 @@ class CacheListener implements EventSubscriberInterface
      *
      * @return void
      */
-    public function purgeEntityCache()
+    public function purgeCache()
     {
         $this->cache->removeAll();
     }

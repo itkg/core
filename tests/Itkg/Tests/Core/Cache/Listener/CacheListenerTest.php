@@ -40,6 +40,21 @@ class CacheListenerTest extends \PHPUnit_Framework_TestCase
 
         $listener = new \Itkg\Core\Cache\Listener\CacheListener($stub, $dispatcherStub);
         $listener->setCacheForEntity(new \Itkg\Core\Event\EntityLoadEvent($entity));
-
     }
-} 
+
+    public function testPurgeCache()
+    {
+        $cacheMock = $this->getMockBuilder('\Itkg\Core\Cache\Adapter\Redis')
+            ->disableOriginalConstructor()
+            ->setMethods(array('removeAll'))
+            ->getMock();
+
+        $cacheMock->expects($this->once())
+            ->method('removeAll');
+
+        $dispatchMock =  $this->getMock('\Symfony\Component\EventDispatcher\EventDispatcher');
+
+        $listener = new \Itkg\Core\Cache\Listener\CacheListener($cacheMock, $dispatchMock);
+        $listener->purgeCache();
+    }
+}

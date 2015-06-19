@@ -114,10 +114,18 @@ EOF;
         );
 
         $config = new Configuration();
-        $connection = DriverManager::getConnection($params, $config);
 
-        $loader = new Loader($connection);
-        $runner = new Runner($connection);
+        $connectionMock = $this->getMockBuilder('\Doctrine\DBAL\Connection')
+            ->disableOriginalConstructor()
+            ->setMethods(array('executeQuery', 'connect'))
+            ->getMock();
+
+        $connectionMock->expects($this->any())
+            ->method('connect')
+            ->will($this->returnSelf());
+
+        $loader = new Loader($connectionMock);
+        $runner = new Runner($connectionMock);
         $factory = new Factory();
         $locator = new Locator();
         $decorator = new Decorator(new \Itkg\Core\Command\DatabaseUpdate\Template\Loader());

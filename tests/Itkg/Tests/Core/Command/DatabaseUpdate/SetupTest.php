@@ -157,7 +157,23 @@ class SetupTest extends \PHPUnit_Framework_TestCase
      */
     public function testRunWithExecuteException()
     {
-        $setup = $this->createSetup();
+
+        $connectionMock = $this->getMockBuilder('\Doctrine\DBAL\Connection')
+            ->disableOriginalConstructor()
+            ->setMethods(array('executeQuery', 'connect'))
+            ->getMock();
+
+        $connectionMock->expects($this->any())
+            ->method('executeQuery')
+            ->will($this->throwException(new \Exception('Failed')));
+
+        $loader = new Loader($connectionMock);
+        $runner = new Runner($connectionMock);
+        $factory = new Factory();
+        $locator = new Locator();
+        $decorator = new Decorator(new \Itkg\Core\Command\DatabaseUpdate\Template\Loader());
+
+        $setup = new Setup($runner, $loader, $factory, $locator, $decorator, new ReleaseChecker());
 
         $setup->getLocator()->setParams(array(
             'path'    => TEST_BASE_DIR,
@@ -180,19 +196,17 @@ class SetupTest extends \PHPUnit_Framework_TestCase
 
     private function createSetup()
     {
-        $params = array(
-            'dbname' => 'DBNAME',
-            'user'   => 'USER',
-            'password' => 'PWD',
-            'host' => '',
-            'driver' => 'oci8'
-        );
+        $connectionMock = $this->getMockBuilder('\Doctrine\DBAL\Connection')
+            ->disableOriginalConstructor()
+            ->setMethods(array('executeQuery', 'connect'))
+            ->getMock();
 
-        $config = new Configuration();
-        $connection = DriverManager::getConnection($params, $config);
+        $connectionMock->expects($this->any())
+            ->method('connect')
+            ->will($this->returnSelf());
 
-        $loader = new Loader($connection);
-        $runner = new Runner($connection);
+        $loader = new Loader($connectionMock);
+        $runner = new Runner($connectionMock);
         $factory = new Factory();
         $locator = new Locator();
         $decorator = new Decorator(new \Itkg\Core\Command\DatabaseUpdate\Template\Loader());
