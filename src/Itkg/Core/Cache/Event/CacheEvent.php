@@ -21,7 +21,7 @@ class CacheEvent extends Event
      *
      * @param CacheableInterface $CacheableData
      */
-    public function __construct(CacheableInterface $CacheableData)
+    public function __construct(CacheableInterface $CacheableData = null)
     {
         $this->CacheableData = $CacheableData;
     }
