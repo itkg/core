@@ -14,6 +14,10 @@ class MemcachedTest extends \PHPUnit_Framework_TestCase
             ->method('getHashKey')
             ->will($this->returnValue('HASHKEY'));
 
+        // Bug in memcached declaration
+        // See https://github.com/sebastianbergmann/phpunit-mock-objects/issues/192
+        ini_set('error_reporting', E_ALL & ~E_STRICT);
+
         $connectionMock = $this->getMockBuilder('\Memcached')
             ->setMethods(array('set', 'get', 'delete', 'flush', 'setOptions'))
             ->getMock();
@@ -37,6 +41,8 @@ class MemcachedTest extends \PHPUnit_Framework_TestCase
         $memcached->get($dataMock);
         $memcached->remove($dataMock);
         $memcached->removeAll();
+
+        ini_set('error_reporting', E_ALL);
     }
 
     /**
