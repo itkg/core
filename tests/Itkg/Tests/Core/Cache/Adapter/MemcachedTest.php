@@ -14,7 +14,9 @@ class MemcachedTest extends \PHPUnit_Framework_TestCase
             ->method('getHashKey')
             ->will($this->returnValue('HASHKEY'));
 
-        $connectionMock = $this->getMock('\Memcached');
+        $connectionMock = $this->getMockBuilder('\Memcached')
+            ->setMethods(array('set', 'get', 'delete', 'flush', 'setOptions'))
+            ->getMock();
         $connectionMock->expects($this->once())
             ->method('set')
             ->with('HASHKEY');
