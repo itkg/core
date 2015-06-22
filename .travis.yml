@@ -10,9 +10,15 @@ before_script:
   - composer install --prefer-source --no-interaction --dev
   - mkdir -p php/extensions && cd php/extensions && wget https://github.com/nicolasff/phpredis/archive/2.2.3.zip -O php-redis.zip && unzip php-redis.zip && cd phpredis-2.2.3 && phpize && echo "Configuring phpredis..." && ./configure > /dev/null && echo "Building phpredis..." && make -j4 > /dev/null && echo "Installing phpredis..." && sudo make install > /dev/null && cd ../../..
   - echo 'extension=redis.so' >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+  - echo 'extension=memcached.so' >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 script:
   - ./vendor/bin/phpunit --coverage-clover=coverage.clover
 
 after_success:
   - wget https://scrutinizer-ci.com/ocular.phar
   - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
+
+# cache vendor dirs
+cache:
+  directories:
+    - $COMPOSER_CACHE_DIR
