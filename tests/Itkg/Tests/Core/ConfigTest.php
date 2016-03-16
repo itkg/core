@@ -70,6 +70,10 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
         // Get all values
         $this->assertInternalType('array', $this->config->all());
+
+        // Merge array to config
+        $this->config->mergeParams(array('fieldToMerge' => 'mergedField'));
+        $this->assertEquals($this->config->get('fieldToMerge'), 'mergedField');
     }
 
     /**

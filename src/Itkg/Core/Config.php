@@ -151,7 +151,15 @@ class Config implements \ArrayAccess, ConfigInterface
             unset($this->params[$offset]);
         }
     }
-
+    
+    /**
+     * @param array $params
+     */
+    public function mergeParams(array $params)
+    {
+        $this->params = array_merge($this->params, $params);
+    }
+    
     /**
      * Load imports
      *
